@@ -92,6 +92,16 @@ export const navItems: NavItem[] = [
     external: true,
   },
 
+  {
+    displayName: 'Agregar reserva',
+    iconName: 'solar:archive-minimalistic-line-duotone',
+    route: '/view/reserva',
+    // chip: true,
+    chipClass: 'bg-secondary text-white', 
+    // chipContent: 'PRO',
+    external: true,
+  },
+
 
   {
     divider: true,

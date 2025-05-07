@@ -1,20 +1,28 @@
-import { Component } from '@angular/core';
+import { Component , ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import {MatTimepickerModule} from '@angular/material/timepicker';
+import {provideNativeDateAdapter} from '@angular/material/core';
+
 
 interface Food {
   value: string;
   viewValue: string;
 }
 
+
+
+
 @Component({
-  selector: 'app-forms',
+  selector: 'app-form-add-reserva',
+  providers: [provideNativeDateAdapter()],
   imports: [
     MatFormFieldModule,
     MatSelectModule,
@@ -24,11 +32,29 @@ interface Food {
     MatButtonModule,
     MatCardModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTimepickerModule,
+    MatDatepickerModule
+
   ],
-  templateUrl: './form-add-taxista.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './form-add-reserva.component.html',
+  styles: ``
 })
-export class AppFormsComponent {
+export class FormAddReservaComponent {
+
+  value: Date;
+
+  selectedValue: string;
+ 
+
+  foods: Food[] = [
+    {value: 'Dentro', viewValue: 'Dentro'},
+    {value: 'Fuera', viewValue: 'Fuera'},
+  ];
+
   country: Food[] = [
     { value: 'steak-0', viewValue: 'USA' },
     { value: 'pizza-1', viewValue: 'India' },
@@ -55,4 +81,5 @@ export class AppFormsComponent {
   ];
 
   selectedState = this.state[3].value;
+
 }

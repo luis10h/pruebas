@@ -8,6 +8,7 @@ import { AppMenuComponent } from './menu/menu.component';
 import { AppTooltipsComponent } from './tooltips/tooltips.component';
 import { AppFormsComponent } from './forms/forms.component';
 import { AppTablesComponent } from './tables/tables.component';
+import { AppFormComisionesComponent } from './forms/form-comisiones.component';
 
 export const UiComponentsRoutes: Routes = [
   {
@@ -36,6 +37,10 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'forms',
         component: AppFormsComponent,
+      },
+      {
+        path: 'formulario comisiones',
+        component: AppFormComisionesComponent,
       },
       {
         path: 'tables',

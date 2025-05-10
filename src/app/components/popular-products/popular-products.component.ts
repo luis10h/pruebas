@@ -71,7 +71,7 @@ const ELEMENT_DATA: productsData[] = [
 })
 export class AppPopularProductsComponent {
 
-    displayedColumns: string[] = ['products', 'payment', 'status', 'menu'];
+    displayedColumns: string[] = ['taxistas', 'pagototal', 'estado', 'menu'];
     dataSource = ELEMENT_DATA;
 
     constructor() { }

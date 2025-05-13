@@ -14,7 +14,7 @@ export const navItems: NavItem[] = [
     displayName: 'Analytics',
     iconName: 'solar:widget-add-line-duotone',
     // route: 'https://materialm-angular-main.netlify.app/dashboards/dashboard1',
-    route: '/ui-components/lists',
+    route: '/view/tables',
     chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',
@@ -25,7 +25,7 @@ export const navItems: NavItem[] = [
 
   {
     divider: true,
-    navCap: 'Taxistas',
+    navCap: 'Taxistas 100',
   },
   {
     displayName: 'Agregar Taxistas',
@@ -36,6 +36,15 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   }, 
+    {
+    displayName: 'Agregar reserva',
+    iconName: 'solar:archive-minimalistic-line-duotone',
+    route: '/view/reserva',
+    // chip: true,
+    chipClass: 'bg-secondary text-white', 
+    // chipContent: 'PRO',
+    external: true,
+  },
   {
     displayName: 'Comisiones',
     iconName: 'solar:chat-round-line-line-duotone',
@@ -53,38 +62,47 @@ export const navItems: NavItem[] = [
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
+ },
+  {
+    displayName: 'Lista de Taxistas 2',
+    iconName: 'solar:chat-round-line-line-duotone',
+    route: 'view/listado-taxistas',
+    chip: true,
+    external: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
   },
 
-  // {
-  //   displayName: 'Blog',
-  //   iconName: 'solar:widget-4-line-duotone',
-  //   route: 'apps/blog',
-  //   chip: true,
-  //   chipClass: 'bg-secondary text-white',
-  //   chipContent: 'PRO',
-  //   children: [
-  //     {
-  //       displayName: 'Post',
-  //       subItemIcon: true,
-  //       iconName: 'solar:round-alt-arrow-right-line-duotone',
-  //       route: 'https://materialm-angular-main.netlify.app/apps/blog/post',
-  //       chip: true,
-  //       external: true,
-  //       chipClass: 'bg-secondary text-white',
-  //       chipContent: 'PRO',
-  //     },
-  //     {
-  //       displayName: 'Detail',
-  //       subItemIcon: true,
-  //       iconName: 'solar:round-alt-arrow-right-line-duotone',
-  //       route: 'https://materialm-angular-main.netlify.app/apps/blog/detail/Early Black Friday Amazon deals: cheap TVs, headphones, laptops',
-  //       chip: true,
-  //       external: true,
-  //       chipClass: 'bg-secondary text-white',
-  //       chipContent: 'PRO',
-  //     },
-  //   ],
-  // },
+  {
+    displayName: 'Blog',
+    iconName: 'solar:widget-4-line-duotone',
+    route: 'apps/blog',
+    // chip: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
+    children: [
+      {
+        displayName: 'Post',
+        subItemIcon: true,
+        iconName: 'solar:round-alt-arrow-right-line-duotone',
+        route: 'https://materialm-angular-main.netlify.app/apps/blog/post',
+        chip: true,
+        external: true,
+        chipClass: 'bg-secondary text-white',
+        chipContent: 'PRO',
+      },
+      {
+        displayName: 'Detail',
+        subItemIcon: true,
+        iconName: 'solar:round-alt-arrow-right-line-duotone',
+        route: 'https://materialm-angular-main.netlify.app/apps/blog/detail/Early Black Friday Amazon deals: cheap TVs, headphones, laptops',
+        chip: true,
+        external: true,
+        chipClass: 'bg-secondary text-white',
+        chipContent: 'PRO',
+      },
+    ],
+  },
 
   {
     navCap: 'Ui Components',
@@ -109,15 +127,7 @@ export const navItems: NavItem[] = [
     external: true,
   },
 
-  {
-    displayName: 'Agregar reserva',
-    iconName: 'solar:archive-minimalistic-line-duotone',
-    route: '/view/reserva',
-    // chip: true,
-    chipClass: 'bg-secondary text-white', 
-    // chipContent: 'PRO',
-    external: true,
-  },
+
 
 
   {

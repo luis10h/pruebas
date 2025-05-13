@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,7 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
-interface Food {
+interface pago {
   value: string;
   viewValue: string;
 }
@@ -33,49 +33,57 @@ interface Food {
   templateUrl: './form-add-comisiones.component.html',
 })
 export class AppFormComisionesComponent {
-  country: Food[] = [
-    { value: 'steak-0', viewValue: 'USA' },
-    { value: 'pizza-1', viewValue: 'India' },
-    { value: 'tacos-2', viewValue: 'France' },
-    { value: 'tacos-3', viewValue: 'UK' },
+  public formBuscar!: FormGroup;
+  public formAgregar!: FormGroup;
+  public cedula: any;
+  public nombre!: any;
+  public numero_placa!: any;
+  public personas_referidas!: any;
+  public estado!: any;
+  public observaciones!: any;
+
+  value: Date;
+  selectedValue: string;
+  pagos: pago[] = [
+    { value: 'pagado', viewValue: 'Pagado' },
+    { value: 'no-pagado', viewValue: 'No pagado' },
   ];
+  constructor(private fb: FormBuilder) { }
 
-  selectedCountry = this.country[2].value;
-
-  city: Food[] = [
-    { value: 'steak-0', viewValue: 'Mexico' },
-    { value: 'pizza-1', viewValue: 'Mumbai' },
-    { value: 'tacos-2', viewValue: 'Tokyo' },
-    { value: 'tacos-3', viewValue: 'New York' },
-  ];
-
-  selectedCity = this.city[1].value;
-
-  state: Food[] = [
-    { value: 'steak-0', viewValue: 'Cuba' },
-    { value: 'pizza-1', viewValue: 'Djibouti' },
-    { value: 'tacos-2', viewValue: 'Bulgaria' },
-    { value: 'tacos-3', viewValue: 'Cabo Verde' },
-  ];
-
-  selectedState = this.state[3].value;
-
+  ngOnInit(): void {
+    this.formBuscar = this.crearFormularioSedes();
+    this.formAgregar = this.crearFormularioAgregar();
+  }
+  private crearFormularioSedes(): FormGroup {
+    return this.fb.group({
+      cedula: ['', [Validators.required]],
+    });
+  }
+    private crearFormularioAgregar(): FormGroup {
+    return this.fb.group({
+      nombre: ['', [Validators.required]],
+      numero_placa: ['', [Validators.required]],
+      personas_referidas: ['', [Validators.required]],
+      estado: ['', [Validators.required]],
+      observaciones: ['', [Validators.required]],
+    });
+  }
   formActivo: boolean = false;
 
-consultarPorCedula(cedula: string) {
-  // Aquí podrías hacer una búsqueda con el valor de la cédula
-  console.log('Buscando por cédula:', cedula);
+  consultarPorCedula(cedula: string) {
+    // Aquí podrías hacer una búsqueda con el valor de la cédula
+    console.log('Buscando por cédula:', cedula);
 
-  // Luego de consultar, habilitas los campos
-if (cedula) {
-    this.formActivo = true; // Habilitar el formulario si se encuentra la cédula
+    // Luego de consultar, habilitas los campos
+    if (cedula) {
+      this.formActivo = true; // Habilitar el formulario si se encuentra la cédula
+    }
+
   }
+  comision_por_cliente = 5;
 
-}
-comision_por_cliente = 5;
-
-calcularComision(clientes: any): number {
-  const num = Number(clientes);
-  return isNaN(num) ? 0 : num * this.comision_por_cliente;
-}
+  calcularComision(clientes: any): number {
+    const num = Number(clientes);
+    return isNaN(num) ? 0 : num * this.comision_por_cliente;
+  }
 }

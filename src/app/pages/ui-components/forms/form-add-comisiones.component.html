@@ -8,108 +8,96 @@
           Agregue las comisiones de los taxistas
         </mat-card-subtitle> -->
       </div>
-  
+
       <!-- Buscador alineado a la derecha -->
-      <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4">
-        <mat-form-field appearance="outline" color="primary" style="width: 180px; margin: 0;">
-          <mat-label>Buscar por cédula</mat-label>
-          <input matInput #pruebita type="number" placeholder="00000000" />
-        </mat-form-field>
-        <button mat-icon-button color="primary"
-                (click)="consultarPorCedula(pruebita.value)"
-                matTooltip="Consultar por cédula">
-          <mat-icon>search</mat-icon>
-        </button>
-      </div>
+      <form [formGroup]="formBuscar">
+        <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4 ">
+          <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
+            <mat-label>Buscar por cédula</mat-label>
+            <input formControlName="cedula" matInput #pruebita type="number" placeholder="00000000" required />
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+          <button mat-icon-button color="primary" (click)="consultarPorCedula(pruebita.value)"
+            matTooltip="Consultar por cédula">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+      </form>
     </div>
   </mat-card-header>
-  
+
   <!-- <mat-card-header>
       <mat-card-title class="m-b-0">Formulario Comisiones</mat-card-title>
       <mat-card-subtitle class="f-s-14">Agregue las comisiones de los taxistas</mat-card-subtitle>
     </mat-card-header> -->
-    <mat-card-content class="b-t-1">
-      <form>
-        <div class="row">
-          <div class="col-lg-6">
-            <!-- input -->
-            <mat-label class="f-w-600 m-b-8 d-block">Nombre</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput placeholder="Nombre completo" [disabled]="!formActivo" />
-            </mat-form-field>
-          </div>
-          <!-- <div class="col-lg-6">
-            <mat-label class="f-w-600 m-b-8 d-block">Country</mat-label>
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-select [(value)]="selectedCountry">
-                @for(option of country; track option.value) {
-                <mat-option [value]="option.value">{{
-                  option.viewValue
-                  }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div> -->
-          <!-- <div class="col-lg-6">
-            <mat-label class="f-w-600 m-b-8 d-block">Cédula</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput placeholder="00000000" type="number" [disabled]="!formActivo" />
-            </mat-form-field>
-          </div> -->
-          <!-- <div class="col-lg-6">
-            <mat-label class="f-w-600 m-b-8 d-block">Teléfono</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput placeholder="300000000" type="number" [disabled]="!formActivo" />
-            </mat-form-field>
-          </div> -->
-          <!-- <div class="col-lg-6">
-            <mat-label class="f-w-600 m-b-8 d-block">State</mat-label>
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-select [(value)]="selectedState">
-                @for(option of state; track option.value) {
-                <mat-option [value]="option.value">{{
-                  option.viewValue
-                  }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div> -->
-          <!-- <div class="col-lg-6">
-            <mat-label class="f-w-600 m-b-8 d-block">Password</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="password" placeholder="your password" />
-            </mat-form-field>
-          </div> -->
-          <div class="col-lg-6">
-            <!-- input -->
-            <mat-label class="f-w-600 m-b-8 d-block">Número de placa</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput placeholder="ABC123" [disabled]="!formActivo" />
-            </mat-form-field>
-          </div>
-          <div class="col-lg-6">
-            <!-- input -->
-            <mat-label class="f-w-600 m-b-8 d-block">Personas referidas</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input  #number_clientes matInput placeholder="4" type="number" [disabled]="!formActivo" />
-            </mat-form-field>
-          </div>
-          <div class="col-lg-6">
-            <!-- input -->
-            <mat-label class="f-w-600 m-b-8 d-block">Número de placa</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <!-- <input matInput placeholder="ABC123" [disabled]="!formActivo" /> -->
-              <!-- <input [disabled]="!formActivo" matInput [value]="'$ ' + calcularComision(number_clientes.value) + ' MIL PESOS'" disabled> -->
-              <input [disabled]="!formActivo" matInput [value]="'$ ' + calcularComision(number_clientes.value) + ' MIL PESOS'" readonly>
+  <mat-card-content class="b-t-1">
+    <form [formGroup]="formAgregar">
+      <div class="row">
+        <div class="col-lg-6">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">Nombre</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="nombre" matInput placeholder="Nombre completo" [disabled]="!formActivo" />
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+        </div>
 
-            </mat-form-field>
-          </div>
+
+        <div class="col-lg-6 m-b-4">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">Número de placa</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="numero_placa" matInput placeholder="ABC123" [disabled]="!formActivo"
+              style="text-transform: uppercase;" />
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
         </div>
-  
-        <div class="m-t-12">
-          <button mat-flat-button color="primary" class="m-r-8">Guardar</button>
-          <button mat-stroked-button color="warn" [routerLink]="['/dashboard']">Cancelar</button>
+        <div class="col-lg-6">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">Personas referidas</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="personas_referidas" #number_clientes matInput placeholder="4" type="number"
+              [disabled]="!formActivo" />
+          </mat-form-field>
         </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+        <div class="col-lg-6">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">Observaciones</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="observaciones" matInput placeholder="Opcional" [disabled]="!formActivo" />
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Estado</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <mat-select [(ngModel)]="selectedValue" formControlName="estado" required placeholder="Pagado / No pagado"
+              [disabled]="!formActivo">
+              @for (pago of pagos; track pago.value) {
+              <mat-option [value]="pago.value">{{ pago.viewValue }}</mat-option>
+              }
+            </mat-select>
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">Total a pagar</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <!-- <input matInput placeholder="ABC123" [disabled]="!formActivo" /> -->
+            <!-- <input [disabled]="!formActivo" matInput [value]="'$ ' + calcularComision(number_clientes.value) + ' MIL PESOS'" disabled> -->
+            <input [disabled]="!formActivo" matInput
+              [value]="'$ ' + calcularComision(number_clientes.value) + ' MIL PESOS'" readonly>
+
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="m-t-12">
+        <button mat-flat-button color="primary" class="m-r-8">Guardar</button>
+        <button mat-stroked-button color="warn" [routerLink]="['/dashboard']">Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

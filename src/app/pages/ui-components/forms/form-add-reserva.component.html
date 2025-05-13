@@ -1,75 +1,81 @@
 <mat-card class="cardWithShadow theme-card">
-    <mat-card-header>
-      <mat-card-title class="m-b-0">Formulario</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="b-t-1">
-      <form>
-        <div class="row">
-  
-          <!-- Nombre -->
-          <div class="col-lg-6">
-            <mat-label class="f-w-600 m-b-8 d-block">Nombre</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput placeholder="nombre completo " />
-            </mat-form-field>
-          </div>
-  
-          <!-- Cédula -->
-          <div class="col-lg-6">
-            <mat-label class="f-w-600 m-b-8 d-block">Cédula</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="number" placeholder="00000000" />
-            </mat-form-field>
-          </div>
-  
-          <!-- Teléfono -->
-          <div class="col-lg-6">
-            <mat-label class="f-w-600 m-b-8 d-block">Teléfono</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="number" placeholder="300000000" />
-            </mat-form-field>
-          </div>
-  
-          <!-- mat-select -->
-          <div class="col-lg-6">
-            
-              <mat-label class="f-w-600 m-b-8 d-block">Seleccionar lugar</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <mat-select [(ngModel)]="selectedValue" name="food">
-                @for (food of foods; track food) {
-                  <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-           
-          </div>
-  
-  
-          <!-- Fecha y Hora -->
-          
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Formulario Reservas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <form [formGroup]="formAgregar">
+      <div class="row">
+
+        <!-- Nombre -->
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Nombre</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="nombre" matInput placeholder="nombre completo " />
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Cédula -->
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Cédula</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="cedula" matInput type="number" placeholder="00000000" />
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Teléfono</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="telefono" matInput type="number" placeholder="300000000" />
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- mat-select -->
+        <div class="col-lg-6">
+
+          <mat-label class="f-w-600 m-b-8 d-block">Seleccionar lugar</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <mat-select formControlName="lugar_reserva" [(ngModel)]="selectedValue" name="lugar">
+              @for (lugar of lugares; track lugar) {
+              <mat-option [value]="lugar.value">{{ lugar.viewValue }}</mat-option>
+              }
+            </mat-select>
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+
+        </div>
+
+
+        <!-- Fecha y Hora -->
+
         <div class="col-lg-6"> <mat-label class="f-w-600 m-b-8 d-block">Seleccionar fecha</mat-label>
-        <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input matInput [matDatepicker]="datepicker" [(ngModel)]="value"  name="date" (focus)="datepicker.open()" (click)="datepicker.open()" />
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="fecha_reserva" matInput [matDatepicker]="datepicker" [(ngModel)]="value" name="date" (focus)="datepicker.open()"
+              (click)="datepicker.open()" />
             <mat-datepicker #datepicker></mat-datepicker>
             <mat-datepicker-toggle [for]="datepicker" matSuffix></mat-datepicker-toggle>
-        </mat-form-field>
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
         </div>
-          <div class="col-lg-6">
-            <mat-label class="f-w-600 m-b-8 d-block">Seleccionar hora</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput [matTimepicker]="timepicker" [(ngModel)]="value" [ngModelOptions]="{updateOn: 'blur'}" name="time"  />
-              <mat-timepicker #timepicker></mat-timepicker>
-              <mat-timepicker-toggle [for]="timepicker" matSuffix></mat-timepicker-toggle>
-            </mat-form-field>
-          </div>
-  
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Seleccionar hora</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="hora_reserva" matInput [matTimepicker]="timepicker" [(ngModel)]="value"  name="time" />
+            <mat-timepicker #timepicker></mat-timepicker>
+            <mat-timepicker-toggle [for]="timepicker" matSuffix></mat-timepicker-toggle>
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
         </div>
-  
-        <div class="m-t-12">
-          <button mat-flat-button color="primary" class="m-r-8">Guardar</button>
-          <button mat-stroked-button color="warn">Cancelar</button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
-  
+
+      </div>
+
+      <div class="m-t-12">
+        <button mat-flat-button color="primary" class="m-r-8">Guardar</button>
+        <button mat-stroked-button color="warn" [routerLink]="['/dashboard']">Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

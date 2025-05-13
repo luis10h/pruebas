@@ -10,6 +10,7 @@ import { AppFormsComponent } from './forms/forms.component';
 import { AppTablesComponent } from './tables/tables.component';
 import { FormAddReservaComponent } from './forms/form-add-reserva.component';
 import { AppFormComisionesComponent } from './forms/form-comisiones.component';
+import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.component';
 
 export const UiComponentsRoutes: Routes = [
   {
@@ -50,6 +51,10 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'tables',
         component: AppTablesComponent,
+      },
+      {
+        path: 'listado-taxistas',
+        component: AppBlogCardsComponent,
       },
     ],
   },

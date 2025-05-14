@@ -3,11 +3,11 @@
     <div class="col-lg-3">
       <!-- <mat-label class="f-w-600 m-b-8 d-block">Observaciones</mat-label> -->
       <mat-form-field appearance="outline" class="w-100 d-flex align-items-center" color="primary">
-        <input #buscador matInput placeholder="Buscador" name="searchTerm" (keyup)="buscar(buscador.value)" />
+        <input #buscador matInput placeholder="Buscador" name="searchTerm" autocomplete="off" (keyup)="buscar(buscador.value)" />
         <button mat-icon-button matSuffix aria-label="Buscar">
           <mat-icon>search</mat-icon>
         </button>
-        <mat-error>Este campo es requerido.</mat-error>
+        <!-- <mat-error>Este campo es requerido.</mat-error> -->
       </mat-form-field>
     </div>
   </div>

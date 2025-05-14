@@ -14,7 +14,7 @@
         <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4 ">
           <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
             <mat-label>Buscar por cédula</mat-label>
-            <input formControlName="cedula" matInput #pruebita type="number" placeholder="00000000" required />
+            <input formControlName="cedula" matInput #pruebita type="number" placeholder="00000000" required ((keypress))="consultarPorCedula(pruebita.value)"/>
             <mat-error>Este campo es requerido.</mat-error>
           </mat-form-field>
           <button mat-icon-button color="primary" (click)="consultarPorCedula(pruebita.value)"
@@ -58,6 +58,7 @@
           <mat-form-field appearance="outline" class="w-100" color="primary">
             <input formControlName="personas_referidas" #number_clientes matInput placeholder="4" type="number"
               [disabled]="!formActivo" />
+            <mat-error>Este campo es requerido.</mat-error>
           </mat-form-field>
         </div>
         <div class="col-lg-6">
@@ -95,7 +96,8 @@
       </div>
 
       <div class="m-t-12">
-        <button mat-flat-button color="primary" class="m-r-8">Guardar</button>
+        <button mat-flat-button color="primary" class="m-r-8" (click)="guardarComision()">Guardar</button>
+
         <button mat-stroked-button color="warn" [routerLink]="['/dashboard']">Cancelar</button>
       </div>
     </form>

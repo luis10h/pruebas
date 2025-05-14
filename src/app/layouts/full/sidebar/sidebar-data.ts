@@ -30,7 +30,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Agregar Taxistas',
     iconName: 'solar:chat-round-line-line-duotone',
-    route: 'view/forms',
+    route: 'view/form-taxista',
     // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',
@@ -39,7 +39,7 @@ export const navItems: NavItem[] = [
     {
     displayName: 'Agregar reserva',
     iconName: 'solar:archive-minimalistic-line-duotone',
-    route: '/view/reserva',
+    route: '/view/form-reserva',
     // chip: true,
     chipClass: 'bg-secondary text-white', 
     // chipContent: 'PRO',
@@ -48,7 +48,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Comisiones',
     iconName: 'solar:chat-round-line-line-duotone',
-    route: 'view/formulario comisiones',
+    route: 'view/form-comisiones',
     // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',

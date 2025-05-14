@@ -3,7 +3,7 @@
     <mat-card-title class="m-b-0">Formulario Taxistas</mat-card-title>
   </mat-card-header>
   <mat-card-content class="b-t-1">
-    <form [formGroup]="formAgregar">
+    <form [formGroup]="formAgregar" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-lg-6">
           <!-- input -->
@@ -56,7 +56,7 @@
       <div class="col-lg-6">
         <mat-label class="f-w-600 m-b-8 d-block">Fecha de nacimiento</mat-label>
         <mat-form-field appearance="outline" class="w-100" color="primary">
-          <input formControlName="fecha_nacimiento" matInput [matDatepicker]="datepicker" [(ngModel)]="value" name="date" (focus)="datepicker.open()"
+          <input formControlName="fecha_nacimiento" matInput autocomplete="off" [matDatepicker]="datepicker" [(ngModel)]="value" name="date" (focus)="datepicker.open()"
             (click)="datepicker.open()" />
           <mat-datepicker #datepicker></mat-datepicker>
           <mat-datepicker-toggle [for]="datepicker" matSuffix></mat-datepicker-toggle>
@@ -65,7 +65,7 @@
       </div>
        </div>
       <div class="m-t-12">
-        <button mat-flat-button color="primary" class="m-r-8" >Guardar</button>
+        <button mat-flat-button color="primary" class="m-r-8" type="submit">Guardar</button>
         <button mat-stroked-button color="warn" [routerLink]="['/dashboard']"
           routerLinkActive="router-link-active">Cancelar</button>
       </div>

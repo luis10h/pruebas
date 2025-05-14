@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { TaxistaService } from 'src/app/services/taxista.service';
 
 interface sexo {
   value: string;
@@ -19,8 +20,8 @@ interface sexo {
 
 @Component({
   selector: 'app-forms',
-    providers: [provideNativeDateAdapter()],
-  
+  providers: [provideNativeDateAdapter()],
+
   imports: [
     MatFormFieldModule,
     MatSelectModule,
@@ -32,8 +33,8 @@ interface sexo {
     MatInputModule,
     MatCheckboxModule,
     MatCheckboxModule,
-RouterModule,
-  MatTimepickerModule,
+    RouterModule,
+    MatTimepickerModule,
     MatDatepickerModule
   ],
   templateUrl: './form-add-taxista.component.html',
@@ -43,7 +44,7 @@ export class AppFormsComponent {
   value: Date;
   selectedValue: string;
 
-//  public formBuscar!: FormGroup;
+  //  public formBuscar!: FormGroup;
   public formAgregar!: FormGroup;
   public cedula: any;
   public nombre!: any;
@@ -54,14 +55,14 @@ export class AppFormsComponent {
 
 
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private taxistaService: TaxistaService) { }
 
   ngOnInit(): void {
     // this.formBuscar = this.crearFormularioSedes();
     this.formAgregar = this.crearFormularioAgregar();
   }
 
-    private crearFormularioAgregar(): FormGroup {
+  private crearFormularioAgregar(): FormGroup {
     return this.fb.group({
       nombre: ['', [Validators.required]],
       numero_placa: ['', [Validators.required]],
@@ -71,8 +72,25 @@ export class AppFormsComponent {
       sexo: ['', [Validators.required]],
     });
   }
-   sexo_s: sexo[] = [
+  sexo_s: sexo[] = [
     { value: 'Masculino', viewValue: 'Masculino' },
     { value: 'Femenino', viewValue: 'Femenino' },
   ];
+
+  onSubmit(): void {
+    if (this.formAgregar.valid) {
+      this.taxistaService.guardarTaxista(this.formAgregar.value).subscribe({
+        next: (res) => {
+          console.log('Guardado correctamente', res);
+          alert('Taxista guardado');
+          this.formAgregar.reset();
+        },
+        error: (err) => {
+          console.error('Error al guardar:', err);
+          alert('Error al guardar');
+        }
+      });
+    }
+  }
+
 }

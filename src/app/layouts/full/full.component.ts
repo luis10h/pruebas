@@ -16,7 +16,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { AppNavItemComponent } from './sidebar/nav-item/nav-item.component';
 import { navItems } from './sidebar/sidebar-data';
 import { AppTopstripComponent } from './top-strip/topstrip.component';
-import { AppTablesComponent } from 'src/app/pages/ui-components/tables/tables.component';
+// import { AppTablesComponent } from 'src/app/pages/ui-components/tables/tables.component';
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -34,7 +34,7 @@ const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
     TablerIconsModule,
     HeaderComponent,
     AppTopstripComponent,
-    AppTablesComponent
+    // AppTablesComponent
   ],
   templateUrl: './full.component.html',
   styleUrls: [],

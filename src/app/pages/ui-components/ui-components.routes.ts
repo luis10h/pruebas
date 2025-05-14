@@ -37,15 +37,15 @@ export const UiComponentsRoutes: Routes = [
         component: AppTooltipsComponent,
       },
       {
-        path: 'forms',
+        path: 'form-taxista',
         component: AppFormsComponent,
       },
       {
-        path: 'reserva',
+        path: 'form-reserva',
         component: FormAddReservaComponent,
       },
       {
-        path: 'formulario comisiones',
+        path: 'form-comisiones',
         component: AppFormComisionesComponent,
       },
       {
@@ -55,6 +55,17 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'listado-taxistas',
         component: AppBlogCardsComponent,
+      },
+    ],
+  },
+];
+export const landingRoutes: Routes = [
+  {
+    path: '',
+    children: [
+      {
+        path: 'landing-page',
+        component: AppBadgeComponent,
       },
     ],
   },

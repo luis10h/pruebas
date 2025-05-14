@@ -3,7 +3,7 @@
     <mat-card-title class="m-b-0">Formulario Reservas</mat-card-title>
   </mat-card-header>
   <mat-card-content class="b-t-1">
-    <form [formGroup]="formAgregar">
+    <form [formGroup]="formAgregar" (ngSubmit)="onSubmit()">
       <div class="row">
 
         <!-- Nombre -->
@@ -33,12 +33,26 @@
           </mat-form-field>
         </div>
 
+
+
+        <!-- Teléfono -->
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Cantidad de personas</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="cantidad" matInput type="number" placeholder="3" />
+            <mat-error>Este campo es requerido.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Teléfono -->
+
+
         <!-- mat-select -->
         <div class="col-lg-6">
 
           <mat-label class="f-w-600 m-b-8 d-block">Seleccionar lugar</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <mat-select formControlName="lugar_reserva" [(ngModel)]="selectedValue" name="lugar">
+            <mat-select formControlName="lugar_reserva"  name="lugar">
               @for (lugar of lugares; track lugar) {
               <mat-option [value]="lugar.value">{{ lugar.viewValue }}</mat-option>
               }
@@ -53,8 +67,8 @@
 
         <div class="col-lg-6"> <mat-label class="f-w-600 m-b-8 d-block">Seleccionar fecha</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input formControlName="fecha_reserva" matInput [matDatepicker]="datepicker" [(ngModel)]="value" name="date" (focus)="datepicker.open()"
-              (click)="datepicker.open()" />
+            <input formControlName="fecha_reserva" matInput [matDatepicker]="datepicker"  name="date"
+              (focus)="datepicker.open()" (click)="datepicker.open()" />
             <mat-datepicker #datepicker></mat-datepicker>
             <mat-datepicker-toggle [for]="datepicker" matSuffix></mat-datepicker-toggle>
             <mat-error>Este campo es requerido.</mat-error>
@@ -63,17 +77,24 @@
         <div class="col-lg-6">
           <mat-label class="f-w-600 m-b-8 d-block">Seleccionar hora</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input formControlName="hora_reserva" matInput [matTimepicker]="timepicker" [(ngModel)]="value"  name="time" />
+            <input formControlName="hora_reserva" matInput [matTimepicker]="timepicker"
+              name="time" />
             <mat-timepicker #timepicker></mat-timepicker>
             <mat-timepicker-toggle [for]="timepicker" matSuffix></mat-timepicker-toggle>
             <mat-error>Este campo es requerido.</mat-error>
           </mat-form-field>
         </div>
-
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Observaciones</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input formControlName="observaciones" matInput type="text" placeholder="Opcional" />
+            <mat-error>Este campo no es obligatorio.</mat-error>
+          </mat-form-field>
+        </div>
       </div>
 
       <div class="m-t-12">
-        <button mat-flat-button color="primary" class="m-r-8">Guardar</button>
+        <button mat-flat-button color="primary" class="m-r-8" type="submit">Guardar</button>
         <button mat-stroked-button color="warn" [routerLink]="['/dashboard']">Cancelar</button>
       </div>
     </form>

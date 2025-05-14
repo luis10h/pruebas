@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -48,81 +49,14 @@ export class AppBlogCardsComponent implements OnInit {
     return item.id;
   }
 
-  ngOnInit(): void {
-    // Lista original
-    this.allCardimgs = [
-      {
-        id: 1,
-        time: 'Agregado hace 2 mins',
-        imgSrc: '/assets/images/blog/LOGO-2.jpg',
-        title: 'Luis Enrique',
-        views: '9,125',
-        category: 'Taxista',
-        comments: 3,
-        date: 'Mon, Dec 2025',
-        sexo: 'masculino',
-      },
-      {
-        id: 2,
-        time: 'Agregado hace 2 mins',
-        imgSrc: '/assets/images/blog/LOGO-2.jpg',
-        title: 'Jose Rodriguez',
-        views: '9,125',
-        category: 'Taxista',
-        comments: 3,
-        date: 'Sun, Dec 2025',
-        sexo: 'masculino',
-      },
-      {
-        id: 3,
-        time: 'Agregado hace 2 mins',
-        imgSrc: '/assets/images/blog/LOGO-2.jpg',
-        title: 'Jordano Gonzalez',
-        views: '9,125',
-        category: 'Taxista',
-        comments: 12,
-        date: 'Sat, Dec 2025',
-        sexo: 'masculino',
-      },
-      {
-        id: 4,
-        time: 'Agregado hace 2 mins',
-        imgSrc: '/assets/images/blog/LOGO-2.jpg',
-        title: 'Paola Fernández',
-        views: '9,125',
-        category: 'Social',
-        comments: 3,
-        date: 'Mon, Dec 2025',
-        sexo: 'femenino',
-      },
-      {
-        id: 5,
-        time: 'Agregado hace 2 mins',
-        imgSrc: '/assets/images/blog/LOGO-2.jpg',
-        title: 'María López',
-        views: '9,125',
-        category: 'Social',
-        comments: 3,
-        date: 'Mon, Dec 2025',
-        sexo: 'femenino',
-      },
-      {
-        id: 6,
-        time: 'Agregado hace 2 mins',
-        imgSrc: '/assets/images/blog/LOGO-2.jpg',
-        title: 'Camila Torres',
-        views: '9,125',
-        category: 'Social',
-        comments: 3,
-        date: 'Mon, Dec 2025',
-        sexo: 'femenino',
-      },
-    ];
+ constructor(private http: HttpClient) {}
 
-    // Copiamos la lista completa para mostrar inicialmente
-    this.cardimgs = [...this.allCardimgs];
+ngOnInit(): void {
+  this.http.get<cardimgs[]>('http://localhost/php/taxistas/get_taxistas.php').subscribe(data => {
+    this.cardimgs = data;
+    this.allCardimgs = data;
 
-    // Asignamos imágenes según el sexo
+    // Asignar imágenes según sexo
     for (let card of this.cardimgs) {
       let numeroAleatorio = 0;
       if (card.sexo === 'femenino') {
@@ -134,8 +68,8 @@ export class AppBlogCardsComponent implements OnInit {
       }
       this.imagenesPorId[card.id] = numeroAleatorio;
     }
-  }
-
+  });
+}
   buscar(bus: string): void {
     console.log('Buscando:', bus);
 

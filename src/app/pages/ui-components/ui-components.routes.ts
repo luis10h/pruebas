@@ -11,6 +11,21 @@ import { AppTablesComponent } from './tables/tables.component';
 import { FormAddReservaComponent } from './forms/form-add-reserva.component';
 import { AppFormComisionesComponent } from './forms/form-comisiones.component';
 import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.component';
+import { LandingPageComponent } from '../landing-page/landing-page.component';
+
+
+export const landingRoutes: Routes = [
+  {
+    path: '',
+    children: [
+      {
+        path: 'landing-page',
+        component: LandingPageComponent,
+      },
+    ],
+  },
+];
+
 
 export const UiComponentsRoutes: Routes = [
   {

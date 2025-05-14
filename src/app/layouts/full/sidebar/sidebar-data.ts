@@ -15,7 +15,7 @@ export const navItems: NavItem[] = [
     iconName: 'solar:widget-add-line-duotone',
     // route: 'https://materialm-angular-main.netlify.app/dashboards/dashboard1',
     route: '/view/tables',
-    chip: true,
+    // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',

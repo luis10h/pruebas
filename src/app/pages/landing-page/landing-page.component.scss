@@ -2,6 +2,11 @@ body {
   font-family: 'Poppins', sans-serif;
   color: #000000;
   background-color: #ffffff;
+  text-decoration: none;
+}
+
+.d-flex{
+  margin-top: -20px;
 }
 
 .layout_padding {
@@ -81,7 +86,7 @@ body {
   height: auto;
 }
 
-.header_section {}
+// .header_section {}
 
 .header_section .container-fluid {
   padding-right: 25px;
@@ -126,7 +131,7 @@ a:focus {
 }
 
 .custom_nav-container .nav_search-btn {
-//   background-image: url(../images/search-icon.png);
+  background-image: url('/assets/images/backgrounds/search-icon.png');
 
   background-size: 22px;
   background-repeat: no-repeat;
@@ -164,7 +169,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-toggler .navbar-toggler-icon {
-//   background-image: url(../images/menu.png);
+  background-image: url('/assets/images/backgrounds/menu.png');
   background-size: 55px;
 }
 
@@ -258,12 +263,12 @@ a:focus {
 }
 
 .slider_section .custom_carousel-control .carousel-control-prev {
-//   background-image: url(../images/prev.png);
+  background-image: url('/assets/images/backgrounds/prev.png');
   background-color: #fc5d35;
 }
 
 .slider_section .custom_carousel-control .carousel-control-next {
-//   background-image: url(../images/next.png);
+  background-image: url('/assets/images/backgrounds/next.png');
   background-color: #000000;
 }
 
@@ -321,17 +326,44 @@ a:focus {
 .tasty_section {
   width: 100%;
   height: 500px;
-//   background-image: url(../images/tasty-image.png);
+  background-image: url('/assets/images/backgrounds/laptop-2620118.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-
+  position: relative; /* necesario para posicionar el overlay */
+  overflow: hidden;
 }
 
+.tasty_section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* capa oscura translúcida */
+  backdrop-filter: blur(4px);    /* desenfoque del fondo */
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1;
+}
+
+.tasty_section > * {
+  position: relative;
+  z-index: 2; /* para que el contenido quede encima del overlay */
+  color: white; /* para que se vea bien sobre el fondo oscuro */
+}
+
+
+
+
+
+
+
+
 .tasty_section h2 {
-  font-size: 125px;
+  font-size: 300%;
   text-align: center;
   font-weight: bold;
   color: #ffffff;
@@ -388,20 +420,21 @@ a:focus {
   background-color: #fc5d35;
 }
 
-// .client_section .custom_carousel-control .carousel-control-prev {
-//   background-image: url(../images/prev.png);
-// }
+.client_section .custom_carousel-control .carousel-control-prev {
+  background-image: url('/assets/images/backgrounds/prev.png');
+}
 
-// .client_section .custom_carousel-control .carousel-control-next {
-//   background-image: url(../images/next.png);
-// }
+.client_section .custom_carousel-control .carousel-control-next {
+  background-image: url('/assets/images/backgrounds/next.png');
+}
 
 /* end client section */
 
 /* contact section */
 
 .contact_section {
-//   background-image: url(../images/orange-dish.png);
+  background-color:  #efeded;
+  background-image: url('/assets/images/backgrounds/orange-dish.png');
   background-repeat: no-repeat;
   background-size: 215px;
   background-position: right center;
@@ -423,7 +456,7 @@ a:focus {
 .contact_form-container button {
   border: none;
   background-color: #fc5d35;
-  color: #fff;
+  color:  #efeded;
   padding: 8px 40px;
   text-transform: uppercase;
   font-size: 14px;
@@ -682,6 +715,8 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
+  text-decoration: none;
+  
   background-color: #fff;
 }
 

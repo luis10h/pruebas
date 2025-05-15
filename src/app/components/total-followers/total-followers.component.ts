@@ -39,6 +39,8 @@ export interface totalfollowersChart {
     templateUrl: './total-followers.component.html',
 })
 export class AppTotalFollowersComponent {
+    totalFollowers: number = 0;
+
     @ViewChild('chart') chart: ChartComponent = Object.create(null);
     public totalfollowersChart!: Partial<totalfollowersChart> | any;
 
@@ -48,12 +50,12 @@ export class AppTotalFollowersComponent {
             series: [
                 {
                     name: "Total",
-                    data: [29, 52, 38, 47, 56],
+                    data: [29, 52, 38, 47, 56, 67],
                 },
-                {
-                    name: "Followers",
-                    data: [71, 71, 71, 71, 71],
-                },
+                // {
+                //     name: "Followers",
+                //     data: [71, 71, 71, 71, 71, 71],
+                // },
             ],
             chart: {
                 fontFamily: "inherit",

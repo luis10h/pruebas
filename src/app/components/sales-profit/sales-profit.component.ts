@@ -51,9 +51,18 @@ export class AppSalesProfitComponent {
     public salesprofitChart!: Partial<salesprofitChart> | any;
 
     months: month[] = [
-        { value: 'mar', viewValue: 'Sep 2025' },
-        { value: 'apr', viewValue: 'Oct 2025' },
-        { value: 'june', viewValue: 'Nov 2025' },
+        {value: 'enero', viewValue: 'Ene'},
+        {value: 'febrero', viewValue: 'Feb'},
+        {value: 'marzo', viewValue: 'Mar'},
+        {value: 'abril', viewValue: 'Abr'},
+        {value: 'mayo', viewValue: 'May'},
+        {value: 'junio', viewValue: 'Jun'},
+        {value: 'julio', viewValue: 'Jul'},
+        {value: 'agosto', viewValue: 'Ago'},
+        {value: 'septiembre', viewValue: 'Sep'},
+        {value: 'octubre', viewValue: 'Oct'},
+        {value: 'noviembre', viewValue: 'Nov'},
+        {value: 'diciembre', viewValue: 'Dic'},
     ];
 
     constructor() {

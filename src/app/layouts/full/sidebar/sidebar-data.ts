@@ -21,6 +21,24 @@ export const navItems: NavItem[] = [
     // chipContent: 'PRO',
     // showView: 'analytics',
   },
+  {
+    displayName: 'Reportes de pagos',
+    iconName: 'solar:widget-line-duotone',
+    route: '/dashboard/view/reporte-comisiones',
+    chip: true,
+    external: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
+  },
+  // {
+  //   displayName: 'Ecommerce 2',
+  //   iconName: 'solar:shopping-cart-line-duotone',
+  //   route: '/dashboard/view/tables',
+  //   chip: true,
+  //   external: true,
+  //   chipClass: 'bg-secondary text-white',
+  //   // chipContent: 'PRO',
+  // },
 
 
   {
@@ -30,7 +48,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Agregar Taxistas',
     iconName: 'solar:chat-round-line-line-duotone',
-    route: '/dashboard/view/forms',
+    route: '/dashboard/view/form-taxista',
     // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',
@@ -39,7 +57,7 @@ export const navItems: NavItem[] = [
     {
     displayName: 'Agregar reserva',
     iconName: 'solar:archive-minimalistic-line-duotone',
-    route: '/dashboard/view/reserva',
+    route: '/dashboard/view/form-reserva',
     // chip: true,
     chipClass: 'bg-secondary text-white', 
     // chipContent: 'PRO',
@@ -48,7 +66,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Comisiones',
     iconName: 'solar:chat-round-line-line-duotone',
-    route: '/dashboard/view/formulario comisiones',
+    route: '/dashboard/view/form-comisiones',
     // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',

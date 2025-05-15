@@ -12,6 +12,8 @@ import { FormAddReservaComponent } from './forms/form-add-reserva.component';
 import { AppFormComisionesComponent } from './forms/form-comisiones.component';
 import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.component';
 import { LandingPageComponent } from '../landing-page/landing-page.component';
+import { AppTotalIncomeComponent } from 'src/app/components/total-income/total-income.component';
+import { AppEarningReportsComponent } from 'src/app/components/earning-reports/earning-reports.component';
 
 
 export const landingRoutes: Routes = [
@@ -71,17 +73,25 @@ export const UiComponentsRoutes: Routes = [
         path: 'listado-taxistas',
         component: AppBlogCardsComponent,
       },
-    ],
-  },
-];
-export const landingRoutes: Routes = [
-  {
-    path: '',
-    children: [
       {
-        path: 'landing-page',
-        component: AppBadgeComponent,
+        path: 'registro-salidas',
+        component: AppTotalIncomeComponent,
+      }, 
+      {
+        path: 'reporte-comisiones',
+        component: AppEarningReportsComponent,
       },
     ],
   },
 ];
+// export const landingRoutes: Routes = [
+//   {
+//     path: '',
+//     children: [
+//       {
+//         path: 'landing-page',
+//         component: AppBadgeComponent,
+//       },
+//     ],
+//   },
+// ];

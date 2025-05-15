@@ -50,11 +50,13 @@ export class AppFormComisionesComponent implements OnInit {
     { value: 'no-pagado', viewValue: 'No pagado' },
   ];
   constructor(private fb: FormBuilder, private http: HttpClient) {}
-
+  private apiUrlBuscar = 'https://neocompanyapp.com/php/comisiones/buscar_taxistas.php';
+  private apiUrlAgregar = 'https://neocompanyapp.com/php/comisiones/guardar_comisiones.php';
+  // private apiUrlPruebas = 'http://localhost/php/comisiones/buscar_taxistas.php';
   consultarPorCedula(cedula: string) {
     if (!cedula) return;
 
-    this.http.post<any>('http://localhost/php/comisiones/buscar_taxistas.php', { cedula })
+    this.http.post<any>(this.apiUrlBuscar, { cedula })
       .subscribe({
         next: (data) => {
           if (data && data.success) {
@@ -105,7 +107,7 @@ export class AppFormComisionesComponent implements OnInit {
       total: this.calcularComision(this.formAgregar.get('personas_referidas')?.value)
     };
 
-    fetch('http://localhost/php/comisiones/guardar_comisiones.php', {
+    fetch(this.apiUrlAgregar, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

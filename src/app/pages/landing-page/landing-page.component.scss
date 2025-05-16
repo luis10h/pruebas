@@ -1,8 +1,18 @@
 body {
   font-family: 'Poppins', sans-serif;
   color: #000000;
-  background-color: #ffffff;
+  background-color: #000000;
   text-decoration: none;
+}
+
+.bienvenido{
+  color: #fcf8e3;
+}
+
+.msm{
+  
+  color: #fcf8e3;
+
 }
 
 .d-flex{
@@ -47,12 +57,12 @@ body {
 }
 
 .custom_dark-btn {
-  background-color: #000000;
+  background-color: #fc5d35;
 }
 
 .custom_dark-btn:hover {
-  border: 1px solid #000000;
-  color: #000000;
+  border: 1px solid #fc5d35;
+  color: #fc5d35;
   background-color: transparent;
 }
 
@@ -78,15 +88,36 @@ body {
 
 /*header section*/
 .hero_area {
+  position: relative;
   height: 98vh;
-  background-color: #f7f7f7;
-}
+
+  /* Imagen de fondo */
+  background-image: url('/assets/images/backgrounds/fondoprueba2.jpg');
+  background-size: cover; /* Se ajusta para cubrir todo el contenedor */
+  background-position: center center; /* Centra la imagen */
+  background-repeat: no-repeat;
+
+  /* Glass effect */
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+
+ 
+  }
 
 .hero_area.sub_pages {
   height: auto;
 }
 
-// .header_section {}
+// .header_section 
+
+.glass{
+  background: rgba(0, 0, 0, 0.466);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(8px);
+ 
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
 
 .header_section .container-fluid {
   padding-right: 25px;
@@ -99,7 +130,7 @@ body {
 
 .custom_nav-container.navbar-expand-lg .navbar-nav .nav-link {
   padding: 10px 30px;
-  color: #343434;
+  color: #ffffff;
   text-align: center
 }
 
@@ -155,7 +186,7 @@ a:focus {
 .navbar-brand span {
   font-size: 20px;
   font-weight: 700;
-  color: #2e2e2d;
+  color: #ffffff;
   margin-top: 5px;
 }
 
@@ -215,7 +246,7 @@ a:focus {
   background-repeat: no-repeat;
 }
 
-.slider_item-container .slider_item-detail {}
+// .slider_item-container .slider_item-detail {}
 
 .slider_item-detail h1 {
   font-weight: 700;
@@ -269,7 +300,8 @@ a:focus {
 
 .slider_section .custom_carousel-control .carousel-control-next {
   background-image: url('/assets/images/backgrounds/next.png');
-  background-color: #000000;
+  background-color: #fc5d35;
+  
 }
 
 /* end slider section */
@@ -717,7 +749,7 @@ body {
   text-align: left;
   text-decoration: none;
   
-  background-color: #fff;
+  background-color: #000000;
 }
 
 [tabindex="-1"]:focus {
@@ -4867,6 +4899,7 @@ input[type="button"].btn-block {
 }
 
 .navbar-collapse {
+  
   -ms-flex-preferred-size: 100%;
   flex-basis: 100%;
   -ms-flex-positive: 1;

@@ -6,7 +6,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TaxistaService {
-  private apiUrl = 'http://localhost/php/taxistas/guardar_taxistas.php';
+  private apiUrl = 'https://neocompanyapp.com/php/taxistas/guardar_taxistas.php';
+  // private apiUrlPruebas = 'http://localhost/php/taxistas/guardar_taxistas.php';
+  // private apiUrl = 'http://localhost/php/taxistas/guardar_taxistas.php';
 
   constructor(private http: HttpClient) { }
 

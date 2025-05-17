@@ -7,12 +7,19 @@ import { CoreService } from '../../../services/core.service';
   selector: 'app-branding',
   imports: [RouterModule],
   template: `
-    <a [routerLink]="['/']">
-      <img
-        src="./assets/images/logos/logo.svg"
-        class="align-middle m-2"
-        alt="logo"
-      />
+    <a [routerLink]="['/']" class="navbar-brand d-flex align-items-center" style="text-decoration: none;">
+      <span class="text-primary">N</span>
+      <span class="text-danger">E</span>
+      <span class="text-warning">O</span>
+      <span class="text-light">...</span>
+      <span class="text-success">C</span>
+      <span class="text-info">O</span>
+      <span class="text-secondary">M</span>
+      <span class="text-dark">P</span>
+      <span class="text-success">A</span>
+      <span class="text-primary">N</span>
+      <span class="text-secondary">Y</span>
+      <span class="text-warning">.</span>
     </a>
   `,
 })

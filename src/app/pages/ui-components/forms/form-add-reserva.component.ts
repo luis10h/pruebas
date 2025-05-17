@@ -74,12 +74,13 @@ public formAgregar!: FormGroup;
       observaciones: ['']
     });
   }
-
+  private apiUrlAgregar = 'https://neocompanyapp.com/php/reservas/guardar_reservas.php';
+  // private apiUrlPruebas = 'http://localhost/php/reservas/guardar_reservas.php';  
   onSubmit() {
     if (this.formAgregar.valid) {
       const formData = this.formAgregar.value;
 
-      this.http.post('http://localhost/php/reservas/guardar_reservas.php', formData).subscribe({
+      this.http.post(this.apiUrlAgregar, formData).subscribe({
         next: (response) => {
           console.log('Reserva guardada:', response);
           alert('Reserva registrada correctamente');

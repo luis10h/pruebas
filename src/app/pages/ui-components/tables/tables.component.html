@@ -8,7 +8,7 @@
           <mat-label>Buscar</mat-label>
           <input formControlName="cedula" matInput #pruebita type="text" placeholder="Buscar..." />
           <mat-error>Este campo es requerido.</mat-error>
-          <button mat-icon-button matSuffix aria-label="Buscar" >
+          <button mat-icon-button matSuffix aria-label="Buscar">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
@@ -46,6 +46,9 @@
               <span class="text-dark f-w-600">
                 $ {{ element.pagado | number:'1.0-0' }}
               </span>
+              <span class="text-dark f-w-600">
+                / $ {{ element.total - element.pagado | number:'1.0-0' }}
+              </span>
               / $ {{element.total | number:'1.0-0' }}
             </h6>
             <span class="f-s-14 f-w-500 d-block m-b-4">No registran pagos.</span>
@@ -58,6 +61,9 @@
             <h6 class=" f-s-16 m-b-4">
               <span class="text-dark f-w-600">
                 $ {{ element.pagado | number:'1.0-0' }}
+              </span>
+              <span class="text-dark f-w-600">
+                / $ {{ element.total - element.pagado | number:'1.0-0' }}
               </span>
               / $ {{element.total | number:'1.0-0' }}
             </h6>
@@ -72,6 +78,9 @@
               <span class="text-dark f-w-600">
                 $ {{ element.pagado | number:'1.0-0' }}
               </span>
+              <span class="text-dark f-w-600">
+                / $ {{ element.total - element.pagado | number:'1.0-0' }}
+              </span>
               / $ {{element.total | number:'1.0-0' }}
             </h6>
             <span class="f-s-14 f-w-500 d-block m-b-4">Parcialmente pagado</span>
@@ -85,6 +94,9 @@
               <span class="text-dark f-w-600">
                 $ {{ element.pagado | number:'1.0-0' }}
               </span>
+              <span class="text-dark f-w-600">
+                / $ {{ element.total - element.pagado | number:'1.0-0' }}
+              </span>
               / $ {{element.total | number:'1.0-0' }}
             </h6>
             <span class="f-s-14 f-w-500 d-block m-b-4">Parcialmente pagado</span>
@@ -94,8 +106,13 @@
             }
             <!-- MENOR A 1 -->
             @else if(element.pagado === 0 && element.total > 1) { <h6 class=" f-s-16 m-b-4">
-              <span class="text-dark f-w-600">$ {{ element.pagado | number:'1.0-0' }}</span>/ $ {{element.total |
-              number:'1.0-0' }}
+              <span class="text-dark f-w-600">
+                $ {{ element.pagado | number:'1.0-0' }}
+              </span>
+              <span class="text-dark f-w-600">
+                / $ {{ element.total - element.pagado | number:'1.0-0' }}
+              </span>
+              / $ {{element.total | number:'1.0-0' }}
             </h6>
             <span class="f-s-14 f-w-500 d-block m-b-4">Cancelled</span>
             <mat-progress-bar class="mat-warning" mode="determinate" color="warn"
@@ -107,13 +124,16 @@
               <span class="text-dark f-w-600">
                 $ {{ element.pagado | number:'1.0-0' }}
               </span>
+              <span class="text-dark f-w-600">
+                / $ {{ element.total - element.pagado | number:'1.0-0' }}
+              </span>
               / $ {{element.total | number:'1.0-0' }}
-              </h6>
-              <span class="f-s-14 f-w-500 d-block m-b-4">Parcialmente pagado</span>
-              <mat-progress-bar mode="determinate" color="primary" class="mat-error"
-                [value]="element.total > 0 ? (element.pagado / element.total) * 100 : 0" [ariaValueMax]="element.total">
-              </mat-progress-bar>
-              }
+            </h6>
+            <span class="f-s-14 f-w-500 d-block m-b-4">Parcialmente pagado</span>
+            <mat-progress-bar mode="determinate" color="primary" class="mat-error"
+              [value]="element.total > 0 ? (element.pagado / element.total) * 100 : 0" [ariaValueMax]="element.total">
+            </mat-progress-bar>
+            }
 
           </td>
         </ng-container>

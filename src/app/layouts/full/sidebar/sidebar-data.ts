@@ -16,6 +16,7 @@ export const navItems: NavItem[] = [
     // route: 'https://materialm-angular-main.netlify.app/dashboards/dashboard1',
     route: '/dashboard/view/tables',
     chip: true,
+
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
@@ -43,34 +44,38 @@ export const navItems: NavItem[] = [
 
   {
     divider: true,
-    navCap: 'Taxistas 100',
+    navCap: 'Formularios',
   },
   {
-    displayName: 'Agregar Taxistas',
+    displayName: 'Agregar taxistas',
     iconName: 'solar:chat-round-line-line-duotone',
     route: '/dashboard/view/form-taxista',
     // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
-  }, 
-    {
+  },
+  {
     displayName: 'Agregar reserva',
     iconName: 'solar:archive-minimalistic-line-duotone',
     route: '/dashboard/view/form-reserva',
     // chip: true,
-    chipClass: 'bg-secondary text-white', 
+    chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
     external: true,
   },
   {
-    displayName: 'Comisiones',
+    displayName: 'Agregar comisiones',
     iconName: 'solar:chat-round-line-line-duotone',
     route: '/dashboard/view/form-comisiones',
     // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
+  },
+  {
+    navCap: 'Listas',
+    divider: true,
   },
   {
     displayName: 'Lista de Taxistas',
@@ -80,7 +85,7 @@ export const navItems: NavItem[] = [
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
- },
+  },
   {
     displayName: 'Lista de Taxistas 2',
     iconName: 'solar:chat-round-line-line-duotone',
@@ -90,7 +95,10 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   },
-
+  {
+    navCap: 'Reportes',
+    divider: true,
+  },
   {
     displayName: 'Blog',
     iconName: 'solar:widget-4-line-duotone',

@@ -54,16 +54,17 @@ export const navItems: NavItem[] = [
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
-  },
+  }, 
   {
-    displayName: 'Agregar reserva',
-    iconName: 'solar:archive-minimalistic-line-duotone',
-    route: '/dashboard/view/form-reserva',
+    displayName: 'Tabla de Taxistas',
+    iconName: 'solar:chat-round-line-line-duotone',
+    route: '/dashboard/view/tabla-taxistas',
     // chip: true,
+    external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
-    external: true,
   },
+    
   {
     displayName: 'Agregar comisiones',
     iconName: 'solar:chat-round-line-line-duotone',
@@ -99,6 +100,33 @@ export const navItems: NavItem[] = [
     navCap: 'Reportes',
     divider: true,
   },
+
+  
+
+  {
+    divider: true,
+    navCap: 'Reservas',
+  },
+
+  {
+    displayName: 'Agregar reserva',
+    iconName: 'solar:archive-minimalistic-line-duotone',
+    route: '/dashboard/view/reserva',
+    // chip: true,
+    chipClass: 'bg-secondary text-white', 
+    // chipContent: 'PRO',
+    external: true,
+  },
+  {
+    displayName: 'Tabla de Reservas',
+    iconName: 'solar:archive-minimalistic-line-duotone',
+    route: '/dashboard/view/tabla-reservas',
+    // chip: true,
+    chipClass: 'bg-secondary text-white', 
+    // chipContent: 'PRO',
+    external: true,
+  },
+
   {
     displayName: 'Blog',
     iconName: 'solar:widget-4-line-duotone',

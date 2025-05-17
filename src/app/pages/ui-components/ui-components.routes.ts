@@ -14,6 +14,8 @@ import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.co
 import { LandingPageComponent } from '../landing-page/landing-page.component';
 import { AppTotalIncomeComponent } from 'src/app/components/total-income/total-income.component';
 import { AppEarningReportsComponent } from 'src/app/components/earning-reports/earning-reports.component';
+import { TablaTaxistasComponent } from './tables/tabla-taxistas.component';
+import { TablaReservasComponent } from './tables/tabla-reservas.component';
 
 
 export const landingRoutes: Routes = [
@@ -40,6 +42,14 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'chips',
         component: AppChipsComponent,
+      },
+      {
+        path: 'tabla-taxistas',
+        component: TablaTaxistasComponent,
+      },
+      {
+        path: 'tabla-reservas',
+        component: TablaReservasComponent
       },
       {
         path: 'lists',

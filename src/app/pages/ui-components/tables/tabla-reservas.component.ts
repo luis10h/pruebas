@@ -5,6 +5,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface UserData {
   nombre: string;
@@ -31,7 +32,8 @@ const LUGARES: string[] = ['Sala ', 'Terraza'];
     MatInputModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatIconModule
   ],
   templateUrl: './tabla-reservas.component.html',
   styleUrl: './tabla-reservas.component.scss'

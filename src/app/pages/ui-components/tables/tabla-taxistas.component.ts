@@ -9,6 +9,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 export interface UserData {
   nombre: string;
@@ -37,14 +38,26 @@ export interface UserData {
 export class TablaTaxistasComponent implements AfterViewInit {
   displayedColumns: string[] = ['nombre', 'cedula', 'telefono', 'placa', 'sexo', 'nacimiento'];
   dataSource: MatTableDataSource<UserData>;
-
+// private apiUrlPruebas = 'http://localhost/php/taxistas/get_taxistas.php';
+  // private apiUrlAgregar = 'https://neocompanyapp.com/php/taxistas/guardar_taxistas.php';
+  private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser());
-    this.dataSource = new MatTableDataSource(users);
+  constructor(private http: HttpClient) {
+    // const users = Array.from({ length: 100 }, (_, k) => createNewUser());
+    // this.dataSource = new MatTableDataSource(users);
+    
   }
+
+  ngOnInit(): void {
+    this.http.get<UserData[]>(this.apiUrlBuscar).subscribe(data => {
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

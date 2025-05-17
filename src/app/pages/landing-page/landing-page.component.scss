@@ -5,6 +5,10 @@ body {
   text-decoration: none;
 }
 
+.correoelec{
+  width: 60px;
+}
+
 .textodeabajo{
   color: #fc5d35;
 }
@@ -211,7 +215,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-toggler .navbar-toggler-icon {
-  background-image: url('/assets/images/backgrounds/menu.png');
+  background-image: url('/assets/images/svgs/menuq.svg');
   background-size: 55px;
 }
 
@@ -477,10 +481,10 @@ a:focus {
 /* contact section */
 
 .contact_section {
-  background-color:  #efeded;
+  background-color:  #ffffff;
   background-image: url('/assets/images/backgrounds/pcx.png');
   background-repeat: no-repeat;
-  background-size: 615px;
+  background-size: 40%;
   background-position: right center;
 }
 
@@ -488,7 +492,7 @@ a:focus {
   border: none;
   outline: none;
   border-bottom: .8px solid #252525;
-  width: 90%;
+  width: 80%;
   margin: 10px 0;
 }
 
@@ -546,7 +550,7 @@ a:focus {
 }
 
 .info_section .form_container input {
-  width: 225px;
+  width: 90%;
   height: 30px;
 }
 
@@ -599,6 +603,9 @@ a:focus {
     .custom_nav-container .nav_search-btn {
         background-position: center;
     }
+    .correoelec{
+        width: 30px;
+    }
 
     .service_section .card-deck {
 
@@ -611,7 +618,7 @@ a:focus {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 832px) {
 
     .slider_img-box {
 
@@ -629,6 +636,8 @@ a:focus {
         transform: translate(-50%, -50%);
         display: flex;
         justify-content: space-between;
+        background-color: transparent;
+        display: none;
 
     }
 
@@ -667,7 +676,7 @@ a:focus {
 
     .tasty_section h2 {
 
-        font-size: 80px;
+       padding: 100px;
     }
 }
 

@@ -12,6 +12,8 @@ import { FormAddReservaComponent } from './forms/form-add-reserva.component';
 import { AppFormComisionesComponent } from './forms/form-comisiones.component';
 import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.component';
 import { LandingPageComponent } from '../landing-page/landing-page.component';
+import { TablaTaxistasComponent } from './tables/tabla-taxistas.component';
+import { TablaReservasComponent } from './tables/tabla-reservas.component';
 
 
 export const landingRoutes: Routes = [
@@ -38,6 +40,14 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'chips',
         component: AppChipsComponent,
+      },
+      {
+        path: 'tabla-taxistas',
+        component: TablaTaxistasComponent,
+      },
+      {
+        path: 'tabla-reservas',
+        component: TablaReservasComponent
       },
       {
         path: 'lists',

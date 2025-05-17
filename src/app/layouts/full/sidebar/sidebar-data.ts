@@ -25,7 +25,7 @@ export const navItems: NavItem[] = [
 
   {
     divider: true,
-    navCap: 'Taxistas 100',
+    navCap: 'Taxistas',
   },
   {
     displayName: 'Agregar Taxistas',
@@ -36,15 +36,16 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   }, 
-    {
-    displayName: 'Agregar reserva',
-    iconName: 'solar:archive-minimalistic-line-duotone',
-    route: '/dashboard/view/reserva',
+  {
+    displayName: 'Tabla de Taxistas',
+    iconName: 'solar:chat-round-line-line-duotone',
+    route: '/dashboard/view/tabla-taxistas',
     // chip: true,
-    chipClass: 'bg-secondary text-white', 
-    // chipContent: 'PRO',
     external: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
   },
+    
   {
     displayName: 'Comisiones',
     iconName: 'solar:chat-round-line-line-duotone',
@@ -71,6 +72,32 @@ export const navItems: NavItem[] = [
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
+  },
+
+  
+
+  {
+    divider: true,
+    navCap: 'Reservas',
+  },
+
+  {
+    displayName: 'Agregar reserva',
+    iconName: 'solar:archive-minimalistic-line-duotone',
+    route: '/dashboard/view/reserva',
+    // chip: true,
+    chipClass: 'bg-secondary text-white', 
+    // chipContent: 'PRO',
+    external: true,
+  },
+  {
+    displayName: 'Tabla de Reservas',
+    iconName: 'solar:archive-minimalistic-line-duotone',
+    route: '/dashboard/view/tabla-reservas',
+    // chip: true,
+    chipClass: 'bg-secondary text-white', 
+    // chipContent: 'PRO',
+    external: true,
   },
 
   {

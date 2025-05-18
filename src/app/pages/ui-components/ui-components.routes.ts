@@ -14,7 +14,8 @@ import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.co
 import { LandingPageComponent } from '../landing-page/landing-page.component';
 import { TablaTaxistasComponent } from './tables/tabla-taxistas.component';
 import { TablaReservasComponent } from './tables/tabla-reservas.component';
-
+import { EstadisticasComponent } from './estadisticas/estadisticas.component';
+import { TablaAdministracionComponent } from './tables/tabla-administracion.component';
 
 export const landingRoutes: Routes = [
   {
@@ -36,6 +37,14 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'badge',
         component: AppBadgeComponent,
+      },
+      {
+        path: 'estadisticas',
+        component: EstadisticasComponent,
+      },
+      {
+        path: 'administracion',
+        component: TablaAdministracionComponent,
       },
       {
         path: 'chips',

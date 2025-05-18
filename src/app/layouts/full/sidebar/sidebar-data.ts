@@ -5,6 +5,12 @@ export const navItems: NavItem[] = [
     navCap: 'Home',
   },
   {
+    displayName: 'Administracion',
+    iconName: 'solar:atom-line-duotone',
+    route: '/dashboard/view/administracion',
+    external: true,
+  },
+  {
     displayName: 'Dashboard',
     iconName: 'solar:atom-line-duotone',
     route: '/dashboard',
@@ -21,6 +27,15 @@ export const navItems: NavItem[] = [
     // chipContent: 'PRO',
     // showView: 'analytics',
   },
+  {
+    displayName: 'Estadisticas',
+    iconName: 'solar:chat-round-line-line-duotone',
+    route: '/dashboard/view/estadisticas',
+    // chip: true,
+    external: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
+  }, 
 
 
   {
@@ -82,7 +97,7 @@ export const navItems: NavItem[] = [
   },
 
   {
-    displayName: 'Agregar reserva',
+    displayName: 'Agregar Reserva',
     iconName: 'solar:archive-minimalistic-line-duotone',
     route: '/dashboard/view/reserva',
     // chip: true,

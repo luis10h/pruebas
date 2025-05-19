@@ -10,6 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 interface pago {
   value: string;
@@ -49,10 +50,11 @@ export class AppFormComisionesComponent implements OnInit {
     { value: 'pagado', viewValue: 'Pagado' },
     { value: 'no-pagado', viewValue: 'No pagado' },
   ];
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
-  private apiUrlBuscar = 'https://neocompanyapp.com/php/comisiones/buscar_taxistas.php';
+  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  // private apiUrlBuscar = 'https://neocompanyapp.com/php/comisiones/buscar_taxistas.php';
   private apiUrlAgregar = 'https://neocompanyapp.com/php/comisiones/guardar_comisiones.php';
-  // private apiUrlPruebas = 'http://localhost/php/comisiones/buscar_taxistas.php';
+  private apiUrlBuscar = 'http://localhost/php/comisiones/buscar_taxistas.php';
+
   consultarPorCedula(cedula: string) {
     if (!cedula) return;
 
@@ -68,27 +70,55 @@ export class AppFormComisionesComponent implements OnInit {
               observaciones: data.taxista.observaciones
             });
             this.formActivo = true;
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Taxista encontrado",
+              // text: "Los datos del taxista han sido cargados correctamente.",
+            });
+
           } else {
-            alert('Taxista no encontrado.');
+            Swal.fire({
+              icon: 'warning',
+              title: 'Taxista no encontrado',
+              text: 'No se encontró un taxista con esa cédula.',
+            });
             this.formActivo = false;
           }
         },
         error: (err) => {
           console.error('Error en la búsqueda:', err);
-          alert('Error al consultar.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al consultar. Intenta de nuevo más tarde.',
+          });
         }
       });
   }
+
   ngOnInit(): void {
     this.formBuscar = this.crearFormularioConsultar();
     this.formAgregar = this.crearFormularioAgregar();
   }
+
   private crearFormularioConsultar(): FormGroup {
     return this.fb.group({
       cedula: ['', [Validators.required]],
     });
   }
-    private crearFormularioAgregar(): FormGroup {
+
+  private crearFormularioAgregar(): FormGroup {
     return this.fb.group({
       nombre: ['', [Validators.required]],
       numero_placa: ['', [Validators.required]],
@@ -97,37 +127,51 @@ export class AppFormComisionesComponent implements OnInit {
       observaciones: [''],
     });
   }
+
   formActivo: boolean = false;
 
- guardarComision() {
-  if (this.formAgregar.valid) {
-    const data = {
-      cedula: this.formBuscar.get('cedula')?.value,
-      ...this.formAgregar.value,
-      total: this.calcularComision(this.formAgregar.get('personas_referidas')?.value)
-    };
+  guardarComision() {
+    if (this.formAgregar.valid) {
+      const data = {
+        cedula: this.formBuscar.get('cedula')?.value,
+        ...this.formAgregar.value,
+        total: this.calcularComision(this.formAgregar.get('personas_referidas')?.value)
+      };
 
-    fetch(this.apiUrlAgregar, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(response => {
-      if (response.success) {
-        alert('¡Comisión guardada correctamente!');
-        this.formAgregar.reset();
-        this.formBuscar.reset();
-        this.formActivo = false;
-      } else {
-        alert('Error: ' + response.message);
-      }
-    })
-    .catch(error => {
-      console.error('Error al guardar:', error);
-    });
+      fetch(this.apiUrlAgregar, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(response => {
+          if (response.success) {
+            Swal.fire({
+              icon: 'success',
+              title: '¡Comisión guardada!',
+              text: 'La comisión se guardó correctamente.',
+            });
+            this.formAgregar.reset();
+            this.formBuscar.reset();
+            this.formActivo = false;
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: response.message || 'Ocurrió un error al guardar.',
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error al guardar:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo guardar la comisión. Intenta más tarde.',
+          });
+        });
+    }
   }
-}
 
   comision_por_cliente = 5;
 

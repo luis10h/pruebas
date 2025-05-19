@@ -13,7 +13,7 @@ interface cardimgs {
   id: number;
   time: string;
   imgSrc: string;
-  title: string;
+  nombre: string;
   views: string;
   category: string;
   comments: number;
@@ -51,8 +51,8 @@ export class AppBlogCardsComponent implements OnInit {
 
  constructor(private http: HttpClient) {}
 
-private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
-// private apiUrlPruebas = 'http://localhost/php/taxistas/get_taxistas.php';
+// private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
+private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
 private apiUrlAgregar = 'https://neocompanyapp.com/php/taxistas/guardar_taxistas.php';
 ngOnInit(): void {
   this.http.get<cardimgs[]>(this.apiUrlBuscar).subscribe(data => {
@@ -78,7 +78,7 @@ ngOnInit(): void {
 
     if (bus && bus.trim() !== '') {
       this.cardimgs = this.allCardimgs.filter((card) =>
-        card.title.toLowerCase().includes(bus.toLowerCase())
+        card.nombre.toLowerCase().includes(bus.toLowerCase())
       );
     } else {
       // Restauramos todas las tarjetas si no hay texto

@@ -68,6 +68,11 @@ export const UiComponentsRoutes: Routes = [
         component: AppFormsComponent,
       },
       {
+        path: 'editar-taxista/:cedula',
+        component: AppFormsComponent
+      },
+
+      {
         path: 'form-reserva',
         component: FormAddReservaComponent,
       },
@@ -86,7 +91,7 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'registro-salidas',
         component: AppTotalIncomeComponent,
-      }, 
+      },
       {
         path: 'reporte-comisiones',
         component: AppEarningReportsComponent,

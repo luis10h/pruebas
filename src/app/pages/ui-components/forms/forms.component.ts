@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -7,11 +7,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { TaxistaService } from 'src/app/services/taxista.service';
+import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 interface sexo {
   value: string;
@@ -21,7 +23,6 @@ interface sexo {
 @Component({
   selector: 'app-forms',
   providers: [provideNativeDateAdapter()],
-
   imports: [
     MatFormFieldModule,
     MatSelectModule,
@@ -32,65 +33,167 @@ interface sexo {
     MatCardModule,
     MatInputModule,
     MatCheckboxModule,
-    MatCheckboxModule,
     RouterModule,
     MatTimepickerModule,
-    MatDatepickerModule
+    MatDatepickerModule,
   ],
   templateUrl: './form-add-taxista.component.html',
 })
-export class AppFormsComponent {
+export class AppFormsComponent implements OnInit {
 
   value: Date;
   selectedValue: string;
-
-  //  public formBuscar!: FormGroup;
+  modoFormulario: 'agregar' | 'editar' = 'agregar';
   public formAgregar!: FormGroup;
-  public cedula: any;
-  public nombre!: any;
-  public numero_placa!: any;
-  public telefono!: any;
-  public fecha_nacimiento!: any;
-  public sexo!: any;
 
-
-
-  constructor(private fb: FormBuilder, private taxistaService: TaxistaService) { }
-
-  ngOnInit(): void {
-    // this.formBuscar = this.crearFormularioSedes();
-    this.formAgregar = this.crearFormularioAgregar();
-  }
-
-  private crearFormularioAgregar(): FormGroup {
-    return this.fb.group({
-      nombre: ['', [Validators.required]],
-      numero_placa: ['', [Validators.required]],
-      cedula: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
-      fecha_nacimiento: ['', [Validators.required]],
-      sexo: ['', [Validators.required]],
-    });
-  }
   sexo_s: sexo[] = [
     { value: 'Masculino', viewValue: 'Masculino' },
     { value: 'Femenino', viewValue: 'Femenino' },
   ];
 
+  constructor(
+    private fb: FormBuilder,
+    private taxistaService: TaxistaService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
+    this.formAgregar = this.crearFormularioAgregar();
+    this.route.paramMap.subscribe(params => {
+      const cedula = params.get('cedula');
+      if (cedula) {
+        this.modoFormulario = 'editar';
+        this.cargarDatosTaxista(cedula);
+      }
+    });
+  }
+
+private crearFormularioAgregar(): FormGroup {
+  return this.fb.group({
+    nombre: ['', [Validators.required]],
+    numero_placa: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(/^[A-Z]{3}[0-9]{3}$/i), // 3 letras seguidas de 3 números
+      ],
+    ],
+    cedula: ['', [Validators.required]],
+    telefono: ['', [Validators.required]],
+    fecha_nacimiento: ['', [Validators.required]],
+    sexo: ['', [Validators.required]],
+  });
+}
+
+
+  cargarDatosTaxista(cedula: string) {
+    this.taxistaService.obtenerTaxistaPorCedula(cedula).subscribe((data) => {
+      if (data && data.taxista) {
+        this.formAgregar.patchValue(data.taxista);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'No encontrado',
+          text: 'No se encontraron datos del taxista.',
+        });
+      }
+    });
+  }
+
+  volverAtras() {
+    window.history.back();
+  }
+
   onSubmit(): void {
-    if (this.formAgregar.valid) {
-      this.taxistaService.guardarTaxista(this.formAgregar.value).subscribe({
-        next: (res) => {
-          console.log('Guardado correctamente', res);
-          alert('Taxista guardado');
-          this.formAgregar.reset();
+    if (this.formAgregar.invalid) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Formulario inválido',
+        text: 'Por favor, complete todos los campos requeridos.',
+      });
+      return;
+    }
+
+    if (this.modoFormulario === 'editar') {
+      this.taxistaService.actualizarTaxista(this.formAgregar.value).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Actualizado',
+            text: 'Taxista actualizado correctamente.',
+          }).then(() => {
+            this.router.navigate(['/dashboard/view/tabla-taxistas']);
+          });
         },
         error: (err) => {
-          console.error('Error al guardar:', err);
-          alert('Error al guardar');
+          console.error('Error al actualizar:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al actualizar el taxista.',
+          });
+        }
+      });
+    } else {
+      const cedula = this.formAgregar.value.cedula;
+
+      this.taxistaService.obtenerTaxistaPorCedula(cedula).subscribe({
+        next: (res) => {
+          if (res && res.taxista) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Cédula duplicada',
+              text: 'Ya existe un taxista registrado con esa cédula.',
+              html: `
+  Ya existe un taxista registrado con esa cédula. <br>
+  aquí están los datos:<br>
+  <strong>Nombre:</strong> ${res.taxista.nombre}<br>
+  <strong>Cédula:</strong> ${res.taxista.cedula}<br>
+  <strong>Teléfono:</strong> ${res.taxista.telefono}<br>
+  <strong>Placa:</strong> ${res.taxista.numero_placa}<br>
+  <strong>Sexo:</strong> ${res.taxista.sexo}<br>
+  <strong>Fecha de Nacimiento:</strong> ${res.taxista.fecha_nacimiento}<br>
+  `,
+
+            });
+          } else {
+            // Si no existe, procede a guardar
+            this.taxistaService.guardarTaxista(this.formAgregar.value).subscribe({
+              next: () => {
+                Swal.fire({
+                  icon: 'success',
+                  title: '¡Guardado!',
+                  text: 'El taxista fue registrado correctamente.',
+                });
+                this.formAgregar.reset();
+                this.router.navigate(['/dashboard/view/tabla-taxistas']);
+              },
+              error: (err) => {
+                console.error('Error al guardar:', err);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al guardar',
+                  text: 'Hubo un problema al intentar registrar el taxista.',
+                });
+              }
+            });
+          }
+        },
+        error: (err) => {
+          console.error('Error al verificar cédula:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo verificar la cédula. Intenta nuevamente.',
+          });
         }
       });
     }
+  }
+
+  onReset(): void {
+    this.formAgregar.reset();
   }
 
 }

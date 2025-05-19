@@ -3,7 +3,8 @@
     <div class="col-lg-3">
       <!-- <mat-label class="f-w-600 m-b-8 d-block">Observaciones</mat-label> -->
       <mat-form-field appearance="outline" class="w-100 d-flex align-items-center" color="primary">
-        <input #buscador matInput placeholder="Buscador" name="searchTerm" autocomplete="off" (keyup)="buscar(buscador.value)" />
+        <input #buscador matInput placeholder="Buscador" name="searchTerm" autocomplete="off"
+          (keyup)="buscar(buscador.value)" />
         <button mat-icon-button matSuffix aria-label="Buscar">
           <mat-icon>search</mat-icon>
         </button>
@@ -15,7 +16,7 @@
 <div class="row justify-content-center">
   <div *ngIf="cardimgs.length === 0" class="d-flex flex-column justify-content-center align-items-center text-muted"
     style="height: 60vh;">
-    <div class="text-center"> 
+    <div class="text-center">
       <mat-icon>search_off</mat-icon><br>
       <strong class="mt-2">No se encontraron resultados</strong>
     </div>
@@ -46,7 +47,7 @@
         </div>
 
         <mat-card-title class="m-t-20 text-hover-primary cursor-pointer"><a routerLink="['/']" class="hover-text">{{
-            cardimg.title
+            cardimg.nombre
             }}</a></mat-card-title>
         <div class="d-flex align-items-center justify-content-center m-t-24">
           <div class="d-flex align-items-center">

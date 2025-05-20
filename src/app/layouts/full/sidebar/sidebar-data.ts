@@ -6,19 +6,19 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Administracion',
-    iconName: 'solar:atom-line-duotone',
+    iconName: 'mdi:briefcase',
     route: '/dashboard/view/administracion',
     external: true,
   },
   {
     displayName: 'Dashboard',
-    iconName: 'solar:atom-line-duotone',
+    iconName: 'fa:dashboard',
     route: '/dashboard',
     external: true,
   },
   {
     displayName: 'Analytics',
-    iconName: 'solar:widget-add-line-duotone',
+    iconName: 'mdi:chart-areaspline',
     // route: 'https://materialm-angular-main.netlify.app/dashboards/dashboard1',
     route: '/dashboard/view/tables',
     chip: true,
@@ -29,7 +29,7 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Estadisticas',
-    iconName: 'solar:chat-round-line-line-duotone',
+    iconName: 'mdi:chart-areaspline',
     route: '/dashboard/view/estadisticas',
     // chip: true,
     external: true,
@@ -44,7 +44,7 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Agregar Taxistas',
-    iconName: 'solar:chat-round-line-line-duotone',
+    iconName: 'line-md:account-add',
     route: '/dashboard/view/forms',
     // chip: true,
     external: true,
@@ -53,7 +53,7 @@ export const navItems: NavItem[] = [
   }, 
   {
     displayName: 'Tabla de Taxistas',
-    iconName: 'solar:chat-round-line-line-duotone',
+    iconName: 'mdi:taxi',
     route: '/dashboard/view/tabla-taxistas',
     // chip: true,
     external: true,
@@ -63,7 +63,7 @@ export const navItems: NavItem[] = [
     
   {
     displayName: 'Comisiones',
-    iconName: 'solar:chat-round-line-line-duotone',
+    iconName: 'mdi:cash',
     route: '/dashboard/view/formulario comisiones',
     // chip: true,
     external: true,
@@ -72,7 +72,7 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Lista de Taxistas',
-    iconName: 'solar:chat-round-line-line-duotone',
+    iconName: 'mdi:format-list-bulleted',
     route: '/dashboard/view/lists',
     chip: true,
     external: true,
@@ -81,7 +81,7 @@ export const navItems: NavItem[] = [
  },
   {
     displayName: 'Lista de Taxistas 2',
-    iconName: 'solar:chat-round-line-line-duotone',
+    iconName: 'mdi:format-list-bulleted',
     route: '/dashboard/view/listado-taxistas',
     chip: true,
     external: true,
@@ -98,7 +98,7 @@ export const navItems: NavItem[] = [
 
   {
     displayName: 'Agregar Reserva',
-    iconName: 'solar:archive-minimalistic-line-duotone',
+    iconName: 'mdi:plus-circle',
     route: '/dashboard/view/reserva',
     // chip: true,
     chipClass: 'bg-secondary text-white', 
@@ -107,7 +107,7 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Tabla de Reservas',
-    iconName: 'solar:archive-minimalistic-line-duotone',
+    iconName: 'mdi:table',
     route: '/dashboard/view/tabla-reservas',
     // chip: true,
     chipClass: 'bg-secondary text-white', 

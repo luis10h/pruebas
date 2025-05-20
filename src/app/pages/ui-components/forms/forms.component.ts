@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -13,7 +14,9 @@ import { MatTimepickerModule } from '@angular/material/timepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { TaxistaService } from 'src/app/services/taxista.service';
 import { ActivatedRoute } from '@angular/router';
+// import Swal from 'sweetalert2/dist/sweetalert2.esm.js';
 import Swal from 'sweetalert2';
+
 
 interface sexo {
   value: string;
@@ -26,6 +29,7 @@ interface sexo {
   imports: [
     MatFormFieldModule,
     MatSelectModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatRadioModule,

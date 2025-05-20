@@ -51,8 +51,8 @@ export class AppBlogCardsComponent implements OnInit {
 
  constructor(private http: HttpClient) {}
 
-// private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
-private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
+private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
+// private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
 private apiUrlAgregar = 'https://neocompanyapp.com/php/taxistas/guardar_taxistas.php';
 ngOnInit(): void {
   this.http.get<cardimgs[]>(this.apiUrlBuscar).subscribe(data => {

@@ -10,7 +10,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+// import Swal from 'sweetalert2/dist/sweetalert2.esm.js';
 import Swal from 'sweetalert2';
+
 
 interface pago {
   value: string;
@@ -51,9 +53,9 @@ export class AppFormComisionesComponent implements OnInit {
     { value: 'no-pagado', viewValue: 'No pagado' },
   ];
   constructor(private fb: FormBuilder, private http: HttpClient) { }
-  // private apiUrlBuscar = 'https://neocompanyapp.com/php/comisiones/buscar_taxistas.php';
+  private apiUrlBuscar = 'https://neocompanyapp.com/php/comisiones/buscar_taxistas.php';
   private apiUrlAgregar = 'https://neocompanyapp.com/php/comisiones/guardar_comisiones.php';
-  private apiUrlBuscar = 'http://localhost/php/comisiones/buscar_taxistas.php';
+  // private apiUrlBuscar = 'http://localhost/php/comisiones/buscar_taxistas.php';
 
   consultarPorCedula(cedula: string) {
     if (!cedula) return;
@@ -76,7 +78,7 @@ export class AppFormComisionesComponent implements OnInit {
               showConfirmButton: false,
               timer: 3000,
               timerProgressBar: true,
-              didOpen: (toast) => {
+              didOpen: (toast: any) => {
                 toast.onmouseenter = Swal.stopTimer;
                 toast.onmouseleave = Swal.resumeTimer;
               }

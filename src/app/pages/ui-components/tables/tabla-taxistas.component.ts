@@ -14,6 +14,8 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2/dist/sweetalert2.esm.js';
+
 
 export interface UserData {
   nombre: string;
@@ -44,9 +46,12 @@ export interface UserData {
 export class TablaTaxistasComponent implements AfterViewInit {
   displayedColumns: string[] = ['nombre', 'cedula', 'telefono', 'placa', 'sexo', 'nacimiento', 'acciones'];
   dataSource: MatTableDataSource<UserData>;
-  private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
+  // private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
   // private apiUrlAgregar = 'https://neocompanyapp.com/php/taxistas/guardar_taxistas.php';
+
+private api = 'https://neocompanyapp.com/php/taxistas/guardar_taxistas.php';
   // private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
+  private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -77,9 +82,9 @@ eliminarTaxista(taxista: any) {
     cancelButtonColor: "#d33",
     confirmButtonText: "Sí, eliminar",
     cancelButtonText: "Cancelar"
-  }).then((result) => {
+  }).then((result: any) => {
     if (result.isConfirmed) {
-      this.http.delete(`http://localhost/php/taxistas/eliminar_taxistas.php?cedula=${taxista.cedula}`).subscribe(() => {
+      this.http.delete(`https://neocompanyapp.com/php/taxistas/eliminar_taxistas.php?cedula=${taxista.cedula}`).subscribe(() => {
         // Filtra y actualiza la tabla eliminando el taxista
         this.dataSource.data = this.dataSource.data.filter((item) => item.cedula !== taxista.cedula);
 

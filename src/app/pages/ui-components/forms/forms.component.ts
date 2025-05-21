@@ -16,6 +16,8 @@ import { TaxistaService } from 'src/app/services/taxista.service';
 import { ActivatedRoute } from '@angular/router';
 // import Swal from 'sweetalert2/dist/sweetalert2.esm.js';
 import Swal from 'sweetalert2';
+import { S } from '@angular/cdk/scrolling-module.d-ud2XrbF8';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 
 interface sexo {
@@ -71,30 +73,52 @@ export class AppFormsComponent implements OnInit {
         this.cargarDatosTaxista(cedula);
       }
     });
+
+    this.formAgregar.get('cedula')?.valueChanges
+      .pipe(
+        debounceTime(1500), // espera 500ms sin escribir
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
+        this.verificarCedula();
+      });
   }
 
-private crearFormularioAgregar(): FormGroup {
-  return this.fb.group({
-    nombre: ['', [Validators.required]],
-    numero_placa: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern(/^[A-Z]{3}[0-9]{3}$/i), // 3 letras seguidas de 3 números
+  private crearFormularioAgregar(): FormGroup {
+    return this.fb.group({
+      nombre: ['', [Validators.required]],
+      numero_placa: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[A-Z]{3}[0-9]{3}$/i), // 3 letras seguidas de 3 números
+        ],
       ],
-    ],
-    cedula: ['', [Validators.required]],
-    telefono: ['', [Validators.required]],
-    fecha_nacimiento: ['', [Validators.required]],
-    sexo: ['', [Validators.required]],
-  });
-}
+      cedula: ['', [Validators.required]],
+      telefono: ['', [Validators.required]],
+      fecha_nacimiento: ['', [Validators.required]],
+      sexo: ['', [Validators.required]],
+    });
+  }
 
+  verificarCedula() {
+    const cedula = this.formAgregar.get('cedula')?.value;
+    this.taxistaService.obtenerTaxistaPorCedula(cedula).subscribe((data) => {
+      if (data && data.taxista) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cédula duplicada',
+          text: 'Ya existe un taxista registrado con esa cédula.',
+        });
+      }
+    });
+  }
 
   cargarDatosTaxista(cedula: string) {
     this.taxistaService.obtenerTaxistaPorCedula(cedula).subscribe((data) => {
       if (data && data.taxista) {
         this.formAgregar.patchValue(data.taxista);
+        this.formAgregar.get('cedula')?.disable();
       } else {
         Swal.fire({
           icon: 'error',
@@ -120,6 +144,9 @@ private crearFormularioAgregar(): FormGroup {
     }
 
     if (this.modoFormulario === 'editar') {
+      // Si estamos en modo edición, solo actualizamos el taxista
+      this.formAgregar.get('cedula')?.enable();
+      // this.formAgregar.get('cedula')?.setValue(this.route.snapshot.paramMap.get('cedula'));
       this.taxistaService.actualizarTaxista(this.formAgregar.value).subscribe({
         next: () => {
           Swal.fire({

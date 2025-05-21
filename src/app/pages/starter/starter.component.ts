@@ -1,10 +1,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MaterialModule } from '../../material.module';
-import { AppBlogCardsComponent } from '../../components/blog-card/blog-card.component';
+// import { AppBlogCardsComponent } from '../../components/blog-card/blog-card.component';
 import { AppSalesProfitComponent } from '../../components/sales-profit/sales-profit.component';
 import { AppTotalFollowersComponent } from '../../components/total-followers/total-followers.component';
 import { AppTotalIncomeComponent } from '../../components/total-income/total-income.component';
-import { AppPopularProductsComponent } from '../../components/popular-products/popular-products.component';
+// import { AppPopularProductsComponent } from '../../components/popular-products/popular-products.component';
 import { AppEarningReportsComponent } from '../../components/earning-reports/earning-reports.component';
 import { AppTablesComponent } from '../ui-components/tables/tables.component';
 // import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.component';
@@ -18,11 +18,11 @@ import { AppTablesComponent } from '../ui-components/tables/tables.component';
   selector: 'app-starter',
   imports: [
     MaterialModule,
-    AppBlogCardsComponent,
+    // AppBlogCardsComponent,
     AppSalesProfitComponent,
     AppTotalFollowersComponent,
     AppTotalIncomeComponent,
-    AppPopularProductsComponent,
+    // AppPopularProductsComponent,
     AppEarningReportsComponent,
     AppTablesComponent
   ],

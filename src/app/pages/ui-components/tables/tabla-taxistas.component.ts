@@ -41,7 +41,7 @@ export interface UserData {
     MatMenuModule,
   ],
   templateUrl: './tabla-taxistas.component.html',
-  styleUrls: ['./tabla-taxistas.component.css'],
+  styleUrls: ['./tabla-taxistas.component.scss'],
 })
 export class TablaTaxistasComponent implements AfterViewInit {
   displayedColumns: string[] = ['nombre', 'cedula', 'telefono', 'placa', 'sexo', 'nacimiento', 'acciones'];

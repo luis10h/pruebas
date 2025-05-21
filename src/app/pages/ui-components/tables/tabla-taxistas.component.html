@@ -54,28 +54,15 @@
           <td mat-cell *matCellDef="let row">{{ row.fecha_nacimiento }}</td>
         </ng-container>
         <!-- Botón de editar -->
-       
         <ng-container matColumnDef="acciones">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 btn-h"></th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button [matMenuTriggerFor]="menu" class="icon-clean-button">
-              <mat-icon>more_vert</mat-icon>
+          <th mat-header-cell *matHeaderCellDef class="text-nowrap f-w-600 m-10 "> Acciones </th>
+          <td mat-cell *matCellDef="let row" class="text-nowrap " >
+            <button mat-icon-button color="primary" class="icon-clean-button" (click)="editarTaxista(row)">
+              <mat-icon class="editar">edit</mat-icon>
             </button>
-
-            <mat-menu #menu="matMenu">
-              <!-- <button mat-menu-item>
-                <mat-icon>add</mat-icon>
-                <span>Add</span>
-              </button> -->
-              <button mat-menu-item (click)="editarTaxista(element)">
-                <mat-icon>edit</mat-icon>
-                <span>Editar</span>
-              </button>
-              <button mat-menu-item (click)="eliminarTaxista(element)">
-                <mat-icon>delete</mat-icon>
-                <span>Eliminar</span>
-              </button>
-            </mat-menu>
+            <button mat-icon-button color="warn" class="icon-clean-button" (click)="eliminarTaxista(row)">
+              <mat-icon class="eliminar">delete</mat-icon>
+            </button>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

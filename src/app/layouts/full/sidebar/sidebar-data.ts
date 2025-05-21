@@ -44,7 +44,7 @@ export const navItems: NavItem[] = [
 
   {
     divider: true,
-    navCap: 'Formularios',
+    navCap: 'Taxistas',
   },
   {
     displayName: 'Agregar taxistas',
@@ -74,6 +74,15 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   },
+    {
+    displayName: 'Seleccionar taxistas',
+    iconName: 'solar:chat-round-line-line-duotone',
+    route: '/dashboard/view/listado-taxistas',
+    chip: true,
+    external: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
+  },
   {
     navCap: 'Listas',
     divider: true,
@@ -96,10 +105,10 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   },
-  {
-    navCap: 'Reportes',
-    divider: true,
-  },
+  // {
+  //   navCap: 'Reportes',
+  //   divider: true,
+  // },
 
   
 
@@ -111,7 +120,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Agregar reserva',
     iconName: 'solar:archive-minimalistic-line-duotone',
-    route: '/dashboard/view/reserva',
+    route: '/dashboard/view/form-reserva',
     // chip: true,
     chipClass: 'bg-secondary text-white', 
     // chipContent: 'PRO',

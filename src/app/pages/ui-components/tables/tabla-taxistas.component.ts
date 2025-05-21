@@ -49,8 +49,8 @@ export class TablaTaxistasComponent implements AfterViewInit {
   // private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
   // private apiUrlAgregar = 'https://neocompanyapp.com/php/taxistas/guardar_taxistas.php';
 
-private api = 'https://neocompanyapp.com/php/taxistas/guardar_taxistas.php';
-  // private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
+private api = 'http://localhost/php/taxistas/guardar_taxistas.php';
+  // private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
   private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

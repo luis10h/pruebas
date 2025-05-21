@@ -3,13 +3,24 @@
     <div class="col-lg-4 d-flex align-items-center">
       <mat-card class="cardWithShadow boxed-auth">
         <mat-card-content class="p-32">
-          <div class="text-center">
-            <a [routerLink]="['/dashboard']">
-              <img src="./assets/images/logos/logo.svg" class="align-middle m-2" alt="logo" />
+          <div class="d-flex text-center justify-content-center">
+            <a [routerLink]="['/']" class="navbar-brand d-flex align-items-center" style="text-decoration: none;">
+              <span class="text-primary">N</span>
+              <span class="text-danger">E</span>
+              <span class="text-warning">O</span>
+              <span class="text-light">...</span>
+              <span class="text-success">C</span>
+              <span class="text-info">O</span>
+              <span class="text-secondary">M</span>
+              <span class="text-dark">P</span>
+              <span class="text-success">A</span>
+              <span class="text-primary">N</span>
+              <span class="text-secondary">Y</span>
+              <span class="text-warning">.</span>
             </a>
           </div>
 
-          <div class="row m-t-24 custom-row">
+          <!-- <div class="row m-t-24 custom-row">
             <div class="col-6">
               <button mat-stroked-button class="w-100">
                 <div class="d-flex align-items-center">
@@ -26,37 +37,37 @@
                 </div>
               </button>
             </div>
-          </div>
+          </div> -->
 
-          <div class="or-border m-t-30">or sign in with</div>
+          <div class="or-border m-t-30">Ingresa con</div>
 
           <form class="m-t-30">
-            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Username</mat-label>
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Usuario</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
               <input matInput />
             </mat-form-field>
             <!-- password -->
-            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Password</mat-label>
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Contraseña</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
               <input matInput type="password" />
             </mat-form-field>
 
             <div class="d-flex align-items-center m-b-12">
-              <mat-checkbox color="primary">Remember this Device</mat-checkbox>
-              <a [routerLink]="['/']" class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14">Forgot Password
-                ?</a>
+              <!-- <mat-checkbox color="primary">Recordar este dispositivo</mat-checkbox> -->
+              <a [routerLink]="['/']" class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14">¿Olvidaste tu contraseña?
+                </a>
             </div>
             <a [routerLink]="['/']" mat-flat-button color="primary" class="w-100">
-              Sign In
+              Iniciar sesión
             </a>
             <!-- input -->
           </form>
-          <span class="d-block f-w-500 text-center m-t-24">New to here?
-            <a [routerLink]="['/authentication/register']" class="text-decoration-none text-primary f-w-500 f-s-14">
-              Create an account</a> <a [routerLink]="['/dashboard']">Volver</a>
+          <span class="d-block f-w-500 text-center m-t-24">No tienes una cuenta? <a [routerLink]="['/authentication/register']"
+              class="text-decoration-none text-primary f-w-500 f-s-14">Crear una cuenta </a>    <br>
+             <a [routerLink]="['/dashboard']" class="text-decoration-none text-primary f-w-500 f-s-14"> Volver</a>
           </span>
         </mat-card-content>
       </mat-card>
-    </div> 
+    </div>
   </div>
 </div>

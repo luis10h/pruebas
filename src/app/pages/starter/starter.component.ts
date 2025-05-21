@@ -6,6 +6,7 @@ import { AppTotalFollowersComponent } from '../../components/total-followers/tot
 import { AppTotalIncomeComponent } from '../../components/total-income/total-income.component';
 import { AppPopularProductsComponent } from '../../components/popular-products/popular-products.component';
 import { AppEarningReportsComponent } from '../../components/earning-reports/earning-reports.component';
+import { AppTablesComponent } from '../ui-components/tables/tables.component';
 // import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.component';
 // import { AppSalesProfitComponent } from 'src/app/components/sales-profit/sales-profit.component';
 // import { AppTotalFollowersComponent } from 'src/app/components/total-followers/total-followers.component';
@@ -22,7 +23,8 @@ import { AppEarningReportsComponent } from '../../components/earning-reports/ear
     AppTotalFollowersComponent,
     AppTotalIncomeComponent,
     AppPopularProductsComponent,
-    AppEarningReportsComponent
+    AppEarningReportsComponent,
+    AppTablesComponent
   ],
   templateUrl: './starter.component.html',
   encapsulation: ViewEncapsulation.None,

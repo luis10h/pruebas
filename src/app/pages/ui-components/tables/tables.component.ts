@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 // import { MatTableDataSource } from '@angular/material/table';
 
 // table 1
-export interface productsData {
+export interface Taxistasdata {
   id: number;
   imagePath: string;
   uname: string;
@@ -21,36 +21,6 @@ export interface productsData {
   sexo: string | 'femenino' | 'masculino';
 }
 
-// const PRODUCT_DATA: productsData[] = [
-//   {
-//     id: 1,
-//     imagePath: 'assets/images/products/product-1.png',
-//     uname: 'iPhone 13 pro max-Pacific Blue-128GB storage',
-//     budget: 180,
-//     priority: 'confirmed',
-//   },
-//   {
-//     id: 2,
-//     imagePath: 'assets/images/products/product-2.png',
-//     uname: 'Apple MacBook Pro 13 inch-M1-8/256GB-space',
-//     budget: 90,
-//     priority: 'cancelled',
-//   },
-//   {
-//     id: 3,
-//     imagePath: 'assets/images/products/product-3.png',
-//     uname: 'PlayStation 5 DualSense Wireless Controller',
-//     budget: 120,
-//     priority: 'rejected',
-//   },
-//   {
-//     id: 4,
-//     imagePath: 'assets/images/products/product-4.png',
-//     uname: 'Amazon Basics Mesh, Mid-Back, Swivel Office',
-//     budget: 160,
-//     priority: 'confirmed',
-//   },
-// ];
 
 @Component({
   selector: 'app-tables',
@@ -72,7 +42,7 @@ export interface productsData {
 export class AppTablesComponent {
   // table 1
   displayedColumns1: string[] = ['assigned', 'name', 'priority', 'budget'];
-  dataSource1 = new MatTableDataSource([] as productsData[]);
+  dataSource1 = new MatTableDataSource([] as Taxistasdata[]);
   imagenesPorId: { [key: number]: number } = {};
   getEstado(element: any): string {
     if (element.pagado === 0 && element.total === 0) return 'no registran pagos';
@@ -88,8 +58,8 @@ export class AppTablesComponent {
   // private apiUrlPruebas = 'http://localhost/php/comisiones/tabla_comisiones.php';
   constructor(private http: HttpClient, private fb: FormBuilder) { }
   ngOnInit(): void {
-    this.http.get<productsData[]>(this.apiUrl).subscribe(data => {
-      this.dataSource1 = new MatTableDataSource<productsData>(data);
+    this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(data => {
+      this.dataSource1 = new MatTableDataSource<Taxistasdata>(data);
 
       // this.d = data;
 

@@ -18,6 +18,7 @@ import { TablaTaxistasComponent } from './tables/tabla-taxistas.component';
 import { TablaReservasComponent } from './tables/tabla-reservas.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 import { TablaAdministracionComponent } from './tables/tabla-administracion.component';
+import { MyProfileComponent } from './profile/my-profile.component';
 
 export const landingRoutes: Routes = [
   {
@@ -43,6 +44,10 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'estadisticas',
         component: EstadisticasComponent,
+      },
+      {
+        path: 'my-profile',
+        component: MyProfileComponent
       },
       {
         path: 'administracion',

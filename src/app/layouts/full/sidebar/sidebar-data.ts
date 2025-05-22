@@ -37,6 +37,7 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   }, 
+ 
   
   {
     displayName: 'Reportes de pagos',

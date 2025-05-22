@@ -16,11 +16,10 @@
             <mat-label>Buscar por cédula</mat-label>
             <input formControlName="cedula" matInput #pruebita type="number" placeholder="00000000" required />
             <mat-error>Este campo es requerido.</mat-error>
+        <button mat-icon-button matSuffix aria-label="Buscar" (click)="consultarPorCedula(pruebita.value)">
+          <mat-icon>search</mat-icon>
+        </button>
           </mat-form-field>
-          <button mat-icon-button color="primary" (click)="consultarPorCedula(pruebita.value)"
-            matTooltip="Consultar por cédula">
-            <mat-icon>search</mat-icon>
-          </button>
         </div>
       </form>
     </div>
@@ -58,6 +57,7 @@
           <mat-form-field appearance="outline" class="w-100" color="primary">
             <input formControlName="personas_referidas" #number_clientes matInput placeholder="4" type="number"
               [disabled]="!formActivo" />
+            <mat-error>Este campo es requerido.</mat-error>
           </mat-form-field>
         </div>
         <div class="col-lg-6">
@@ -95,7 +95,8 @@
       </div>
 
       <div class="m-t-12">
-        <button mat-flat-button color="primary" class="m-r-8">Guardar</button>
+        <button mat-flat-button color="primary" class="m-r-8" (click)="guardarComision()">Guardar</button>
+
         <button mat-stroked-button color="warn" [routerLink]="['/dashboard']">Cancelar</button>
       </div>
     </form>

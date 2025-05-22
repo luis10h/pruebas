@@ -44,6 +44,8 @@ export interface totalincomeChart {
     templateUrl: './total-income.component.html',
 })
 export class AppTotalIncomeComponent {
+    totalSalidas: number = 0;
+
     @ViewChild('chart') chart: ChartComponent = Object.create(null);
     public totalincomeChart!: Partial<totalincomeChart> | any;
 
@@ -65,7 +67,7 @@ export class AppTotalIncomeComponent {
                 {
                     name: "Total Income",
                     color: "#16cdc7",
-                    data: [25, 66, 20, 40, 12, 58, 20],
+                    data: [250, 660, 200, 400, 120, 580, 200],  
                 },
             ],
             stroke: {

@@ -1,54 +1,70 @@
-<mat-card>
-  <mat-card-header>
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <!-- <mat-card-header> -->
     <mat-card-title class="m-b-0">Tabla taxistas</mat-card-title>
-  </mat-card-header>
+    <!-- </mat-card-header> -->
 
-  <mat-card-content class="b-t-1">
+    <!-- <mat-card-content class="b-t-1"> -->
 
-    <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
-      <mat-label>Filtrar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Luis" #input>
-    </mat-form-field>
+    <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4 ">
 
-    <div class="mat-elevation-z8 table-responsive">
-      <table mat-table [dataSource]="dataSource" matSort class="table table-bordered">
+      <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
+        <mat-label>Filtrar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ej: Maia" #input>
+
+      </mat-form-field>
+    </div>
+    <div class="table-responsive">
+
+      <table mat-table [dataSource]="dataSource" matSort class="w-100">
 
         <!-- Nombre -->
         <ng-container matColumnDef="nombre">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap f-w-600 ">Nombre</th>
-          <td mat-cell *matCellDef="let row" class="text-nowrap">{{ row.nombre }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14">Nombre</th>
+          <td mat-cell *matCellDef="let row">{{ row.nombre }}</td>
         </ng-container>
 
         <!-- Cédula -->
         <ng-container matColumnDef="cedula">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap f-w-600 ">Cédula</th>
-          <td mat-cell *matCellDef="let row" class="text-nowrap">{{ row.cedula }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14">Cédula</th>
+          <td mat-cell *matCellDef="let row">{{ row.cedula }}</td>
         </ng-container>
 
         <!-- Teléfono -->
         <ng-container matColumnDef="telefono">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap f-w-600 ">Teléfono</th>
-          <td mat-cell *matCellDef="let row" class="text-nowrap">{{ row.telefono }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14">Teléfono</th>
+          <td mat-cell *matCellDef="let row">{{ row.telefono }}</td>
         </ng-container>
 
         <!-- Placa -->
         <ng-container matColumnDef="placa">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap f-w-600 ">Placa</th>
-          <td mat-cell *matCellDef="let row" class="text-nowrap">{{ row.placa }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14">Placa</th>
+          <td mat-cell *matCellDef="let row">{{ row.numero_placa }}</td>
         </ng-container>
 
         <!-- Sexo -->
         <ng-container matColumnDef="sexo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap f-w-600 ">Sexo</th>
-          <td mat-cell *matCellDef="let row" class="text-nowrap">{{ row.sexo }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14">Sexo</th>
+          <td mat-cell *matCellDef="let row">{{ row.sexo }}</td>
         </ng-container>
 
         <!-- Fecha de nacimiento cambio-->
         <ng-container matColumnDef="nacimiento">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap f-w-600 ">Fecha de Nacimiento</th>
-          <td mat-cell *matCellDef="let row" class="text-nowrap">{{ row.nacimiento }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14">Fecha de Nacimiento</th>
+          <td mat-cell *matCellDef="let row">{{ row.fecha_nacimiento }}</td>
         </ng-container>
-
+        <!-- Botón de editar -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef class="text-nowrap f-w-600 m-10 "> Acciones </th>
+          <td mat-cell *matCellDef="let row" class="text-nowrap " >
+            <button mat-icon-button color="primary" class="icon-clean-button" (click)="editarTaxista(row)">
+              <mat-icon class="editar">edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" class="icon-clean-button" (click)="eliminarTaxista(row)">
+              <mat-icon class="eliminar">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

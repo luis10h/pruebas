@@ -22,6 +22,7 @@ export const navItems: NavItem[] = [
     // route: 'https://materialm-angular-main.netlify.app/dashboards/dashboard1',
     route: '/dashboard/view/tables',
     chip: true,
+
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
@@ -36,6 +37,25 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   }, 
+  
+  {
+    displayName: 'Reportes de pagos',
+    iconName: 'solar:widget-line-duotone',
+    route: '/dashboard/view/reporte-comisiones',
+    chip: true,
+    external: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
+  },
+  // {
+  //   displayName: 'Ecommerce 2',
+  //   iconName: 'solar:shopping-cart-line-duotone',
+  //   route: '/dashboard/view/tables',
+  //   chip: true,
+  //   external: true,
+  //   chipClass: 'bg-secondary text-white',
+  //   // chipContent: 'PRO',
+  // },
 
 
   {
@@ -45,7 +65,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Agregar Taxistas',
     iconName: 'line-md:account-add',
-    route: '/dashboard/view/forms',
+    route: '/dashboard/view/form-taxista',
     // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',
@@ -62,13 +82,26 @@ export const navItems: NavItem[] = [
   },
     
   {
-    displayName: 'Comisiones',
+    displayName: 'Agregar comisiones',
     iconName: 'mdi:cash',
-    route: '/dashboard/view/formulario comisiones',
+    route: '/dashboard/view/form-comisiones',
     // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
+  },
+    {
+    displayName: 'Seleccionar taxistas',
+    iconName: 'solar:chat-round-line-line-duotone',
+    route: '/dashboard/view/listado-taxistas',
+    chip: true,
+    external: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
+  },
+  {
+    navCap: 'Listas',
+    divider: true,
   },
   {
     displayName: 'Lista de Taxistas',
@@ -78,7 +111,7 @@ export const navItems: NavItem[] = [
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
- },
+  },
   {
     displayName: 'Lista de Taxistas 2',
     iconName: 'mdi:format-list-bulleted',
@@ -88,6 +121,10 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   },
+  // {
+  //   navCap: 'Reportes',
+  //   divider: true,
+  // },
 
   
 
@@ -100,7 +137,7 @@ export const navItems: NavItem[] = [
       {
     displayName: 'Agregar Reserva',
     iconName: 'mdi:plus-circle',
-    route: '/dashboard/view/reserva',
+    route: '/dashboard/view/form-reserva',
     // chip: true,
     chipClass: 'bg-secondary text-white', 
     // chipContent: 'PRO',

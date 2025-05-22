@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { MaterialModule } from '../../material.module';
 import {
     ApexChart,
@@ -17,6 +17,7 @@ import {
 } from 'ng-apexcharts';
 import { MatButtonModule } from '@angular/material/button';
 import { TablerIconsModule } from 'angular-tabler-icons';
+import { HttpClient } from '@angular/common/http';
 
 export interface totalfollowersChart {
     series: ApexAxisChartSeries;
@@ -35,24 +36,22 @@ export interface totalfollowersChart {
 
 @Component({
     selector: 'app-total-followers',
+    standalone: true,
     imports: [MaterialModule, NgApexchartsModule, MatButtonModule, TablerIconsModule],
     templateUrl: './total-followers.component.html',
 })
-export class AppTotalFollowersComponent {
+export class AppTotalFollowersComponent implements OnInit {
+    totalFollowers: number = 0;
+
     @ViewChild('chart') chart: ChartComponent = Object.create(null);
     public totalfollowersChart!: Partial<totalfollowersChart> | any;
 
-    constructor() {
+    constructor(private http: HttpClient) {
         this.totalfollowersChart = {
-
             series: [
                 {
                     name: "Total",
-                    data: [29, 52, 38, 47, 56],
-                },
-                {
-                    name: "Followers",
-                    data: [71, 71, 71, 71, 71],
+                    data: [29, 52, 38, 47, 56, 67], // datos iniciales
                 },
             ],
             chart: {
@@ -124,5 +123,38 @@ export class AppTotalFollowersComponent {
                 show: false,
             },
         };
+    }
+
+    ngOnInit() {
+        this.loadReservasData();
+    }
+
+    loadReservasData() {
+        this.http.get<{ dia: string; total: number }[]>('http://localhost/reservas_por_dia.php')
+            .subscribe(data => {
+                const seriesData = data.map(item => item.total);
+                this.totalFollowers = seriesData.reduce((a, b) => a + b, 0);
+
+                // Actualizamos el chart con los datos recibidos
+                this.totalfollowersChart.series = [
+                    {
+                        name: 'Reservas',
+                        data: seriesData,
+                    }
+                ];
+
+                this.totalfollowersChart.xaxis = {
+                    categories: data.map(item => item.dia),
+                    labels: {
+                        show: false,
+                    },
+                    axisBorder: {
+                        show: false,
+                    },
+                    axisTicks: {
+                        show: false,
+                    },
+                };
+            });
     }
 }

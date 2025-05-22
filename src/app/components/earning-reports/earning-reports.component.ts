@@ -21,16 +21,16 @@ export class AppEarningReportsComponent {
         {
             id: 1,
             color: 'primary',
-            title: 'Bank Transfer',
-            subtitle: 'and +1 more',
+            title: 'Luis Garcia',
+            subtitle: 'pago comisiones',
             icon: 'solar:card-line-duotone',
-            badge: '16.3%',
+            badge: '200.000',
         },
         {
             id: 2,
             color: 'error',
-            title: 'Net Profit',
-            subtitle: 'and +4 more',
+            title: 'Jose Garcia',
+            subtitle: 'pago comisiones',
             icon: 'solar:wallet-2-line-duotone',
             badge: '12.55%',
         },
@@ -38,25 +38,10 @@ export class AppEarningReportsComponent {
             id: 3,
             color: 'secondary',
             title: 'Bank Transfer',
-            subtitle: 'and +4 more',
+            subtitle: 'pago comisiones',
             icon: 'solar:course-up-line-duotone',
             badge: '16.3%',
-        },
-        {
-            id: 4,
-            color: 'primary',
-            title: 'Total Expenses',
-            subtitle: 'and +2 more',
-            icon: 'solar:waterdrops-line-duotone',
-            badge: '8.28%',
-        },
-        {
-            id: 5,
-            color: 'warning',
-            title: 'Marketing',
-            subtitle: 'and +3 more',
-            icon: 'solar:waterdrops-line-duotone',
-            badge: '9.25%',
-        },
+        }
+
     ];
 }

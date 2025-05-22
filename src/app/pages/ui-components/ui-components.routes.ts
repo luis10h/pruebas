@@ -12,6 +12,8 @@ import { FormAddReservaComponent } from './forms/form-add-reserva.component';
 import { AppFormComisionesComponent } from './forms/form-comisiones.component';
 import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.component';
 import { LandingPageComponent } from '../landing-page/landing-page.component';
+import { AppTotalIncomeComponent } from 'src/app/components/total-income/total-income.component';
+import { AppEarningReportsComponent } from 'src/app/components/earning-reports/earning-reports.component';
 import { TablaTaxistasComponent } from './tables/tabla-taxistas.component';
 import { TablaReservasComponent } from './tables/tabla-reservas.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
@@ -71,15 +73,20 @@ export const UiComponentsRoutes: Routes = [
         component: AppTooltipsComponent,
       },
       {
-        path: 'forms',
+        path: 'form-taxista',
         component: AppFormsComponent,
       },
       {
-        path: 'reserva',
+        path: 'editar-taxista/:cedula',
+        component: AppFormsComponent
+      },
+
+      {
+        path: 'form-reserva',
         component: FormAddReservaComponent,
       },
       {
-        path: 'formulario comisiones',
+        path: 'form-comisiones',
         component: AppFormComisionesComponent,
       },
       {
@@ -90,6 +97,25 @@ export const UiComponentsRoutes: Routes = [
         path: 'listado-taxistas',
         component: AppBlogCardsComponent,
       },
+      {
+        path: 'registro-salidas',
+        component: AppTotalIncomeComponent,
+      },
+      {
+        path: 'reporte-comisiones',
+        component: AppEarningReportsComponent,
+      },
     ],
   },
 ];
+// export const landingRoutes: Routes = [
+//   {
+//     path: '',
+//     children: [
+//       {
+//         path: 'landing-page',
+//         component: AppBadgeComponent,
+//       },
+//     ],
+//   },
+// ];

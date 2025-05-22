@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatTimepickerModule} from '@angular/material/timepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { Router, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 
 interface lugares {
@@ -56,31 +57,42 @@ export class FormAddReservaComponent {
     {value: 'Dentro', viewValue: 'Dentro'},
     {value: 'Fuera', viewValue: 'Fuera'},
   ];
-  // public formBuscar!: FormGroup;
-  public formAgregar!: FormGroup;
-  public cedula: any;
-  public nombre!: any;  
-  public telefono!: any;
-  public fecha_reserva!: any;
-  public hora_reserva!: any;
-  public lugar_reserva!: any;
-  public observaciones!: any;
- constructor(private fb: FormBuilder) { }
+public formAgregar!: FormGroup;
+
+
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-    // this.formBuscar = this.crearFormularioSedes();
-    this.formAgregar = this.crearFormularioAgregar();
-  }
-
-    private crearFormularioAgregar(): FormGroup {
-    return this.fb.group({
-      nombre: ['', [Validators.required]],
-      lugar_reserva: ['', [Validators.required]],
-      cedula: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
-      fecha_reserva: ['', [Validators.required]],
-      hora_reserva: ['', [Validators.required]],
-      observaciones: ['', [Validators.required]],
+    this.formAgregar = this.fb.group({
+      nombre: ['', Validators.required],
+      lugar_reserva: ['', Validators.required],
+      cedula: ['', Validators.required],
+      telefono: ['', Validators.required],
+      fecha_reserva: ['', Validators.required],
+      hora_reserva: ['', Validators.required],
+      cantidad: ['', Validators.required],
+      observaciones: ['']
     });
+  }
+  private apiUrlAgregar = 'https://neocompanyapp.com/php/reservas/guardar_reservas.php';
+  // private apiUrlPruebas = 'http://localhost/php/reservas/guardar_reservas.php';  
+  onSubmit() {
+    if (this.formAgregar.valid) {
+      const formData = this.formAgregar.value;
+
+      this.http.post(this.apiUrlAgregar, formData).subscribe({
+        next: (response) => {
+          console.log('Reserva guardada:', response);
+          alert('Reserva registrada correctamente');
+          this.formAgregar.reset();
+        },
+        error: (error) => {
+          console.error('Error al guardar:', error);
+          alert('Error al registrar la reserva');
+        }
+      });
+    } else {
+      alert('Por favor completa todos los campos requeridos');
+    }
   }
 }

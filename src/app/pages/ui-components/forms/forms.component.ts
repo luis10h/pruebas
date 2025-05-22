@@ -101,18 +101,27 @@ export class AppFormsComponent implements OnInit {
     });
   }
 
-  verificarCedula() {
-    const cedula = this.formAgregar.get('cedula')?.value;
-    this.taxistaService.obtenerTaxistaPorCedula(cedula).subscribe((data) => {
-      if (data && data.taxista) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Cédula duplicada',
-          text: 'Ya existe un taxista registrado con esa cédula.',
-        });
+verificarCedula() {
+  const control = this.formAgregar.get('cedula');
+  const cedula = control?.value;
+
+  this.taxistaService.obtenerTaxistaPorCedula(cedula).subscribe((data) => {
+    if (data && data.taxista) {
+      control?.setErrors({ cedulaDuplicada: true }); // Marca error
+      Swal.fire({
+        icon: 'error',
+        title: 'Cédula duplicada',
+        text: 'Ya existe un taxista registrado con esa cédula.',
+      });
+    } else {
+      // Borra errores si está bien
+      if (control?.hasError('cedulaDuplicada')) {
+        control.setErrors(null);
       }
-    });
-  }
+    }
+  });
+}
+
 
   cargarDatosTaxista(cedula: string) {
     this.taxistaService.obtenerTaxistaPorCedula(cedula).subscribe((data) => {

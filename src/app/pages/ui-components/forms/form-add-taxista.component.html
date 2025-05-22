@@ -20,9 +20,13 @@
           <!-- input -->
           <mat-label class="f-w-600 m-b-8 d-block">Cédula</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input formControlName="cedula" matInput type="number" placeholder="00000000"  />
-            <mat-error>Este campo es requerido.</mat-error>
+            <!-- <mat-label>Cédula</mat-label> -->
+            <input matInput type="number" formControlName="cedula" placeholder="00000000" />
+            <mat-error *ngIf="formAgregar.get('cedula')?.hasError('cedulaDuplicada')">
+              Ya existe un taxista registrado con esa cédula.
+            </mat-error>
           </mat-form-field>
+
         </div>
         <div class="col-lg-6">
           <!-- input -->

@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 // import Swal from 'sweetalert2/dist/sweetalert2.esm.js';
 import Swal from 'sweetalert2';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 
 interface pago {
@@ -112,6 +113,14 @@ export class AppFormComisionesComponent implements OnInit {
   ngOnInit(): void {
     this.formBuscar = this.crearFormularioConsultar();
     this.formAgregar = this.crearFormularioAgregar();
+     this.formBuscar.get('cedula')?.valueChanges
+          .pipe(
+            debounceTime(1500), // espera 500ms sin escribir
+            distinctUntilChanged()
+          )
+          .subscribe(value => {
+            this.consultarPorCedula(value);
+          });
   }
 
   private crearFormularioConsultar(): FormGroup {

@@ -14,7 +14,7 @@
         <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4 ">
           <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
             <mat-label>Buscar por cédula</mat-label>
-            <input formControlName="cedula" matInput #pruebita type="number" placeholder="00000000" required ((keypress))="consultarPorCedula(pruebita.value)"/>
+            <input formControlName="cedula" matInput #pruebita type="number" placeholder="00000000" required />
             <mat-error>Este campo es requerido.</mat-error>
         <button mat-icon-button matSuffix aria-label="Buscar" (click)="consultarPorCedula(pruebita.value)">
           <mat-icon>search</mat-icon>

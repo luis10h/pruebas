@@ -1,0 +1,38 @@
+<mat-card class="cardWithShadow theme-card perfil-card">
+  <mat-card-header class="d-flex flex-column align-items-center text-center">
+    <img mat-card-avatar src="https://i.pravatar.cc/150?img=12" alt="Foto admin" class="avatar">
+    <mat-card-title class="nombre-admin">Luis Hernández</mat-card-title>
+    <mat-card-subtitle class="rol-admin">Administrador</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="bloque">
+      <h4 class="bloque-titulo">Estadísticas</h4>
+      <div class="d-flex justify-content-between text-center stats">
+        <div>
+          <h4 class="valor">120</h4>
+          <small>Usuarios</small>
+        </div>
+        <div>
+          <h4 class="valor">45</h4>
+          <small>Taxistas</small>
+        </div>
+        <div>
+          <h4 class="valor">8</h4>
+          <small>Comisiones</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloque">
+      <h4 class="bloque-titulo">Contacto</h4>
+      <p><strong>Email:</strong> adminmiapp.com</p>
+      <p><strong>Teléfono:</strong> +57 300 987 6543</p>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="acciones">
+    <button mat-stroked-button color="primary" (click)="editarPerfil()">Editar perfil</button>
+    <button mat-flat-button color="warn" (click)="abrirConfiguracion()">Configuración</button>
+  </mat-card-actions>
+</mat-card>

@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface UserData {
   nombre: string;
@@ -27,20 +29,32 @@ const LUGARES: string[] = ['Sala ', 'Terraza'];
   selector: 'app-tabla-reservas',
   standalone: true,
   imports: [
+    CommonModule,
     MatFormFieldModule,
     MatCardModule,
     MatInputModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule
   ],
   templateUrl: './tabla-reservas.component.html',
-  styleUrl: './tabla-reservas.component.scss'
+  styleUrls: ['./tabla-reservas.component.scss']
 })
 export class TablaReservasComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['nombre', 'cedula', 'telefono', 'cantidadpersonas', 'lugar', 'fecha', 'hora'];
+  displayedColumns: string[] = [
+    'nombre',
+    'cedula',
+    'telefono',
+    'cantidadpersonas',
+    'lugar',
+    'fecha',
+    'hora',
+    'acciones'
+  ];
+
   dataSource: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -62,6 +76,14 @@ export class TablaReservasComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  editarReserva(reserva: UserData) {
+    console.log('Editar reserva:', reserva);
+  }
+
+  eliminarReserva(reserva: UserData) {
+    console.log('Eliminar reserva:', reserva);
   }
 }
 

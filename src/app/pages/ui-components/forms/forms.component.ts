@@ -74,7 +74,8 @@ export class AppFormsComponent implements OnInit {
       }
     });
 
-    this.formAgregar.get('cedula')?.valueChanges
+   if (this.modoFormulario === 'agregar') {
+       this.formAgregar.get('cedula')?.valueChanges
       .pipe(
         debounceTime(1500), // espera 500ms sin escribir
         distinctUntilChanged()
@@ -82,6 +83,7 @@ export class AppFormsComponent implements OnInit {
       .subscribe(value => {
         this.verificarCedula();
       });
+    }
   }
 
   private crearFormularioAgregar(): FormGroup {

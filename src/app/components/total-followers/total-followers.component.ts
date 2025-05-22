@@ -130,7 +130,7 @@ export class AppTotalFollowersComponent implements OnInit {
     }
 
     loadReservasData() {
-        this.http.get<{ dia: string; total: number }[]>('http://localhost/reservas_por_dia.php')
+        this.http.get<{ dia: string; total: number }[]>('https://neocompanyapp.com/php/reservas/reservas_por_dia.php')
             .subscribe(data => {
                 const seriesData = data.map(item => item.total);
                 this.totalFollowers = seriesData.reduce((a, b) => a + b, 0);

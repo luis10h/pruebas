@@ -4,40 +4,29 @@ export const navItems: NavItem[] = [
   {
     navCap: 'Home',
   },
-  {
-    displayName: 'Administracion',
-    iconName: 'mdi:briefcase',
-    route: '/dashboard/view/administracion',
-    external: true,
-  },
+  // {
+  //   displayName: 'Administracion',
+  //   iconName: 'mdi:briefcase',
+  //   route: '/dashboard/view/administracion',
+  //   external: true,
+  // },
   {
     displayName: 'Dashboard',
     iconName: 'fa:dashboard',
     route: '/dashboard',
     external: true,
   },
-  {
-    displayName: 'Analytics',
-    iconName: 'mdi:chart-areaspline',
-    // route: 'https://materialm-angular-main.netlify.app/dashboards/dashboard1',
-    route: '/dashboard/view/tables',
-    chip: true,
 
-    external: true,
-    chipClass: 'bg-secondary text-white',
-    // chipContent: 'PRO',
-    // showView: 'analytics',
-  },
-  {
-    displayName: 'Estadisticas',
-    iconName: 'mdi:chart-areaspline',
-    route: '/dashboard/view/estadisticas',
-    // chip: true,
-    external: true,
-    chipClass: 'bg-secondary text-white',
-    // chipContent: 'PRO',
-  }, 
-  
+  // {
+  //   displayName: 'Estadisticas',
+  //   iconName: 'mdi:chart-areaspline',
+  //   route: '/dashboard/view/estadisticas',
+  //   // chip: true,
+  //   external: true,
+  //   chipClass: 'bg-secondary text-white',
+  //   // chipContent: 'PRO',
+  // },
+
   {
     displayName: 'Reportes de pagos',
     iconName: 'solar:widget-line-duotone',
@@ -59,7 +48,7 @@ export const navItems: NavItem[] = [
 
 
   {
-    divider: true,
+    // divider: true,
     navCap: 'Taxistas',
   },
   {
@@ -70,7 +59,7 @@ export const navItems: NavItem[] = [
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
-  }, 
+  },
   {
     displayName: 'Tabla de Taxistas',
     iconName: 'mdi:taxi',
@@ -80,7 +69,19 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   },
-    
+  {
+    displayName: 'Seleccionar taxistas',
+    iconName: 'solar:chat-round-line-line-duotone',
+    route: '/dashboard/view/listado-taxistas',
+    // chip: true,
+    external: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
+  },
+  {
+    navCap: 'Comisiones',
+
+  },
   {
     displayName: 'Agregar comisiones',
     iconName: 'mdi:cash',
@@ -90,15 +91,44 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
   },
-    {
-    displayName: 'Seleccionar taxistas',
-    iconName: 'solar:chat-round-line-line-duotone',
-    route: '/dashboard/view/listado-taxistas',
-    chip: true,
+  {
+    displayName: 'Tabla de comisiones',
+    iconName: 'mdi:chart-areaspline',
+    // route: 'https://materialm-angular-main.netlify.app/dashboards/dashboard1',
+    route: '/dashboard/view/tables',
+    // chip: true,
+
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
+    // showView: 'analytics',
   },
+  {
+    navCap: 'Reservas',
+    divider: true,
+  },
+  {
+    displayName: 'Agregar Reserva',
+    iconName: 'mdi:plus-circle',
+    route: '/dashboard/view/form-reserva',
+    // chip: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
+    external: true,
+  },
+  {
+    displayName: 'Tabla de Reservas',
+    iconName: 'mdi:table',
+    route: '/dashboard/view/tabla-reservas',
+    // chip: true,
+    chipClass: 'bg-secondary text-white',
+    // chipContent: 'PRO',
+    external: true,
+  },
+
+
+
+
   {
     navCap: 'Listas',
     divider: true,
@@ -126,45 +156,28 @@ export const navItems: NavItem[] = [
   //   divider: true,
   // },
 
-  
 
-  {
-    divider: true,
-    displayName: 'Reservas',
-    // navCap: 'Reservas',
-    // route: '/dashboard/view/reserva',
-    children: [
-      {
-    displayName: 'Agregar Reserva',
-    iconName: 'mdi:plus-circle',
-    route: '/dashboard/view/form-reserva',
-    // chip: true,
-    chipClass: 'bg-secondary text-white', 
-    // chipContent: 'PRO',
-    external: true,
-  },
-  {
-    displayName: 'Tabla de Reservas',
-    iconName: 'mdi:table',
-    route: '/dashboard/view/tabla-reservas',
-    // chip: true,
-    chipClass: 'bg-secondary text-white', 
-    // chipContent: 'PRO',
-    external: true,
-  }
 
-    ]
-  },
+  // {
+  //   divider: true,
+  //   displayName: 'Reservas',
+  //   // navCap: 'Reservas',
+  //   // route: '/dashboard/view/reserva',
+  //   children: [
 
-  
+
+  // ]
+  // },
+
+
 
   // {
   //   displayName: 'Blog',
   //   iconName: 'solar:widget-4-line-duotone',
   //   route: 'apps/blog',
-    
+
   //   chipClass: 'bg-secondary text-white',
-    
+
   //   children: [
   //     {
   //       displayName: 'Post',
@@ -197,18 +210,18 @@ export const navItems: NavItem[] = [
   //   displayName: 'Badge',
   //   iconName: 'solar:archive-minimalistic-line-duotone',
   //   route: '/view/badge', 
-    
+
   //   chipClass: 'bg-secondary text-white',
-    
+
   //   external: true,
   // },
   // {
   //   displayName: 'Formulario',
   //   iconName: 'solar:archive-minimalistic-line-duotone',
   //   route: '/view/forms',
-   
+
   //   chipClass: 'bg-secondary text-white',
-    
+
   //   external: true,
   // },
 
@@ -227,8 +240,8 @@ export const navItems: NavItem[] = [
   //   external: true,
   //   chip: true,
   //   chipClass: 'bg-secondary text-white',
-    // chipContent: 'PRO',
-  
+  // chipContent: 'PRO',
+
   // {
   //   displayName: 'Login',
   //   iconName: 'solar:lock-keyhole-minimalistic-line-duotone',
@@ -271,7 +284,7 @@ export const navItems: NavItem[] = [
   // },
   // ],
   // },
-  
+
   // {
   //   displayName: 'Boxed Forgot Pwd',
   //    subItemIcon: true,

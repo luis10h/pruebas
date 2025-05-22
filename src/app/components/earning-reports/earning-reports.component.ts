@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { MaterialModule } from '../../material.module';
 import { TablerIconsModule } from 'angular-tabler-icons';
+import { HttpClient } from '@angular/common/http';
 
 interface stats {
     id: number;
     color: string;
     title: string;
-    subtitle: string;
+    estado: string;
     icon: string;
-    badge: string;
+    pagado: string;
 }
 
 @Component({
@@ -17,31 +18,18 @@ interface stats {
     templateUrl: './earning-reports.component.html',
 })
 export class AppEarningReportsComponent {
-    stats: stats[] = [
-        {
-            id: 1,
-            color: 'primary',
-            title: 'Luis Garcia',
-            subtitle: 'pago comisiones',
-            icon: 'solar:card-line-duotone',
-            badge: '200.000',
-        },
-        {
-            id: 2,
-            color: 'error',
-            title: 'Jose Garcia',
-            subtitle: 'pago comisiones',
-            icon: 'solar:wallet-2-line-duotone',
-            badge: '12.55%',
-        },
-        {
-            id: 3,
-            color: 'secondary',
-            title: 'Bank Transfer',
-            subtitle: 'pago comisiones',
-            icon: 'solar:course-up-line-duotone',
-            badge: '16.3%',
-        }
+    stats: stats[] = [];
+    private apiUrl = 'https://neocompanyapp.com/php/comisiones/tabla_comisiones.php';
+    constructor(private http: HttpClient) {
+        this.cargarReportes();
 
-    ];
+    }
+    cargarReportes() {
+        this.http.get<stats[]>(this.apiUrl).subscribe((data) => {
+            this.stats = data.map((item) => ({
+                ...item,
+                // icon: this.getIcon(item.icon),
+            }));
+        });
+    }
 }

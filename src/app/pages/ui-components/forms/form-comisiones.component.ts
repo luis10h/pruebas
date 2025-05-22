@@ -115,7 +115,7 @@ export class AppFormComisionesComponent implements OnInit {
     this.formAgregar = this.crearFormularioAgregar();
      this.formBuscar.get('cedula')?.valueChanges
           .pipe(
-            debounceTime(1500), // espera 500ms sin escribir
+            debounceTime(2000), // espera 500ms sin escribir
             distinctUntilChanged()
           )
           .subscribe(value => {

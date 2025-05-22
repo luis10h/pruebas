@@ -130,10 +130,11 @@ export const navItems: NavItem[] = [
 
   {
     divider: true,
-    navCap: 'Reservas',
-  },
-
-  {
+    displayName: 'Reservas',
+    // navCap: 'Reservas',
+    // route: '/dashboard/view/reserva',
+    children: [
+      {
     displayName: 'Agregar Reserva',
     iconName: 'mdi:plus-circle',
     route: '/dashboard/view/form-reserva',
@@ -150,109 +151,114 @@ export const navItems: NavItem[] = [
     chipClass: 'bg-secondary text-white', 
     // chipContent: 'PRO',
     external: true,
+  }
+
+    ]
   },
 
-  {
-    displayName: 'Blog',
-    iconName: 'solar:widget-4-line-duotone',
-    route: 'apps/blog',
-    // chip: true,
-    chipClass: 'bg-secondary text-white',
+  
+
+  // {
+  //   displayName: 'Blog',
+  //   iconName: 'solar:widget-4-line-duotone',
+  //   route: 'apps/blog',
+    
+  //   chipClass: 'bg-secondary text-white',
+    
+  //   children: [
+  //     {
+  //       displayName: 'Post',
+  //       subItemIcon: true,
+  //       iconName: 'solar:round-alt-arrow-right-line-duotone',
+  //       route: 'https://materialm-angular-main.netlify.app/apps/blog/post',
+  //       chip: true,
+  //       external: true,
+  //       chipClass: 'bg-secondary text-white',
+  //       chipContent: 'PRO',
+  //     },
+  //     {
+  //       displayName: 'Detail',
+  //       subItemIcon: true,
+  //       iconName: 'solar:round-alt-arrow-right-line-duotone',
+  //       route: 'https://materialm-angular-main.netlify.app/apps/blog/detail/Early Black Friday Amazon deals: cheap TVs, headphones, laptops',
+  //       chip: true,
+  //       external: true,
+  //       chipClass: 'bg-secondary text-white',
+  //       chipContent: 'PRO',
+  //     },
+  //   ],
+  // },
+
+  // {
+  //   navCap: 'Ui Components',
+  //   divider: true
+  // },
+  // {
+  //   displayName: 'Badge',
+  //   iconName: 'solar:archive-minimalistic-line-duotone',
+  //   route: '/view/badge', 
+    
+  //   chipClass: 'bg-secondary text-white',
+    
+  //   external: true,
+  // },
+  // {
+  //   displayName: 'Formulario',
+  //   iconName: 'solar:archive-minimalistic-line-duotone',
+  //   route: '/view/forms',
+   
+  //   chipClass: 'bg-secondary text-white',
+    
+  //   external: true,
+  // },
+
+
+
+
+  // {
+  //   divider: true,
+  //   navCap: 'Auth',
+  // },
+  // {
+  //   displayName: 'Side Login',
+  //   subItemIcon: true,
+  //   iconName: 'solar:round-alt-arrow-right-line-duotone',
+  //   route: '/authentication/login',
+  //   external: true,
+  //   chip: true,
+  //   chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
-    children: [
-      {
-        displayName: 'Post',
-        subItemIcon: true,
-        iconName: 'solar:round-alt-arrow-right-line-duotone',
-        route: 'https://materialm-angular-main.netlify.app/apps/blog/post',
-        chip: true,
-        external: true,
-        chipClass: 'bg-secondary text-white',
-        chipContent: 'PRO',
-      },
-      {
-        displayName: 'Detail',
-        subItemIcon: true,
-        iconName: 'solar:round-alt-arrow-right-line-duotone',
-        route: 'https://materialm-angular-main.netlify.app/apps/blog/detail/Early Black Friday Amazon deals: cheap TVs, headphones, laptops',
-        chip: true,
-        external: true,
-        chipClass: 'bg-secondary text-white',
-        chipContent: 'PRO',
-      },
-    ],
-  },
+  
+  // {
+  //   displayName: 'Login',
+  //   iconName: 'solar:lock-keyhole-minimalistic-line-duotone',
+  //   route: '/authentication',
+  //   chip: true,
+  //   chipClass: 'bg-secondary text-white',
+  //   external: true,
+  //   children: [
+  //     {
+  //       displayName: 'Login',
+  //       subItemIcon: true,
+  //       iconName: 'solar:round-alt-arrow-right-line-duotone',
+  //       route: '/authentication/login',
+  //       external: true,
+  //     },
 
-  {
-    navCap: 'Ui Components',
-    divider: true
-  },
-  {
-    displayName: 'Badge',
-    iconName: 'solar:archive-minimalistic-line-duotone',
-    route: '/view/badge', // modificar
-    // chip: true,
-    chipClass: 'bg-secondary text-white',
-    // chipContent: 'PRO',
-    external: true,
-  },
-  {
-    displayName: 'Formulario',
-    iconName: 'solar:archive-minimalistic-line-duotone',
-    route: '/view/forms',
-    // chip: true,
-    chipClass: 'bg-secondary text-white',
-    // chipContent: 'PRO',
-    external: true,
-  },
-
-
-
-
-  {
-    divider: true,
-    navCap: 'Auth',
-  },
-  {
-    displayName: 'Side Login',
-    subItemIcon: true,
-    iconName: 'solar:round-alt-arrow-right-line-duotone',
-    route: '/authentication/login',
-    external: true,
-    chip: true,
-    chipClass: 'bg-secondary text-white',
-    // chipContent: 'PRO',
-  },
-  {
-    displayName: 'Login',
-    iconName: 'solar:lock-keyhole-minimalistic-line-duotone',
-    route: '/authentication',
-    chip: true,
-    chipClass: 'bg-secondary text-white',
-    external: true,
-    children: [
-      {
-        displayName: 'Login',
-        subItemIcon: true,
-        iconName: 'solar:round-alt-arrow-right-line-duotone',
-        route: '/authentication/login',
-        external: true,
-      },
-
-    ],
-  },
+  //   ],
+  // },
   // {
   //   displayName: 'Register',
   //   iconName: 'solar:user-plus-rounded-line-duotone',
   //   route: '/authentication',
   //   children: [
-  {
-    displayName: 'Register',
-    subItemIcon: true,
-    iconName: 'solar:round-alt-arrow-right-line-duotone',
-    route: '/authentication/register',
-    external: true,
-  },
+  // {
+  //   displayName: 'Register',
+  //   subItemIcon: true,
+  //   iconName: 'solar:round-alt-arrow-right-line-duotone',
+  //   route: '/authentication/register',
+  //   external: true,
+  // },
   // {
   //   displayName: 'Side Register',
   //    subItemIcon: true,
@@ -265,26 +271,7 @@ export const navItems: NavItem[] = [
   // },
   // ],
   // },
-  {
-    displayName: 'Forgot Pwd',
-    iconName: 'solar:password-outline',
-    route: '/authentication',
-    chip: true,
-    external: true,
-    // children: [
-    chipClass: 'bg-secondary text-white',
-    // chipContent: 'PRO',
-    // children: [
-    //   {
-    //     displayName: 'Side Forgot Pwd',
-    //      subItemIcon: true,
-    //     iconName: 'solar:round-alt-arrow-right-line-duotone',
-    //     route: 'https://materialm-angular-main.netlify.app/authentication/side-forgot-pwd',
-    //     external: true,
-    //     chip: true,
-    //     chipClass: 'bg-secondary text-white',
-    //     chipContent: 'PRO',
-  },
+  
   // {
   //   displayName: 'Boxed Forgot Pwd',
   //    subItemIcon: true,

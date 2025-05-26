@@ -27,6 +27,7 @@
     "angular-tabler-icons": "^2.7.0",
     "apexcharts": "^3.40.0",
     "bootstrap": "^5.3.6",
+    "file-saver": "^2.0.5",
     "iconify": "^1.4.0",
     "jquery": "^3.7.1",
     "ng-apexcharts": "^1.7.6",
@@ -35,6 +36,7 @@
     "sass": "^1.57.1",
     "sweetalert2": "^11.21.2",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
@@ -43,6 +45,7 @@
     "@angular/compiler-cli": "^19.0.5",
     "@types/chance": "^1.1.6",
     "@types/date-fns": "^2.6.0",
+    "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",

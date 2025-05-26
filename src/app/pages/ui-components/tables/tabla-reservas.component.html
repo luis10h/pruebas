@@ -3,10 +3,22 @@
     <mat-card-title class="m-b-0">Tabla de Reservas</mat-card-title>
 
     <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4">
+
+
+
+      
       <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
         <mat-label>Filtrar</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ej: Maia">
       </mat-form-field>
+
+      <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4" style="width: 200px; margin: 0;">
+        <button mat-raised-button color="accent" (click)="exportarExcel()">
+        <mat-icon>file_download</mat-icon>
+        Exportar Excel
+      </button>
+      </div>
+
     </div>
 
     <div class="table-responsive mt-3">

@@ -8,6 +8,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 export interface UserData {
   nombre: string;
@@ -23,7 +25,7 @@ const NOMBRES: string[] = [
   'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
   'Charlotte', 'Theodore', 'Isla', 'Oliver'
 ];
-const LUGARES: string[] = ['Sala ', 'Terraza'];
+const LUGARES: string[] = ['Sala', 'Terraza'];
 
 @Component({
   selector: 'app-tabla-reservas',
@@ -84,6 +86,26 @@ export class TablaReservasComponent implements AfterViewInit {
 
   eliminarReserva(reserva: UserData) {
     console.log('Eliminar reserva:', reserva);
+  }
+
+  exportarExcel() {
+    const data = this.dataSource.filteredData.map(row => ({
+      Nombre: row.nombre,
+      Cédula: row.cedula,
+      Teléfono: row.telefono,
+      Personas: row.cantidadpersonas,
+      Lugar: row.lugar,
+      Fecha: row.fecha,
+      Hora: row.hora
+    }));
+
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Reservas');
+
+    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'Reservas.xlsx');
   }
 }
 

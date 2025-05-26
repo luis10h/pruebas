@@ -2,11 +2,16 @@
   <mat-card-content>
     <mat-card-title class="m-b-0">Tabla taxistas</mat-card-title>
 
-    <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4 ">
+    <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4">
       <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
         <mat-label>Filtrar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ej: Maia" #input>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ej: Maia" #input />
       </mat-form-field>
+
+      <button mat-raised-button color="accent" (click)="exportarExcel()">
+        <mat-icon>file_download</mat-icon>
+        Exportar Excel
+      </button>
     </div>
 
     <div class="table-responsive">
@@ -74,7 +79,7 @@
 
         <!-- Sin datos -->
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell text-center" colspan="6">No hay coincidencias para "{{ input.value }}"</td>
+          <td class="mat-cell text-center" colspan="7">No hay coincidencias para "{{ input.value }}"</td>
         </tr>
       </table>
 

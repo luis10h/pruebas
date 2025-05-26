@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, Inject } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,6 +16,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import Swal from 'sweetalert2';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ProfileTaxistasComponent } from '../profile/profile-taxistas.component';
+
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface UserData {
   nombre: string;
@@ -40,13 +44,14 @@ export interface UserData {
     MatIconModule,
     MatMenuModule,
     MatDialogModule,
+    MatButtonModule, // Asegura estilos del botón
   ],
   templateUrl: './tabla-taxistas.component.html',
   styleUrls: ['./tabla-taxistas.component.scss'],
 })
 export class TablaTaxistasComponent implements AfterViewInit {
   displayedColumns: string[] = ['nombre', 'cedula', 'telefono', 'placa', 'sexo', 'nacimiento', 'acciones'];
-  dataSource: MatTableDataSource<UserData>;
+  dataSource!: MatTableDataSource<UserData>;
 
   private api = 'http://localhost/php/taxistas/guardar_taxistas.php';
   private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
@@ -63,14 +68,17 @@ export class TablaTaxistasComponent implements AfterViewInit {
   ngOnInit(): void {
     this.http.get<UserData[]>(this.apiUrlBuscar).subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+
+      // Asegura que paginator y sort se asignen después del render
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
     });
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // Ya no es necesario usar aquí los paginator/sort
   }
 
   applyFilter(event: Event) {
@@ -114,8 +122,18 @@ export class TablaTaxistasComponent implements AfterViewInit {
       width: '400px',
       height: '550px',
       position: {
-        top: '100px' },
+        top: '100px'
+      },
     });
+  }
+
+  exportarExcel() {
+    const worksheet = XLSX.utils.json_to_sheet(this.dataSource.filteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Taxistas');
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'taxistas.xlsx');
   }
 }
 

@@ -15,6 +15,10 @@ export const AuthenticationRoutes: Routes = [
         path: 'register',
         component: AppSideRegisterComponent,
       },
+      {
+        path: 'logout',
+       component: AppSideLoginComponent,
+      },
     ],
   },
 ];

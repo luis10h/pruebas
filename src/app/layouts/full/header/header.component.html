@@ -30,10 +30,12 @@
     <img src="/assets/images/profile/user-1.jpg" class="rounded-circle object-cover icon-35 profile-dd" width="35" />
   </button>
   <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
+   <a [routerLink]="['/dashboard/view/my-profile']" class="text-decoration-none" routerLinkActive="router-link-active" >
     <button mat-menu-item>
       <mat-icon class="d-flex align-items-center"><i data-icon="solar:shield-user-line-duotone"
           class="iconify icon-22"></i></mat-icon><a [routerLink]="['/dashboard/view/my-profile']" class="text-decoration-none" >Mi Perfil</a>
     </button>
+    </a>
     <button mat-menu-item>
       <mat-icon class="d-flex align-items-center"><i data-icon="solar:settings-line-duotone"
           class="iconify icon-22"></i></mat-icon>Configuración
@@ -48,7 +50,7 @@
     </button> -->
 
     <div class="p-x-12 m-t-12">
-      <a [routerLink]="['/authentication/login']" mat-stroked-button class="w-100">Logout</a>
+      <button (click)="logout()" mat-stroked-button class="w-100">Logout</button>
     </div>
   </mat-menu>
 </mat-toolbar>

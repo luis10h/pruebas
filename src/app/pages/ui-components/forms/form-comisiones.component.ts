@@ -55,6 +55,8 @@ export class AppFormComisionesComponent implements OnInit {
   ];
   constructor(private fb: FormBuilder, private http: HttpClient) { }
   private apiUrlBuscar = 'https://neocompanyapp.com/php/comisiones/buscar_taxistas.php';
+  // private apiUrlBuscar = 'http://localhost/php/comisiones/buscar_taxistas.php';
+  // private apiUrlAgregar = 'http://localhost/php/comisiones/guardar_comisiones.php';
   private apiUrlAgregar = 'https://neocompanyapp.com/php/comisiones/guardar_comisiones.php';
   // private apiUrlBuscar = 'http://localhost/php/comisiones/buscar_taxistas.php';
 

@@ -1,7 +1,7 @@
 <mat-card class="cardWithShadow theme-card perfil-card">
   <mat-card-header class="d-flex flex-column align-items-center text-center">
     <img mat-card-avatar src="https://i.pravatar.cc/150?img=12" alt="Foto admin" class="avatar">
-    <mat-card-title class="nombre-admin">Luis Hernández</mat-card-title>
+    <mat-card-title class="nombre-admin">{{ user?.username || 'Usuario Anónimo' }}</mat-card-title>
     <mat-card-subtitle class="rol-admin">Administrador</mat-card-subtitle>
   </mat-card-header>
 
@@ -10,15 +10,15 @@
       <h4 class="bloque-titulo">Estadísticas</h4>
       <div class="d-flex justify-content-between text-center stats">
         <div>
-          <h4 class="valor">120</h4>
+          <!-- <h4 class="valor">{{ user.stats.usuarios }}</h4> -->
           <small>Usuarios</small>
         </div>
         <div>
-          <h4 class="valor">45</h4>
+          <!-- <h4 class="valor">{{ user.stats.taxistas }}</h4> -->
           <small>Taxistas</small>
         </div>
         <div>
-          <h4 class="valor">8</h4>
+          <!-- <h4 class="valor">{{ user.stats.comisiones }}</h4> -->
           <small>Comisiones</small>
         </div>
       </div>
@@ -26,8 +26,8 @@
 
     <div class="bloque">
       <h4 class="bloque-titulo">Contacto</h4>
-      <p><strong>Email:</strong> adminmiapp.com</p>
-      <p><strong>Teléfono:</strong> +57 300 987 6543</p>
+      <p><strong>Email:</strong> {{ user?.email || 'No disponible' }}</p>
+      <p><strong>Teléfono:</strong> {{ user?.telefono || 'No disponible' }}</p>
     </div>
   </mat-card-content>
 

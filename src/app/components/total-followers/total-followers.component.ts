@@ -129,32 +129,30 @@ export class AppTotalFollowersComponent implements OnInit {
         this.loadReservasData();
     }
 
-    loadReservasData() {
-        this.http.get<{ dia: string; total: number }[]>('https://neocompanyapp.com/php/reservas/reservas_por_dia.php')
-            .subscribe(data => {
-                const seriesData = data.map(item => item.total);
-                this.totalFollowers = seriesData.reduce((a, b) => a + b, 0);
+   loadReservasData() {
+  this.http.get<any>('https://neocompanyapp.com/php/reservas/reservas_por_dia.php')
+    .subscribe(data => {
+      if (Array.isArray(data)) {
+        const seriesData = data.map(item => item.total);
+        this.totalFollowers = seriesData.reduce((a, b) => a + b, 0);
 
-                // Actualizamos el chart con los datos recibidos
-                this.totalfollowersChart.series = [
-                    {
-                        name: 'Reservas',
-                        data: seriesData,
-                    }
-                ];
+        this.totalfollowersChart.series = [
+          { name: 'Reservas', data: seriesData }
+        ];
 
-                this.totalfollowersChart.xaxis = {
-                    categories: data.map(item => item.dia),
-                    labels: {
-                        show: false,
-                    },
-                    axisBorder: {
-                        show: false,
-                    },
-                    axisTicks: {
-                        show: false,
-                    },
-                };
-            });
-    }
+        this.totalfollowersChart.xaxis = {
+          categories: data.map(item => item.dia),
+          labels: { show: false },
+          axisBorder: { show: false },
+          axisTicks: { show: false },
+        };
+      } else {
+        // Si no es array, poner valores por defecto para que la gráfica no falle
+        this.totalFollowers = 0;
+        this.totalfollowersChart.series = [{ name: 'Reservas', data: [] }];
+        this.totalfollowersChart.xaxis = { categories: [], labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } };
+      }
+    });
+}
+
 }

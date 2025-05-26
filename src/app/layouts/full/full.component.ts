@@ -17,6 +17,7 @@ import { AppNavItemComponent } from './sidebar/nav-item/nav-item.component';
 import { navItems } from './sidebar/sidebar-data';
 import { AppTopstripComponent } from './top-strip/topstrip.component';
 // import { AppTablesComponent } from 'src/app/pages/ui-components/tables/tables.component';
+import { SessionService } from '../../services/session.service';
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -64,6 +65,7 @@ export class FullComponent implements OnInit {
     private settings: CoreService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
+    private sessionService: SessionService,
   ) {
     this.htmlElement = document.querySelector('html')!;
     this.layoutChangesSubscription = this.breakpointObserver
@@ -88,8 +90,8 @@ export class FullComponent implements OnInit {
       });
   }
 
-// funcion para las vistas de la aplicacion
-currentView: string = '';
+  // funcion para las vistas de la aplicacion
+  currentView: string = '';
 
   showView(view: string) {
     this.currentView = 'temp';
@@ -97,7 +99,25 @@ currentView: string = '';
   }
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // cerrar la sesion o verificar si la sesion esta activa
+    this.sessionService.checkSession().subscribe((res: any) => {
+      if (!res.loggedIn) {
+        console.log('No hay sesión activa');
+        
+        // console.log('Sesión activa:', res.user);
+        // this.router.navigate(['/authentication/login']);
+        // Aquí puedes redirigir al usuario a otra página si ya está logueado
+        // Por ejemplo, redirigir al dashboard
+        // this.router.navigate(['/dashboard']);
+        //  return this.router.navigate(['/dashboard']); // o donde desees redirigir
+      }
+      //  else {
+        console.log('No hay sesión activa');
+      //   this.router.navigate(['/authentication/login']);
+      // }
+    });
+  }
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();
@@ -121,4 +141,8 @@ currentView: string = '';
     this.isCollapsedWidthFixed = !this.isOver;
     this.options.sidenavOpened = isOpened;
   }
+
+
+
+
 }

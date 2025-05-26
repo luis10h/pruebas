@@ -55,24 +55,41 @@ private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php'
 // private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
 private apiUrlAgregar = 'https://neocompanyapp.com/php/taxistas/guardar_taxistas.php';
 ngOnInit(): void {
-  this.http.get<cardimgs[]>(this.apiUrlBuscar).subscribe(data => {
-    this.cardimgs = data;
-    this.allCardimgs = data;
+  this.http.get<cardimgs[]>(this.apiUrlBuscar).subscribe({
+    next: (data) => {
+      // Validar que data sea un array y tenga elementos
+      if (Array.isArray(data) && data.length > 0) {
+        this.cardimgs = data;
+        this.allCardimgs = data;
 
-    // Asignar imágenes según sexo
-    for (let card of this.cardimgs) {
-      let numeroAleatorio = 0;
-      if (card.sexo === 'femenino') {
-        const opciones = [2, 4, 10];
-        numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+        // Asignar imágenes según sexo
+        for (let card of this.cardimgs) {
+          let numeroAleatorio = 0;
+          if (card.sexo === 'femenino') {
+            const opciones = [2, 4, 10];
+            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+          } else {
+            const opciones = [1, 3, 5, 6, 7, 8, 9];
+            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+          }
+          this.imagenesPorId[card.id] = numeroAleatorio;
+        }
       } else {
-        const opciones = [1, 3, 5, 6, 7, 8, 9];
-        numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+        // Si no hay registros o la respuesta no es válida, limpiar arrays para evitar errores
+        this.cardimgs = [];
+        this.allCardimgs = [];
+        console.warn('No se encontraron registros o la respuesta es inválida');
       }
-      this.imagenesPorId[card.id] = numeroAleatorio;
+    },
+    error: (err) => {
+      // Manejo de error en la llamada HTTP
+      console.error('Error al obtener datos:', err);
+      this.cardimgs = [];
+      this.allCardimgs = [];
     }
   });
 }
+
   buscar(bus: string): void {
     console.log('Buscando:', bus);
 

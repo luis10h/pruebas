@@ -1,17 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-// import { MaterialModule } from 'src/app/material.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from '../../../material.module';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-// import { MatTableDataSource } from '@angular/material/table';
 
-// table 1
 export interface Taxistasdata {
   id: number;
   imagePath: string;
@@ -21,7 +18,6 @@ export interface Taxistasdata {
   sexo: string | 'femenino' | 'masculino';
 }
 
-
 @Component({
   selector: 'app-tables',
   imports: [
@@ -30,7 +26,6 @@ export interface Taxistasdata {
     MatCardModule,
     MaterialModule,
     MatIconModule,
-    // MatTableDataModule
     MatMenuModule,
     MatButtonModule,
     FormsModule,
@@ -39,21 +34,13 @@ export interface Taxistasdata {
   standalone: true,
   templateUrl: './tables.component.html',
 })
-export class AppTablesComponent {
-  // table 1
+export class AppTablesComponent implements OnInit {
   displayedColumns1: string[] = ['assigned', 'name', 'priority', 'budget'];
-  dataSource1 = new MatTableDataSource([] as Taxistasdata[]);
+  dataSource1 = new MatTableDataSource<Taxistasdata>([]);
   imagenesPorId: { [key: number]: number } = {};
-  getEstado(element: any): string {
-    if (element.pagado === 0 && element.total === 0) return 'no registran pagos';
-    if (element.pagado === 0 && element.total > 1) return 'no comenzado';
-    if (element.pagado > 0 && element.total > 0 && element.pagado < element.total) return 'no comenzado';
-    if (element.pagado < element.total) return 'en proceso';
-    if (element.pagado === element.total) return 'completado';
-    return '';
-  }
 
-  // ruta del servidor
+  public formBuscar!: FormGroup;
+
   private apiUrl = 'https://neocompanyapp.com/php/comisiones/tabla_comisiones.php';
   // private apiUrlPruebas = 'http://localhost/php/comisiones/tabla_comisiones.php';
   constructor(private http: HttpClient, private fb: FormBuilder) { }
@@ -108,47 +95,35 @@ export class AppTablesComponent {
       );
     };
 
-    this.formBuscar.get('cedula')?.valueChanges.subscribe((value: string) => {
-      this.dataSource1.filter = value.trim().toLowerCase();
-    });
+      this.formBuscar.get('cedula')?.valueChanges.subscribe((value: string) => {
+        this.dataSource1.filter = value.trim().toLowerCase();
+      });
+    }
+
+  getEstado(element: any): string {
+    if (element.pagado === 0 && element.total === 0) return 'no registran pagos';
+    if (element.pagado === 0 && element.total > 1) return 'no comenzado';
+    if (element.pagado > 0 && element.total > 0 && element.pagado < element.total) return 'no comenzado';
+    if (element.pagado < element.total) return 'en proceso';
+    if (element.pagado === element.total) return 'completado';
+    return '';
   }
 
-
-
-
-  public formBuscar!: FormGroup;
-
-  //   this.formAgregar = this.crearFormularioAgregar();
-  // }
   private crearFormularioConsultar(): FormGroup {
     return this.fb.group({
       cedula: ['', [Validators.required]],
     });
   }
-  // consultarPorCedula(cedula: string) {
-  //   if (!cedula) return;
 
-  //   // this.http.post<any>('http://localhost/php/comisiones/buscar_taxistas.php', { cedula })
-  //   //   .subscribe({
-  //   //     next: (data) => {
-  //   //       if (data && data.success) {
-  //   //         this.formBuscar.patchValue({
-  //   //           nombre: data.taxista.nombre,
-  //   //           numero_placa: data.taxista.numero_placa,
-  //   //           personas_referidas: data.taxista.personas_referidas,
-  //   //           estado: data.taxista.estado,
-  //   //           observaciones: data.taxista.observaciones
-  //   //         });
-  //   //         this.formActivo = true;
-  //   //       } else {
-  //   //         alert('Taxista no encontrado.');
-  //   //         this.formActivo = false;
-  //   //       }
-  //   //     },
-  //   //     error: (err) => {
-  //   //       console.error('Error en la búsqueda:', err);
-  //   //       alert('Error al consultar.');
-  //   //     }
-  //   });
-  // }
+  // Métodos agregados para botones
+
+  pagarCompleto(element: any): void {
+    console.log(`Pagar completo para el ID: ${element.id}`);
+    alert(`Pagar completo para ${element.title || element.uname}`);
+  }
+
+  abonar(element: any): void {
+    console.log(`Abonar pago para el ID: ${element.id}`);
+    alert(`Abonar pago para ${element.title || element.uname}`);
+  }
 }

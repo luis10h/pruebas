@@ -101,22 +101,16 @@ export class FullComponent implements OnInit {
 
   ngOnInit(): void {
     // cerrar la sesion o verificar si la sesion esta activa
-    this.sessionService.checkSession().subscribe((res: any) => {
-      if (!res.loggedIn) {
-        console.log('No hay sesión activa');
-        
-        // console.log('Sesión activa:', res.user);
-        // this.router.navigate(['/authentication/login']);
-        // Aquí puedes redirigir al usuario a otra página si ya está logueado
-        // Por ejemplo, redirigir al dashboard
-        // this.router.navigate(['/dashboard']);
-        //  return this.router.navigate(['/dashboard']); // o donde desees redirigir
-      }
-      //  else {
-        console.log('No hay sesión activa');
-      //   this.router.navigate(['/authentication/login']);
-      // }
-    });
+    const session = localStorage.getItem('session');
+    if (session) {
+      const sessionObj = JSON.parse(session);
+      console.log('Usuario en sesión:', sessionObj.user.username);
+      console.log('ID de usuario:', sessionObj.user.company_code);  
+    } else {
+      console.log('No hay usuario en sesión');
+    }
+
+
   }
 
   ngOnDestroy() {

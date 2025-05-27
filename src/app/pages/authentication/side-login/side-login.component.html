@@ -41,7 +41,7 @@
 
           <div class="or-border m-t-30">Ingresa con</div>
 
-          <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
+          <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()" autocomplete="off">
             <mat-label>Correo Electrónico</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
               <input matInput formControlName="email" />

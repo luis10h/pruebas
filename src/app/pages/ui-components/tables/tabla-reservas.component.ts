@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { HttpClient } from '@angular/common/http';
+import { U } from '@angular/cdk/unique-selection-dispatcher.d-DSFqf1MM';
 
 export interface UserData {
   nombre: string;
@@ -62,11 +64,31 @@ export class TablaReservasComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
-    this.dataSource = new MatTableDataSource(users);
+  constructor(private http: HttpClient) {
+    this.dataSource = new MatTableDataSource<UserData>([]);
+    this.cargarReservas();
   }
-
+  cargarReservas() {
+    const apiUrl = 'https://neocompanyapp.com/php/reservas/get_reservas.php';
+    this.http.get<UserData[]>(apiUrl).subscribe({
+      next: (response) => {
+        console.log('Datos cargados:', response);
+        if (Array.isArray(response)) {
+          this.dataSource.data = response.map((item, index) => ({
+            ...item,
+            // Puedes agregar más campos si es necesario
+          }));
+        } else {
+          this.dataSource.data = [];
+          console.error('Error al cargar los datos:', response);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud:', error);
+        this.dataSource.data = [];
+      }
+    });
+  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

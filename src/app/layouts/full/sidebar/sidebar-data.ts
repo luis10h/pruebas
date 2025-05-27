@@ -31,7 +31,7 @@ export const navItems: NavItem[] = [
     displayName: 'Reportes de pagos',
     iconName: 'solar:widget-line-duotone',
     route: '/dashboard/view/reporte-comisiones',
-    chip: true,
+    // chip: true,
     external: true,
     chipClass: 'bg-secondary text-white',
     // chipContent: 'PRO',
@@ -129,28 +129,28 @@ export const navItems: NavItem[] = [
 
 
 
-  {
-    navCap: 'Listas',
-    divider: true,
-  },
-  {
-    displayName: 'Lista de Taxistas',
-    iconName: 'mdi:format-list-bulleted',
-    route: '/dashboard/view/lists',
-    chip: true,
-    external: true,
-    chipClass: 'bg-secondary text-white',
-    // chipContent: 'PRO',
-  },
-  {
-    displayName: 'Lista de Taxistas 2',
-    iconName: 'mdi:format-list-bulleted',
-    route: '/dashboard/view/listado-taxistas',
-    chip: true,
-    external: true,
-    chipClass: 'bg-secondary text-white',
-    // chipContent: 'PRO',
-  },
+  // {
+  //   navCap: 'Listas',
+  //   divider: true,
+  // },
+  // {
+  //   displayName: 'Lista de Taxistas',
+  //   iconName: 'mdi:format-list-bulleted',
+  //   route: '/dashboard/view/lists',
+  //   chip: true,
+  //   external: true,
+  //   chipClass: 'bg-secondary text-white',
+  //   // chipContent: 'PRO',
+  // },
+  // {
+  //   displayName: 'Lista de Taxistas 2',
+  //   iconName: 'mdi:format-list-bulleted',
+  //   route: '/dashboard/view/listado-taxistas',
+  //   chip: true,
+  //   external: true,
+  //   chipClass: 'bg-secondary text-white',
+  //   // chipContent: 'PRO',
+  // },
   // {
   //   navCap: 'Reportes',
   //   divider: true,

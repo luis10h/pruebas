@@ -1,46 +1,52 @@
-// session.service.ts
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { UserData } from '../pages/ui-components/tables/tabla-reservas.component';
+  import { Injectable } from '@angular/core';
+  // import { UserData } from '../pages/ui-components/tables/tabla-taxistas.component';
+  // import { UserData } from '../pages/ui-components/tables/tabla-reservas.component';
 
-interface SessionResponse {
-  loggedIn: boolean;
-  user?: UserData;
-  message?: string;
-}
-
-
-@Injectable({ providedIn: 'root' })
-export class SessionService {
-  constructor(private http: HttpClient) {}
-
-  getSession() {
-    // return this.http.get('http://localhost/php/auth/get_session.php');
-    return this.http.get<SessionResponse>('https://neocompanyapp.com/php/auth/get_session.php', {
-      withCredentials: true
-    });
+  interface UserData {
+    username: string;
+    email: string;
+    password: string;
+    telefono: number;
+    company_name: string; // Opcional, solo para taxistas
+    // numero_placa?: string; // Opcional, solo para taxistas
+    // cantidadpersonas?: number; // Opcional, solo para reservas
+    // lugar?: string; // Opcional, solo para reservas
+    // fecha?: string; // Opcional, solo para reservas
+    // hora?: string; // Opcional, solo para reservas
   }
 
-  getSessionData() {
-    return this.http.get('https://neocompanyapp.com/php/auth/get_session_data.php', {
-      withCredentials: true
-    });
+
+  @Injectable({ providedIn: 'root' })
+  export class SessionService {
+    constructor() {}
+
+    /** Verifica si hay un usuario logueado en localStorage */
+    checkSession(): { loggedIn: boolean; user?: UserData } {
+      // const user = JSON.parse(localStorage.getItem('user'));
+      // console.log(user.company_name); // ¿Aquí qué sale?
+
+      const storedUser = localStorage.getItem('session');
+      if (storedUser) {
+        try {
+          const user = JSON.parse(storedUser) as UserData;
+          return { loggedIn: true, user };
+        } catch (e) {
+          console.error('Error al parsear user en localStorage', e);
+          return { loggedIn: false };
+        }
+      }
+      return { loggedIn: false };
+    }
+
+    /** Retorna los datos del usuario desde localStorage */
+    getSessionData(): UserData | null {
+      const storedUser = localStorage.getItem('user');
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+
+    /** Cierra la "sesión" eliminando los datos del localStorage */
+    logout(): void {
+      localStorage.removeItem('session');
+      // localStorage.removeItem('user');
+    }
   }
-
- logout() {
-  // return this.http.get('http://localhost/php/auth/logout.php', {
-  return this.http.get('https://neocompanyapp.com/php/auth/logout.php', {
-    withCredentials: true
-  });
-}
-
-  // auth.service.ts o similar
-  checkSession() {
-  return this.http.get<SessionResponse>('https://neocompanyapp.com/php/auth/get_session.php', {
-    withCredentials: true
-  });
-}
-
-
-}
-

@@ -20,6 +20,7 @@ import { ProfileTaxistasComponent } from '../profile/profile-taxistas.component'
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { MatButtonModule } from '@angular/material/button';
+import { DateTime } from 'luxon';
 
 export interface UserData {
   nombre: string;
@@ -140,6 +141,88 @@ eliminarTaxista(taxista: any) {
     }
   });
 }
+exportarExcel() {
+  const data = this.dataSource.filteredData;
+
+  // Crear hoja de cálculo
+  const worksheet = XLSX.utils.json_to_sheet(data);
+
+  // Ajuste automático de ancho de columnas
+  const objectMaxLength: number[] = [];
+
+  const keys = Object.keys(data[0] || {});
+  for (let i = 0; i < keys.length; i++) {
+    objectMaxLength[i] = keys[i].length; // empezar con la longitud del encabezado
+  }
+
+  data.forEach(row => {
+    keys.forEach((key, i) => {
+const value = (row as any)[key] ? (row as any)[key].toString() : '';
+      objectMaxLength[i] = Math.max(objectMaxLength[i], value.length);
+    });
+  });
+
+  worksheet['!cols'] = objectMaxLength.map(width => {
+    return { wch: width + 2 }; // `wch` = "width in characters"
+  });
+
+  // Crear y exportar el libro
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Taxistas');
+  const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  saveAs(blob, 'taxistas.xlsx');
+}
+
+
+exportarExcelTaxistas() {
+  const data = this.dataSource.filteredData;
+
+  // Seleccionar columnas específicas
+  const selectedKeys = ['nombre', 'telefono', 'cedula','category', 'numero_placa', 'sexo', 'fecha_nacimiento'];
+  const headers = ['Nombre', 'Teléfono', 'Número de Cédula', 'Categoría', 'Número de Placa', 'Sexo', 'Fecha de Nacimiento'];
+
+  // Armar datos en formato AOA (array of arrays)
+const dataFormatted = data.map(row => selectedKeys.map(key => (row as any)[key]));
+
+  // Crear hoja con encabezados y datos
+  const worksheet = XLSX.utils.aoa_to_sheet([
+    headers,
+    ...dataFormatted
+  ]);
+
+  // Ajustar ancho de columnas
+  const colWidths = headers.map((header, i) => {
+    let maxLength = header.length;
+    dataFormatted.forEach(row => {
+      const val = row[i] ? row[i].toString() : '';
+      maxLength = Math.max(maxLength, val.length);
+    });
+    return { wch: maxLength + 2 };
+  });
+  worksheet['!cols'] = colWidths;
+
+  // Crear y exportar el libro
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Taxistas');
+  const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+
+const now = DateTime.now().setZone('America/Bogota');
+const filename = `taxistas_${now.toFormat('yyyy-MM-dd_HH-mm-ss')}.xlsx`;
+
+saveAs(blob, filename);
+
+
+// const filename = `taxistas_${now.toISOString().slice(0,19).replace(/[:T]/g, '-')}.xlsx`;
+// saveAs(blob, filename);
+
+  // saveAs(blob, 'taxistas.xlsx');
+}
+
+
+
+
 
   // ngAfterViewInit() {
   //   this.dataSource.paginator = this.paginator;

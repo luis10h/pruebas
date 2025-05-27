@@ -49,15 +49,13 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.sessionService.logout().subscribe({
-      next: () => {
-        console.log('Sesión cerrada correctamente');
-        // Redirigir al login o página de inicio
-        this.router.navigate(['/login']);
-      },
-      error: (error) => {
-        console.error('Error al cerrar sesión:', error);
-      }
+    this.sessionService.logout();
+    console.log('Sesión cerrada');
+    
+    this.router.navigate(['/authentication/side-login']).then(() => {
+      console.log('Redirigido a la página de login');
+    }, (error) => {
+      console.error('Error al redirigir a la página de login:', error);
     });
   }
 

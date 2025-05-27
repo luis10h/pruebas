@@ -19,6 +19,7 @@ import { TablaReservasComponent } from './tables/tabla-reservas.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 import { TablaAdministracionComponent } from './tables/tabla-administracion.component';
 import { MyProfileComponent } from './profile/my-profile.component';
+import { AuthGuard } from '../authentication/auth.guard';
 
 export const landingRoutes: Routes = [
   {
@@ -40,75 +41,93 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'badge',
         component: AppBadgeComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'estadisticas',
         component: EstadisticasComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'my-profile',
-        component: MyProfileComponent
+        component: MyProfileComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'administracion',
         component: TablaAdministracionComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'chips',
         component: AppChipsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'tabla-taxistas',
         component: TablaTaxistasComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'tabla-reservas',
-        component: TablaReservasComponent
+        component: TablaReservasComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'lists',
         component: AppListsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'menu',
         component: AppMenuComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'tooltips',
         component: AppTooltipsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'form-taxista',
         component: AppFormsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'editar-taxista/:cedula',
-        component: AppFormsComponent
+        component: AppFormsComponent,
+        canActivate: [AuthGuard]
       },
 
       {
         path: 'form-reserva',
         component: FormAddReservaComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'form-comisiones',
         component: AppFormComisionesComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'tables',
         component: AppTablesComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'listado-taxistas',
         component: AppBlogCardsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'registro-salidas',
         component: AppTotalIncomeComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'reporte-comisiones',
         component: AppEarningReportsComponent,
+        canActivate: [AuthGuard]
       },
     ],
   },

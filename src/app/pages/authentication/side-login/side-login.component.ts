@@ -10,9 +10,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from 'src/app/services/session.service';
+import Swal from 'sweetalert2';
 
 interface ApiResponse {
   success: boolean;
+  user?: any;
   message?: string;
   // puedes agregar más campos según lo que el backend devuelva
 }
@@ -51,6 +53,7 @@ export class AppSideLoginComponent implements OnDestroy {
   get f() {
     return this.form.controls;
   }
+
   submit() {
     if (this.form.invalid) {
       return;
@@ -63,13 +66,38 @@ export class AppSideLoginComponent implements OnDestroy {
       .subscribe({
         next: response => {
           if (response.success) {
-            alert('Login exitoso');
-            this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+            // Guarda la sesión completa para que sessionService la pueda leer correctamente
+            localStorage.setItem('session', JSON.stringify({
+              loggedIn: true,
+              user: response.user
+            }));
 
+            // alert('Login exitoso');
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast: any) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Login exitoso",
+              // text: "Los datos del taxista han sido cargados correctamente.",
+            });
+            this.router.navigateByUrl('/dashboard', { replaceUrl: true });
           } else {
-            alert('Credenciales incorrectas');
-            console.log(response.message);
+            Swal.fire({
+              icon: 'error',
+              title: 'Credenciales incorrectas',
+              text: response.message,
+            });
           }
+
         },
         error: (error) => {
           alert('Error al conectar con el servidor');

@@ -42,22 +42,22 @@
 
         <ng-container matColumnDef="cantidadpersonas">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Personas</th>
-          <td mat-cell *matCellDef="let row">{{ row.cantidadpersonas }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.cantidad }}</td>
         </ng-container>
 
         <ng-container matColumnDef="lugar">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Lugar</th>
-          <td mat-cell *matCellDef="let row">{{ row.lugar }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.lugar_reserva }}</td>
         </ng-container>
 
         <ng-container matColumnDef="fecha">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
-          <td mat-cell *matCellDef="let row">{{ row.fecha }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.fecha_reserva }}</td>
         </ng-container>
 
         <ng-container matColumnDef="hora">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Hora</th>
-          <td mat-cell *matCellDef="let row">{{ row.hora }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.hora_reserva }}</td>
         </ng-container>
 
         <!-- Acciones -->

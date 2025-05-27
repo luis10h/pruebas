@@ -34,79 +34,76 @@ export class AppSideRegisterComponent {
     // ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.sessionService.checkSession().subscribe((res: any) => {
-      if (res.loggedIn) {
-        console.log('Sesión activa:', res.user);
-        // Aquí puedes redirigir al usuario a otra página si ya está logueado
-        // Por ejemplo, redirigir al dashboard
-        this.router.navigate(['/dashboard']);
-        //  return this.router.navigate(['/dashboard']); // o donde desees redirigir
-      } else {
-        console.log('No hay sesión activa');
-      }
-    });
+    const session = this.sessionService.checkSession();
+    if (session.loggedIn) {
+      this.router.navigate(['/dashboard']);
+    }
+    else {
+      console.log('No hay sesión activa');
+    }
+
   }
 
 
-//   form = new FormGroup({
-//   uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
-//   email: new FormControl('', [Validators.required, Validators.email]),
-//   password: new FormControl('', [Validators.required]),
-//   companyName: new FormControl('', [Validators.required, Validators.minLength(4)]),  // nuevo campo
-// });
-generateCompanyCode(companyName: any): string {
-  // Convertir a minúsculas y quitar espacios
-  let cleanName = companyName.toLowerCase().replace(/\s+/g, '');
-  const randomDigits = Math.floor(1000 + Math.random() * 9000);
-  cleanName += randomDigits;
-  // Concatenar identificador fijo 'neo' y 'user'
-  return 'neo' + cleanName + 'user';
-}
+  //   form = new FormGroup({
+  //   uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
+  //   email: new FormControl('', [Validators.required, Validators.email]),
+  //   password: new FormControl('', [Validators.required]),
+  //   companyName: new FormControl('', [Validators.required, Validators.minLength(4)]),  // nuevo campo
+  // });
+  generateCompanyCode(companyName: any): string {
+    // Convertir a minúsculas y quitar espacios
+    let cleanName = companyName.toLowerCase().replace(/\s+/g, '');
+    const randomDigits = Math.floor(1000 + Math.random() * 9000);
+    cleanName += randomDigits;
+    // Concatenar identificador fijo 'neo' y 'user'
+    return 'neo' + cleanName + 'user';
+  }
 
 
   get f() {
-  return this.form.controls;
-}
-
-submit() {
-  if (this.form.invalid) {
-    return;
+    return this.form.controls;
   }
 
-  const companyName = this.form.value.companyName;
-  const companyCode = this.generateCompanyCode(companyName);
+  submit() {
+    if (this.form.invalid) {
+      return;
+    }
 
-  console.log('Código generado:', companyCode);
+    const companyName = this.form.value.companyName;
+    const companyCode = this.generateCompanyCode(companyName);
 
-  // Aquí puedes preparar el objeto para enviarlo al backend
-  const dataToSend = {
-    uname: this.form.value.uname,
-    email: this.form.value.email,
-    password: this.form.value.password,
-    companyName: companyName,
-    companyCode: companyCode,  // este código que generaste
-  };
+    console.log('Código generado:', companyCode);
 
-  // URL de tu API PHP para registro
-  // const url = 'http://localhost/php/auth/registro.php';
-  const url = 'https://neocompanyapp.com/php/auth/registro.php'; // Cambia esto por la URL de tu API
+    // Aquí puedes preparar el objeto para enviarlo al backend
+    const dataToSend = {
+      uname: this.form.value.uname,
+      email: this.form.value.email,
+      password: this.form.value.password,
+      companyName: companyName,
+      companyCode: companyCode,  // este código que generaste
+    };
 
-  this.http.post(url, dataToSend).subscribe({
-    next: (response: any) => {
-      if (response.success) {
-        console.log('Registro exitoso', response);
-        // Redirigir o mostrar mensaje
-        this.router.navigate(['/dashboard']); // o donde desees redirigir
-      } else {
-        console.error('Error al registrar:', response.message);
-        // Aquí podrías mostrar un error en pantalla
-      }
-    },
-    error: (error) => {
-      console.error('Error en la conexión al backend', error);
-      // Aquí manejar error de conexión, mostrar mensaje, etc.
-    },
-  });
-}
+    // URL de tu API PHP para registro
+    // const url = 'http://localhost/php/auth/registro.php';
+    const url = 'https://neocompanyapp.com/php/auth/registro.php'; // Cambia esto por la URL de tu API
+
+    this.http.post(url, dataToSend).subscribe({
+      next: (response: any) => {
+        if (response.success) {
+          console.log('Registro exitoso', response);
+          // Redirigir o mostrar mensaje
+          this.router.navigate(['/dashboard']); // o donde desees redirigir
+        } else {
+          console.error('Error al registrar:', response.message);
+          // Aquí podrías mostrar un error en pantalla
+        }
+      },
+      error: (error) => {
+        console.error('Error en la conexión al backend', error);
+        // Aquí manejar error de conexión, mostrar mensaje, etc.
+      },
+    });
+  }
 }
 

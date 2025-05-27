@@ -68,13 +68,21 @@ export class MyProfileComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.sessionService.checkSession().subscribe((res: any) => {
-      if (res.loggedIn) {
-        this.user = res.user;
-        console.log('Sesión activa:', this.user);
-      } else {
-        console.log('No hay sesión activa');
-      }
-    });
+   const session = this.sessionService.checkSession();
+if (session.loggedIn) {
+  this.router.navigate(['/dashboard']);
+}
+    else {
+      console.log('No hay sesión activa');
+      // this.router.navigate(['/authentication/side-login']);
+    }
+    // this.sessionService.checkSession().subscribe((res: any) => {
+    //   if (res.loggedIn) {
+    //     console.log('Sesión activa:', res.user);
+    //     this.user = res.user;
+    //   } else {
+    //     console.log('No hay sesión activa');
+    //   }
+    // });
   }
 }

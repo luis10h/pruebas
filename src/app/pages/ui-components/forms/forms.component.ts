@@ -18,6 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { S } from '@angular/cdk/scrolling-module.d-ud2XrbF8';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { SessionService } from '../../../services/session.service';
 
 
 interface sexo {
@@ -61,10 +62,23 @@ export class AppFormsComponent implements OnInit {
     private fb: FormBuilder,
     private taxistaService: TaxistaService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private sessionService: SessionService
   ) { }
+  sessionObj: any;
 
   ngOnInit(): void {
+    const session = localStorage.getItem('session');
+    if (session) {
+      this.sessionObj = JSON.parse(session);
+      console.log('Usuario en sesión desde taxista:', this.sessionObj.user.username);
+      console.log('ID de usuario:', this.sessionObj.user.company_name);
+      console.log('Company code:', this.sessionObj.user.company_code);
+    } else {
+      console.log('No hay usuario en sesión');
+    }
+    // Verifica si hay una sesión activa
+
     this.formAgregar = this.crearFormularioAgregar();
     this.route.paramMap.subscribe(params => {
       const cedula = params.get('cedula');
@@ -74,15 +88,15 @@ export class AppFormsComponent implements OnInit {
       }
     });
 
-   if (this.modoFormulario === 'agregar') {
-       this.formAgregar.get('cedula')?.valueChanges
-      .pipe(
-        debounceTime(1500), // espera 500ms sin escribir
-        distinctUntilChanged()
-      )
-      .subscribe(value => {
-        this.verificarCedula();
-      });
+    if (this.modoFormulario === 'agregar') {
+      this.formAgregar.get('cedula')?.valueChanges
+        .pipe(
+          debounceTime(1500), // espera 500ms sin escribir
+          distinctUntilChanged()
+        )
+        .subscribe(value => {
+          this.verificarCedula();
+        });
     }
   }
 
@@ -100,29 +114,30 @@ export class AppFormsComponent implements OnInit {
       telefono: ['', [Validators.required]],
       fecha_nacimiento: ['', [Validators.required]],
       sexo: ['', [Validators.required]],
+      company_code: [this.sessionObj.user.company_code, [Validators.required]],
     });
   }
 
-verificarCedula() {
-  const control = this.formAgregar.get('cedula');
-  const cedula = control?.value;
+  verificarCedula() {
+    const control = this.formAgregar.get('cedula');
+    const cedula = control?.value;
 
-  this.taxistaService.obtenerTaxistaPorCedula(cedula).subscribe((data) => {
-    if (data && data.taxista) {
-      control?.setErrors({ cedulaDuplicada: true }); // Marca error
-      Swal.fire({
-        icon: 'error',
-        title: 'Cédula duplicada',
-        text: 'Ya existe un taxista registrado con esa cédula.',
-      });
-    } else {
-      // Borra errores si está bien
-      if (control?.hasError('cedulaDuplicada')) {
-        control.setErrors(null);
+    this.taxistaService.obtenerTaxistaPorCedula(cedula).subscribe((data) => {
+      if (data && data.taxista) {
+        control?.setErrors({ cedulaDuplicada: true }); // Marca error
+        Swal.fire({
+          icon: 'error',
+          title: 'Cédula duplicada',
+          text: 'Ya existe un taxista registrado con esa cédula.',
+        });
+      } else {
+        // Borra errores si está bien
+        if (control?.hasError('cedulaDuplicada')) {
+          control.setErrors(null);
+        }
       }
-    }
-  });
-}
+    });
+  }
 
 
   cargarDatosTaxista(cedula: string) {

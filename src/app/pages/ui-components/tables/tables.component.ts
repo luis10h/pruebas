@@ -189,7 +189,7 @@ export class DialogPagoTotalComponent {
     <p>Ingrese monto a abonar para: {{ data.title || data.uname }}</p>
     <mat-form-field appearance="outline" class="w-100" color="primary" style="width: 100%;">
       <mat-label>Monto</mat-label>
-      <input matInput  [(ngModel)]="monto" />
+      <input matInput  [(ngModel)]="monto" placeholder="0" />
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end">

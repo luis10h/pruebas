@@ -166,6 +166,7 @@ export class AppFormComisionesComponent implements OnInit {
             });
             this.formAgregar.reset();
             this.formBuscar.reset();
+            
             this.formActivo = false;
           } else {
             Swal.fire({

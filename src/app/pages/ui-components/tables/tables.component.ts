@@ -45,6 +45,7 @@ export class AppTablesComponent implements OnInit {
   // private apiUrlPruebas = 'http://localhost/php/comisiones/tabla_comisiones.php';
   constructor(private http: HttpClient, private fb: FormBuilder) { }
   ngOnInit(): void {
+    // Realizar la petición HTTP para obtener los datos 
     this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
       data => {
         // Asegurar que data sea un array, incluso si está vacío

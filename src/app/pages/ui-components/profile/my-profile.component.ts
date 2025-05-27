@@ -70,7 +70,7 @@ export class MyProfileComponent {
     //Add 'implements OnInit' to the class.
    const session = this.sessionService.checkSession();
 if (session.loggedIn) {
-  this.router.navigate(['/dashboard']);
+  // this.router.navigate(['/dashboard']);
 }
     else {
       console.log('No hay sesión activa');

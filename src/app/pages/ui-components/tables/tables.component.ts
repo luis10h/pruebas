@@ -57,61 +57,61 @@ export class AppTablesComponent {
   private apiUrl = 'https://neocompanyapp.com/php/comisiones/tabla_comisiones.php';
   // private apiUrlPruebas = 'http://localhost/php/comisiones/tabla_comisiones.php';
   constructor(private http: HttpClient, private fb: FormBuilder) { }
- ngOnInit(): void {
-  this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
-    data => {
-      // Asegurar que data sea un array, incluso si está vacío
-      const safeData = Array.isArray(data) ? data : [];
+  ngOnInit(): void {
+    this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
+      data => {
+        // Asegurar que data sea un array, incluso si está vacío
+        const safeData = Array.isArray(data) ? data : [];
 
-      // Asignar la fuente de datos, aunque esté vacía
-      this.dataSource1 = new MatTableDataSource<Taxistasdata>(safeData);
+        // Asignar la fuente de datos, aunque esté vacía
+        this.dataSource1 = new MatTableDataSource<Taxistasdata>(safeData);
 
-      // Solo asignar imágenes si hay datos
-      if (safeData.length > 0) {
-        for (let card of safeData) {
-          let numeroAleatorio = 0;
-          if (card.sexo === 'femenino') {
-            const opciones = [2, 4, 10];
-            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
-          } else {
-            const opciones = [1, 3, 5, 6, 7, 8, 9];
-            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+        // Solo asignar imágenes si hay datos
+        if (safeData.length > 0) {
+          for (let card of safeData) {
+            let numeroAleatorio = 0;
+            if (card.sexo === 'femenino') {
+              const opciones = [2, 4, 10];
+              numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+            } else {
+              const opciones = [1, 3, 5, 6, 7, 8, 9];
+              numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+            }
+            this.imagenesPorId[card.id] = numeroAleatorio;
           }
-          this.imagenesPorId[card.id] = numeroAleatorio;
         }
+      },
+      error => {
+        console.error('Error al obtener los datos:', error);
+        this.dataSource1 = new MatTableDataSource<Taxistasdata>([]); // Evitar errores si falla la petición
       }
-    },
-    error => {
-      console.error('Error al obtener los datos:', error);
-      this.dataSource1 = new MatTableDataSource<Taxistasdata>([]); // Evitar errores si falla la petición
-    }
-  );
-
-  this.formBuscar = this.crearFormularioConsultar();
-
-  this.dataSource1.filterPredicate = (data: any, filter: string) => {
-    const searchTerm = filter?.trim().toLowerCase() || '';
-    const estado = this.getEstado(data)?.toLowerCase() || '';
-
-    if (searchTerm.includes('no pagado')) {
-      return estado === 'no comenzado' || estado === 'en proceso';
-    }
-
-    if (searchTerm.includes('pagado')) {
-      return estado === 'completado';
-    }
-
-    return (
-      data?.title?.toLowerCase()?.includes(searchTerm) ||
-      data?.cedula?.toString()?.includes(searchTerm) ||
-      estado.includes(searchTerm)
     );
-  };
 
-  this.formBuscar.get('cedula')?.valueChanges.subscribe((value: string) => {
-    this.dataSource1.filter = value.trim().toLowerCase();
-  });
-}
+    this.formBuscar = this.crearFormularioConsultar();
+
+    this.dataSource1.filterPredicate = (data: any, filter: string) => {
+      const searchTerm = filter?.trim().toLowerCase() || '';
+      const estado = this.getEstado(data)?.toLowerCase() || '';
+
+      if (searchTerm.includes('no pagado')) {
+        return estado === 'no comenzado' || estado === 'en proceso';
+      }
+
+      if (searchTerm.includes('pagado')) {
+        return estado === 'completado';
+      }
+
+      return (
+        data?.title?.toLowerCase()?.includes(searchTerm) ||
+        data?.cedula?.toString()?.includes(searchTerm) ||
+        estado.includes(searchTerm)
+      );
+    };
+
+    this.formBuscar.get('cedula')?.valueChanges.subscribe((value: string) => {
+      this.dataSource1.filter = value.trim().toLowerCase();
+    });
+  }
 
 
 

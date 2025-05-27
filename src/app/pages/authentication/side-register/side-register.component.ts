@@ -93,6 +93,10 @@ export class AppSideRegisterComponent {
         if (response.success) {
           console.log('Registro exitoso', response);
           // Redirigir o mostrar mensaje
+          localStorage.setItem('session', JSON.stringify({
+            loggedIn: true,
+             user: response.user, // Asegúrate de que el backend devuelva el usuario
+          }));
           this.router.navigate(['/dashboard']); // o donde desees redirigir
         } else {
           console.error('Error al registrar:', response.message);

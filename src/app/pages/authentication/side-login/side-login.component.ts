@@ -35,21 +35,17 @@ export class AppSideLoginComponent implements OnDestroy {
       password: ['', [Validators.required]],
     });
   }
-  // ngOnInit(): void {
-  //   //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-  //   //Add 'implements OnInit' to the class.
-  //  this.sessionService.checkSession().subscribe((res: any) => {
-  //           if (res.loggedIn) {
-  //               console.log('Sesión activa:', res.user);
-  //               // Aquí puedes redirigir al usuario a otra página si ya está logueado
-  //               // Por ejemplo, redirigir al dashboard
-  //               this.router.navigate(['/dashboard']);
-  //             //  return this.router.navigate(['/dashboard']); // o donde desees redirigir
-  //           } else {
-  //               console.log('No hay sesión activa');
-  //           }
-  //       });
-  // }
+  ngOnInit(): void {
+    // ngOnInit(): void {
+    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    // Add 'implements OnInit' to the class.
+    const session = this.sessionService.checkSession();
+    if (session.loggedIn) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      console.log('No hay sesión activa');
+    }
+  }
   get f() {
     return this.form.controls;
   }

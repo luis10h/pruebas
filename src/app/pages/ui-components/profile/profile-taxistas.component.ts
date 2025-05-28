@@ -8,7 +8,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profile-taxistas',
@@ -28,15 +28,22 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrl: './profile-taxistas.component.scss'
 })
 export class ProfileTaxistasComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<ProfileTaxistasComponent>
+  ) {}
 
   editarPerfil() {
     console.log('Editar perfil:', this.data);
-    // Aquí pones lógica para editar perfil (modal, ruta, etc)
+    // Aquí va la lógica para editar el perfil (abrir otro modal, navegar, etc.)
   }
 
   abrirConfiguracion() {
     console.log('Abrir configuración para:', this.data);
-    // Aquí pones lógica para abrir la configuración general
+    // Aquí va la lógica para abrir configuraciones
+  }
+
+  cerrarPerfil() {
+    this.dialogRef.close();
   }
 }

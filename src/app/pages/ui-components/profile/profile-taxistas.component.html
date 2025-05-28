@@ -1,10 +1,17 @@
 <mat-card class="cardWithShadow theme-card perfil-card">
+  <!-- Botón para cerrar -->
+  <button mat-icon-button class="btn-cerrar" (click)="cerrarPerfil()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <!-- Encabezado -->
   <mat-card-header class="d-flex flex-column align-items-center text-center">
     <img mat-card-avatar src="https://i.pravatar.cc/150?img=12" alt="Foto taxista" class="avatar">
     <mat-card-title class="nombre-admin">{{ data.nombre }}</mat-card-title>
     <mat-card-subtitle class="rol-admin">Taxista</mat-card-subtitle>
   </mat-card-header>
 
+  <!-- Contenido -->
   <mat-card-content>
     <div class="bloque">
       <h4 class="bloque-titulo">Datos personales</h4>
@@ -22,6 +29,7 @@
     </div>
   </mat-card-content>
 
+  <!-- Acciones -->
   <mat-card-actions class="acciones">
     <button mat-stroked-button color="primary" (click)="editarPerfil()">Editar perfil</button>
     <button mat-flat-button color="warn" (click)="abrirConfiguracion()">Configuración</button>

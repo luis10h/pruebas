@@ -54,7 +54,7 @@
         <div class="col-lg-6">
           <mat-label class="f-w-600 m-b-8 d-block">Sexo</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <mat-select [(ngModel)]="selectedValue" formControlName="sexo" required placeholder="Masculino / Femenino">
+            <mat-select formControlName="selectedValue" formControlName="sexo" required placeholder="Masculino / Femenino">
               @for (pago of sexo_s; track pago.value) {
               <mat-option [value]="pago.value">{{ pago.viewValue }}</mat-option>
               }
@@ -67,7 +67,7 @@
           <mat-label class="f-w-600 m-b-8 d-block">Fecha de nacimiento</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
             <input formControlName="fecha_nacimiento" matInput autocomplete="off" [matDatepicker]="datepicker"
-              [(ngModel)]="value" name="date" (focus)="datepicker.open()" (click)="datepicker.open()" />
+               name="date" (focus)="datepicker.open()" (click)="datepicker.open()" />
             <mat-datepicker #datepicker></mat-datepicker>
             <mat-datepicker-toggle [for]="datepicker" matSuffix></mat-datepicker-toggle>
             <mat-error>Este campo es requerido.</mat-error>

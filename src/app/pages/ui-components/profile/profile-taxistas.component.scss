@@ -80,3 +80,15 @@ mat-card-content {
 .cardWithShadow {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
+
+.btn-cerrar {
+  position: absolute;
+  top: 20px;        // un poco más abajo desde la parte superior
+  right: 20px;      // separado del borde derecho
+  z-index: 10;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 4px;
+}
+

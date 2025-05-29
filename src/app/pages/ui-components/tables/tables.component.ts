@@ -8,15 +8,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from '../../../material.module';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';  // <-- IMPORTANTE
+import { MatInputModule } from '@angular/material/input';
 import { MatDialog, MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppFormComisionesComponent } from '../forms/form-comisiones.component';
 import { Router } from '@angular/router';
 import { parse } from 'date-fns';
 import Swal from 'sweetalert2';
+
+// 📦 EXCEL EXPORT
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 export interface Taxistasdata {
   id: number;
@@ -43,7 +46,7 @@ export interface Taxistasdata {
     MatPaginatorModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule  // <-- aquí también para que funcione en este componente si usas inputs
+    MatInputModule
   ],
   standalone: true,
   templateUrl: './tables.component.html',
@@ -56,8 +59,9 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
   imagenesPorId: { [key: number]: number } = {};
 
   public formBuscar!: FormGroup;
-
   private apiUrl = 'https://neocompanyapp.com/php/comisiones/tabla_comisiones.php';
+
+  sessionObj: any;
 
   constructor(
     private http: HttpClient,
@@ -66,47 +70,6 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
     private router: Router
   ) { }
 
-  cargarDatos(): void {
-    this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
-      
-      data => {
-        const safeData = Array.isArray(data) ? data : [];
-
-        // Filtrar por company_name
-        const filtrados = safeData.filter(item => item.company_name === this.sessionObj.user.company_code);
-
-        this.dataSource1.data = filtrados
-
-        // Mantener imágenes por sexo
-        for (let card of filtrados) {
-          let numeroAleatorio = 0;
-          if (card.sexo === 'femenino') {
-            const opciones = [2, 4, 10];
-            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
-          } else {
-            const opciones = [1, 3, 5, 6, 7, 8, 9];
-            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
-          }
-          this.imagenesPorId[card.id] = numeroAleatorio;
-        }
-console.log('this.sessionObj:', this.sessionObj);
-        if (this.paginator) {
-          this.dataSource1.paginator = this.paginator;
-        }
-      },
-      error => {
-        console.error('Error al obtener los datos:', error);
-        this.dataSource1 = new MatTableDataSource<Taxistasdata>([]);
-      }
-    );
-  }
-
-
-
-
-
-
-  sessionObj: any;
   ngOnInit(): void {
     this.formBuscar = this.crearFormularioConsultar();
     this.cargarDatos();
@@ -118,6 +81,7 @@ console.log('this.sessionObj:', this.sessionObj);
     } else {
       console.log('No hay usuario en sesión');
     }
+
     this.dataSource1.filterPredicate = (data: any, filter: string) => {
       const searchTerm = filter?.trim().toLowerCase() || '';
       const estado = this.getEstado(data)?.toLowerCase() || '';
@@ -135,12 +99,41 @@ console.log('this.sessionObj:', this.sessionObj);
       if (filtro === 'pagado') filtro = 'pagado';
       this.dataSource1.filter = filtro;
     });
-
   }
-
 
   ngAfterViewInit() {
     this.dataSource1.paginator = this.paginator;
+  }
+
+  cargarDatos(): void {
+    this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
+      data => {
+        const safeData = Array.isArray(data) ? data : [];
+        const filtrados = safeData.filter(item => item.company_name === this.sessionObj.user.company_code);
+
+        this.dataSource1.data = filtrados;
+
+        for (let card of filtrados) {
+          let numeroAleatorio = 0;
+          if (card.sexo === 'femenino') {
+            const opciones = [2, 4, 10];
+            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+          } else {
+            const opciones = [1, 3, 5, 6, 7, 8, 9];
+            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+          }
+          this.imagenesPorId[card.id] = numeroAleatorio;
+        }
+
+        if (this.paginator) {
+          this.dataSource1.paginator = this.paginator;
+        }
+      },
+      error => {
+        console.error('Error al obtener los datos:', error);
+        this.dataSource1 = new MatTableDataSource<Taxistasdata>([]);
+      }
+    );
   }
 
   getEstado(element: any): string {
@@ -160,9 +153,7 @@ console.log('this.sessionObj:', this.sessionObj);
 
   abrirFormulario(comision: any) {
     this.router.navigate(['dashboard/view/add-comisiones', comision.cedula]);
-
   }
-
 
   pagarCompleto(element: any): void {
     const dialogRef = this.dialog.open(DialogPagoTotalComponent, {
@@ -172,11 +163,10 @@ console.log('this.sessionObj:', this.sessionObj);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.cargarDatos(); // Recargar tabla sin recargar página
+        this.cargarDatos();
       }
     });
   }
-
 
   abonar(element: any): void {
     const dialogRef = this.dialog.open(DialogAbonarComponent, {
@@ -191,8 +181,28 @@ console.log('this.sessionObj:', this.sessionObj);
     });
   }
 
+  // ✅ Método para exportar a Excel
+  exportarExcel(): void {
+    const data = this.dataSource1.filteredData.map(row => ({
+      Nombre: row.uname,
+      Empresa: row.company_name,
+      Presupuesto: row.budget,
+      Prioridad: row.priority,
+      Sexo: row.sexo,
+    }));
+
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Taxistas');
+
+    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'Taxistas.xlsx');
+  }
 }
 
+// ─────────────────────────────────────────────
+// DIALOG: Pago total
 @Component({
   selector: 'dialog-pago-total',
   standalone: true,
@@ -214,27 +224,8 @@ export class DialogPagoTotalComponent {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogPagoTotalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-
   ) {
     console.log('Datos recibidos en el diálogo:', data.cedula);
-    // this.formPago = this.fb.group({
-    // monto: [data.total, [Validators.required, Validators.min(0)]],
-    // });
-  }
-  monto: number = 0;
-  confirmarPago() {
-    console.log('Pago total confirmado para', this.data);
-    this.dialogRef.close();
-  }
-  public formPago!: FormGroup;
-  // formularioPago: FormGroup = this.fb.group({
-  //   monto: ['', [Validators.required, Validators.min(0)]],
-  // });
-  // get monto() {
-  //   return this.formularioPago.get('monto');
-  // }
-  get total() {
-    return this.data.total;
   }
 
   submit() {
@@ -243,7 +234,6 @@ export class DialogPagoTotalComponent {
       return;
     }
 
-    const monto = this.data.total;
     this.http.post('https://neocompanyapp.com/php/comisiones/pago_comisiones.php', {
       id: this.data.id,
       monto: this.data.total,
@@ -264,10 +254,8 @@ export class DialogPagoTotalComponent {
         Toast.fire({
           icon: "success",
           title: "Pago exitoso",
-          // text: "Los datos del taxista han sido cargados correctamente.",
         });
-        console.log('Pago procesado:', response);
-        this.dialogRef.close(true); // <- Indicamos éxito
+        this.dialogRef.close(true);
       },
       error: (error) => {
         console.error('Error al procesar el pago:', error);
@@ -277,13 +265,12 @@ export class DialogPagoTotalComponent {
           text: 'No se pudo procesar el pago. Intente más tarde.'
         });
       }
-
     });
   }
-
 }
-// import { Router } from '@angular/router';
 
+// ─────────────────────────────────────────────
+// DIALOG: Abonar
 @Component({
   selector: 'dialog-abonar',
   standalone: true,
@@ -293,7 +280,6 @@ export class DialogPagoTotalComponent {
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    // Router  // Para que funcione matInput
   ],
   template: `
   <h2 mat-dialog-title style="text-align: center;">Abonar Pago</h2>
@@ -302,7 +288,6 @@ export class DialogPagoTotalComponent {
     <mat-form-field appearance="outline" class="w-100" color="primary" style="width: 100%;">
       <mat-label>Monto</mat-label>
       <input matInput #monto placeholder="0" type="number"/>
-      <!-- {{ monto.value}} -->
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
@@ -310,12 +295,8 @@ export class DialogPagoTotalComponent {
     <button mat-raised-button color="primary" (click)="confirmarAbono(monto.value)">Confirmar</button>
   </mat-dialog-actions>
 `,
-
 })
 export class DialogAbonarComponent {
-  // monto: number = 0;
-  // monto = get('monto');
-  //  d = document.getElementById('montoValor');
   constructor(
     public dialogRef: MatDialogRef<DialogAbonarComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -356,7 +337,7 @@ export class DialogAbonarComponent {
           icon: "success",
           title: "Abono registrado exitosamente",
         });
-        this.dialogRef.close(true); // Éxito, recargar tabla
+        this.dialogRef.close(true);
       },
       error: (error) => {
         console.error('Error al registrar abono:', error);
@@ -368,7 +349,4 @@ export class DialogAbonarComponent {
       }
     });
   }
-
-
-
 }

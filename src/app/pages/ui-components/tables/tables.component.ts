@@ -72,7 +72,7 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
 
   cargarDatos(): void {
     this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
-      
+
       data => {
         const safeData = Array.isArray(data) ? data : [];
 
@@ -93,7 +93,7 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
           }
           this.imagenesPorId[card.id] = numeroAleatorio;
         }
-console.log('this.sessionObj:', this.sessionObj);
+        console.log('this.sessionObj:', this.sessionObj);
         if (this.paginator) {
           this.dataSource1.paginator = this.paginator;
         }
@@ -190,25 +190,43 @@ console.log('this.sessionObj:', this.sessionObj);
       }
     });
   }
-
-  // ✅ Método para exportar a Excel
-  exportarExcel(): void {
-    const data = this.dataSource1.filteredData.map(row => ({
-      Nombre: row.uname,
-      Empresa: row.company_code,
-      Presupuesto: row.budget,
-      Prioridad: row.priority,
-      Sexo: row.sexo,
-    }));
-
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Taxistas');
-
-    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(blob, 'Taxistas.xlsx');
+  exportarExcel() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast: any) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: "error",
+      title: "Funcionalidad en desarrollo",
+    });
+    // this.dialogRef.close(true);
+    // },
   }
+  // ✅ Método para exportar a Excel
+  /* exportarExcel(): void {
+     const data = this.dataSource1.filteredData.map(row => ({
+       Nombre: row.uname,
+       Empresa: row.company_code,
+       Presupuesto: row.budget,
+       Prioridad: row.priority,
+       Sexo: row.sexo,
+     }));
+ 
+     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+     const wb: XLSX.WorkBook = XLSX.utils.book_new();
+     XLSX.utils.book_append_sheet(wb, ws, 'Taxistas');
+ 
+     const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+     const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+     saveAs(blob, 'Taxistas.xlsx');
+   }*/
 }
 
 // ─────────────────────────────────────────────

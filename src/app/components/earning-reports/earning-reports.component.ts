@@ -3,6 +3,7 @@ import { MaterialModule } from '../../material.module';
 import { TablerIconsModule } from 'angular-tabler-icons';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { PageEvent } from '@angular/material/paginator';  // <-- Import necesario para el paginador
 
 interface stats {
     id: number;
@@ -70,5 +71,11 @@ export class AppEarningReportsComponent {
     // TrackBy para optimizar ngFor
     trackByTitle(index: number, item: stats): string {
         return item.title;
+    }
+
+    // *** Método para manejar el evento de paginador de Angular Material ***
+    onPageChange(event: PageEvent) {
+        this.pageSize = event.pageSize;
+        this.currentPage = event.pageIndex + 1; // pageIndex es 0-based, por eso sumamos 1
     }
 }

@@ -1,10 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
-// import { MaterialModule } from 'src/app/material.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
@@ -19,7 +18,6 @@ interface ApiResponse {
   // puedes agregar más campos según lo que el backend devuelva
 }
 
-
 @Component({
   selector: 'app-side-login',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
@@ -27,6 +25,7 @@ interface ApiResponse {
 })
 export class AppSideLoginComponent implements OnDestroy {
   form: FormGroup;
+  hidePassword = true;  // <-- Aquí declaras la variable para mostrar/ocultar contraseña
   private destroy$ = new Subject<void>();
 
   constructor(private router: Router, private http: HttpClient, private fb: FormBuilder, private sessionService: SessionService) {
@@ -35,10 +34,8 @@ export class AppSideLoginComponent implements OnDestroy {
       password: ['', [Validators.required]],
     });
   }
+
   ngOnInit(): void {
-    // ngOnInit(): void {
-    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    // Add 'implements OnInit' to the class.
     const session = this.sessionService.checkSession();
     if (session.loggedIn) {
       this.router.navigate(['/dashboard']);
@@ -46,6 +43,7 @@ export class AppSideLoginComponent implements OnDestroy {
       console.log('No hay sesión activa');
     }
   }
+
   get f() {
     return this.form.controls;
   }
@@ -62,13 +60,11 @@ export class AppSideLoginComponent implements OnDestroy {
       .subscribe({
         next: response => {
           if (response.success) {
-            // Guarda la sesión completa para que sessionService la pueda leer correctamente
             localStorage.setItem('session', JSON.stringify({
               loggedIn: true,
               user: response.user
             }));
 
-            // alert('Login exitoso');
             const Toast = Swal.mixin({
               toast: true,
               position: "top-end",
@@ -83,7 +79,6 @@ export class AppSideLoginComponent implements OnDestroy {
             Toast.fire({
               icon: "success",
               title: "Login exitoso",
-              // text: "Los datos del taxista han sido cargados correctamente.",
             });
             this.router.navigateByUrl('/dashboard', { replaceUrl: true });
           } else {
@@ -93,7 +88,6 @@ export class AppSideLoginComponent implements OnDestroy {
               text: response.message,
             });
           }
-
         },
         error: (error) => {
           alert('Error al conectar con el servidor');

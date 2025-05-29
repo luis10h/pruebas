@@ -48,9 +48,16 @@
             </mat-form-field>
 
             <mat-label>Contraseña</mat-label>
-            <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="password" formControlName="password" />
-            </mat-form-field>
+<mat-form-field appearance="outline" class="w-100" color="primary">
+  <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+  <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+    [attr.aria-label]="'Toggle password visibility'"
+    [attr.aria-pressed]="!hidePassword">
+    <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+  </button>
+</mat-form-field>
+
+
 
             <button mat-flat-button color="primary" class="w-100" type="submit">Iniciar sesión</button>
           </form>

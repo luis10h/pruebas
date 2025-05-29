@@ -81,14 +81,33 @@ mat-card-content {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
+
 .btn-cerrar {
-  position: absolute;
-  top: 20px;        // un poco más abajo desde la parte superior
-  right: 20px;      // separado del borde derecho
-  z-index: 10;
+  // position: absolute;
+  top: 60px;        // un poco más abajo desde la parte superior
+  left: 82.5%;      // separado del borde derecho
   background: white;
   border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  padding: 4px;
+
 }
 
+/* Tablets (≤ 1024px) */
+@media (max-width: 1024px) {
+  .btn-cerrar {
+    top: 50px;
+  }
+}
+
+/* Móviles grandes (≤ 768px) */
+@media (max-width: 768px) {
+  .btn-cerrar {
+    top: 40px;
+  }
+}
+
+/* Móviles pequeños (≤ 480px) */
+@media (max-width: 480px) {
+  .btn-cerrar {
+    top: 50px;
+  }
+}

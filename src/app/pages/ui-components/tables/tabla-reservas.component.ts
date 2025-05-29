@@ -68,12 +68,30 @@ export class TablaReservasComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource<UserData>([]);
     this.cargarReservas();
   }
+sessionObj: any;
+ngOnInit(): void {
+  //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+  //Add 'implements OnInit' to the class.
+    const session = localStorage.getItem('session');
+    if (session) {
+      this.sessionObj = JSON.parse(session);
+      console.log('Usuario en sesión desde comisiones:', this.sessionObj.user.username);
+      console.log('ID de usuario desde comisiones:', this.sessionObj.user.company_code);
+    } else {
+      console.log('No hay usuario en sesión');
+    }
+    const companyNameDeseado = this.sessionObj.user.company_code;
+
+}
+
+
   cargarReservas() {
     const apiUrl = 'https://neocompanyapp.com/php/reservas/get_reservas.php';
     this.http.get<UserData[]>(apiUrl).subscribe({
       next: (response) => {
         console.log('Datos cargados:', response);
         if (Array.isArray(response)) {
+          
           this.dataSource.data = response.map((item, index) => ({
             ...item,
             // Puedes agregar más campos si es necesario

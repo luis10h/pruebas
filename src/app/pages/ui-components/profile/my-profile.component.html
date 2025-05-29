@@ -1,7 +1,7 @@
 <mat-card class="cardWithShadow theme-card perfil-card">
   <mat-card-header class="d-flex flex-column align-items-center text-center">
     <img mat-card-avatar src="https://i.pravatar.cc/150?img=12" alt="Foto admin" class="avatar">
-    <mat-card-title class="nombre-admin">{{ user?.username || 'Usuario Anónimo' }}</mat-card-title>
+    <mat-card-title class="nombre-admin">{{ sessionObj.user.username || 'Usuario Anónimo' }}</mat-card-title>
     <mat-card-subtitle class="rol-admin">Administrador</mat-card-subtitle>
   </mat-card-header>
 

@@ -25,7 +25,7 @@ export interface Taxistasdata {
   budget: number;
   priority: string;
   sexo: string | 'femenino' | 'masculino';
-  company_name: string;
+  company_code: string;
 }
 
 @Component({
@@ -73,7 +73,7 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
         const safeData = Array.isArray(data) ? data : [];
 
         // Filtrar por company_name
-        const filtrados = safeData.filter(item => item.company_name === this.sessionObj.user.company_code);
+        const filtrados = safeData.filter(item => item.company_code === this.sessionObj.user.company_code);
 
         this.dataSource1.data = filtrados
 

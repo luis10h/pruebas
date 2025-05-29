@@ -65,17 +65,25 @@ export class MyProfileComponent {
     console.log('Cerrar sesión');
     // Aquí pones lógica para cerrar sesión
   }
+  sessionObj: any;
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-   const session = this.sessionService.checkSession();
-if (session.loggedIn) {
+ const session = localStorage.getItem('session');
+    if (session) {
+      this.sessionObj = JSON.parse(session);
+      console.log('Usuario en sesión desde taxista:', this.sessionObj.user.username);
+      console.log('ID de usuario:', this.sessionObj.user.company_name);
+      console.log('Company code:', this.sessionObj.user.company_code);
+    } else {
+      console.log('No hay usuario en sesión');
+    }// if (session.loggedIn) {
   // this.router.navigate(['/dashboard']);
-}
-    else {
-      console.log('No hay sesión activa');
+// }
+    // else {
+      // console.log('No hay sesión activa');
       // this.router.navigate(['/authentication/side-login']);
-    }
+    // }
     // this.sessionService.checkSession().subscribe((res: any) => {
     //   if (res.loggedIn) {
     //     console.log('Sesión activa:', res.user);

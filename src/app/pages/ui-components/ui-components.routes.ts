@@ -110,6 +110,11 @@ export const UiComponentsRoutes: Routes = [
         canActivate: [AuthGuard]
       },
       {
+        path: 'add-comisiones/:cedula',
+        component: AppFormComisionesComponent,
+        // canActivate: [AuthGuard]
+      },
+      {
         path: 'tables',
         component: AppTablesComponent,
         canActivate: [AuthGuard]

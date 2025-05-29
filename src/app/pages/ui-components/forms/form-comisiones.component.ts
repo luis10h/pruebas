@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -8,11 +8,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 // import Swal from 'sweetalert2/dist/sweetalert2.esm.js';
 import Swal from 'sweetalert2';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 
 interface pago {
@@ -35,6 +36,11 @@ interface pago {
     MatIconModule,
     RouterModule
   ],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} }
+  ],
+
   templateUrl: './form-add-comisiones.component.html',
 })
 export class AppFormComisionesComponent implements OnInit {
@@ -46,6 +52,8 @@ export class AppFormComisionesComponent implements OnInit {
   public personas_referidas!: any;
   public estado!: any;
   public observaciones!: any;
+  // public data: any
+  // public sessionObj: any;
 
   value: Date;
   selectedValue: string;
@@ -53,7 +61,16 @@ export class AppFormComisionesComponent implements OnInit {
     { value: 'pagado', viewValue: 'Pagado' },
     { value: 'no-pagado', viewValue: 'No pagado' },
   ];
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<AppFormComisionesComponent> // <-- aquí
+  ) { }
+
   private apiUrlBuscar = 'https://neocompanyapp.com/php/comisiones/buscar_taxistas.php';
   // private apiUrlBuscar = 'http://localhost/php/comisiones/buscar_taxistas.php';
   // private apiUrlAgregar = 'http://localhost/php/comisiones/guardar_comisiones.php';
@@ -111,20 +128,38 @@ export class AppFormComisionesComponent implements OnInit {
         }
       });
   }
+  sessionObj: any;
 
   ngOnInit(): void {
+    const session = localStorage.getItem('session');
+    if (session) {
+      this.sessionObj = JSON.parse(session);
+      console.log('Usuario en sesión desde comisiones:', this.sessionObj.user.username);
+      console.log('ID de usuario desde comisiones:', this.sessionObj.user.company_code);
+    } else {
+      console.log('No hay usuario en sesión');
+    }
     this.formBuscar = this.crearFormularioConsultar();
     this.formAgregar = this.crearFormularioAgregar();
-     this.formBuscar.get('cedula')?.valueChanges
-          .pipe(
-            debounceTime(2000), // espera 500ms sin escribir
-            distinctUntilChanged()
-          )
-          .subscribe(value => {
-            this.consultarPorCedula(value);
-          });
+    this.route.paramMap.subscribe(params => {
+      const cedula = params.get('cedula');
+      if (cedula) {
+        // this.modoFormulario = 'editar';
+        this.consultarPorCedula(cedula);
+        this.cedula = cedula;
+      }
+    });
+    this.formBuscar.get('cedula')?.valueChanges
+      .pipe(debounceTime(3000), distinctUntilChanged())
+      .subscribe(value => this.consultarPorCedula(value));
+
+
+
   }
 
+  cerrarFormulario(): void {
+    this.dialogRef.close();  // Cierra el diálogo
+  }
   private crearFormularioConsultar(): FormGroup {
     return this.fb.group({
       cedula: ['', [Validators.required]],
@@ -138,6 +173,8 @@ export class AppFormComisionesComponent implements OnInit {
       personas_referidas: ['', [Validators.required]],
       estado: ['', [Validators.required]],
       observaciones: [''],
+      company_code: [this.sessionObj.user.company_code],
+
     });
   }
 
@@ -146,7 +183,8 @@ export class AppFormComisionesComponent implements OnInit {
   guardarComision() {
     if (this.formAgregar.valid) {
       const data = {
-        cedula: this.formBuscar.get('cedula')?.value,
+        cedula: this.formBuscar.get('cedula')?.value || this.cedula,
+        // cedula: this.?cedula
         ...this.formAgregar.value,
         total: this.calcularComision(this.formAgregar.get('personas_referidas')?.value)
       };
@@ -166,6 +204,8 @@ export class AppFormComisionesComponent implements OnInit {
             });
             this.formAgregar.reset();
             this.formBuscar.reset();
+            this.router.navigate(['/dashboard/view/tables']);
+
             this.formActivo = false;
           } else {
             Swal.fire({

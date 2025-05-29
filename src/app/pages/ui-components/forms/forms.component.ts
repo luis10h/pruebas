@@ -48,7 +48,7 @@ interface sexo {
 })
 export class AppFormsComponent implements OnInit {
 
-  value: Date;
+  valueData: Date;
   selectedValue: string;
   modoFormulario: 'agregar' | 'editar' = 'agregar';
   public formAgregar!: FormGroup;

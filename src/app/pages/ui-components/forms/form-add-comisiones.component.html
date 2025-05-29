@@ -16,9 +16,9 @@
             <mat-label>Buscar por cédula</mat-label>
             <input formControlName="cedula" matInput #pruebita type="number" placeholder="00000000" required />
             <mat-error>Este campo es requerido.</mat-error>
-        <button mat-icon-button matSuffix aria-label="Buscar" (click)="consultarPorCedula(pruebita.value)">
-          <mat-icon>search</mat-icon>
-        </button>
+            <button mat-icon-button matSuffix aria-label="Buscar" (click)="consultarPorCedula(pruebita.value)">
+              <mat-icon>search</mat-icon>
+            </button>
           </mat-form-field>
         </div>
       </form>
@@ -36,18 +36,17 @@
           <!-- input -->
           <mat-label class="f-w-600 m-b-8 d-block">Nombre</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input formControlName="nombre" matInput placeholder="Nombre completo" [disabled]="!formActivo" />
+            <input formControlName="nombre" matInput placeholder="Nombre completo" />
             <mat-error>Este campo es requerido.</mat-error>
           </mat-form-field>
         </div>
-
+        <input type="text" class="" formControlName="company_code" value="{{ sessionObj.user.company_code }}" />
 
         <div class="col-lg-6 m-b-4">
           <!-- input -->
           <mat-label class="f-w-600 m-b-8 d-block">Número de placa</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input formControlName="numero_placa" matInput placeholder="ABC123" [disabled]="!formActivo"
-              style="text-transform: uppercase;" />
+            <input formControlName="numero_placa" matInput placeholder="ABC123" style="text-transform: uppercase;" />
             <mat-error>Este campo es requerido.</mat-error>
           </mat-form-field>
         </div>
@@ -55,8 +54,7 @@
           <!-- input -->
           <mat-label class="f-w-600 m-b-8 d-block">Personas referidas</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input formControlName="personas_referidas" #number_clientes matInput placeholder="4" type="number"
-              [disabled]="!formActivo" />
+            <input formControlName="personas_referidas" #number_clientes matInput placeholder="Ej. 4" type="number" />
             <mat-error>Este campo es requerido.</mat-error>
           </mat-form-field>
         </div>
@@ -64,15 +62,14 @@
           <!-- input -->
           <mat-label class="f-w-600 m-b-8 d-block">Observaciones</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input formControlName="observaciones" matInput placeholder="Opcional" [disabled]="!formActivo" />
+            <input formControlName="observaciones" matInput placeholder="Opcional" />
             <mat-error>Este campo es requerido.</mat-error>
           </mat-form-field>
         </div>
         <div class="col-lg-6">
           <mat-label class="f-w-600 m-b-8 d-block">Estado</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <mat-select [(ngModel)]="selectedValue" formControlName="estado" required placeholder="Pagado / No pagado"
-              [disabled]="!formActivo">
+            <mat-select formControlName="selectedValue" formControlName="estado" required placeholder="Pagado / No pagado">
               @for (pago of pagos; track pago.value) {
               <mat-option [value]="pago.value">{{ pago.viewValue }}</mat-option>
               }
@@ -86,8 +83,7 @@
           <mat-form-field appearance="outline" class="w-100" color="primary">
             <!-- <input matInput placeholder="ABC123" [disabled]="!formActivo" /> -->
             <!-- <input [disabled]="!formActivo" matInput [value]="'$ ' + calcularComision(number_clientes.value) + ' MIL PESOS'" disabled> -->
-            <input [disabled]="!formActivo" matInput
-              [value]="'$ ' + calcularComision(number_clientes.value) + ' MIL PESOS'" readonly>
+            <input matInput [value]="'$ ' + calcularComision(number_clientes.value) + ' MIL PESOS'" readonly>
 
             <mat-error>Este campo es requerido.</mat-error>
           </mat-form-field>

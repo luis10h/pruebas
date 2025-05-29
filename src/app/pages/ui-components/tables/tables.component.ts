@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { parse } from 'date-fns';
 import Swal from 'sweetalert2';
 
+
 // 📦 EXCEL EXPORT
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -190,43 +191,48 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  exportarExcel() {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast: any) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      }
-    });
-    Toast.fire({
-      icon: "error",
-      title: "Funcionalidad en desarrollo",
-    });
-    // this.dialogRef.close(true);
-    // },
-  }
-  // ✅ Método para exportar a Excel
-  /* exportarExcel(): void {
-     const data = this.dataSource1.filteredData.map(row => ({
-       Nombre: row.uname,
-       Empresa: row.company_code,
-       Presupuesto: row.budget,
-       Prioridad: row.priority,
-       Sexo: row.sexo,
-     }));
- 
-     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-     XLSX.utils.book_append_sheet(wb, ws, 'Taxistas');
- 
-     const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-     const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-     saveAs(blob, 'Taxistas.xlsx');
-   }*/
+
+exportarExcel(): void {
+  const dataExport = this.dataSource1.data.map((element: any) => ({
+    Nombre: element.title,
+    Cédula: element.cedula || 'No registrada',
+    'Deuda ($)': element.total - element.pagado,
+  }));
+
+  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataExport);
+
+  // Estilizar columnas: ajustar ancho
+  const colWidths = [
+    { wch: 30 }, // Nombre
+    { wch: 20 }, // Cédula
+    { wch: 15 }, // Deuda
+  ];
+  worksheet['!cols'] = colWidths;
+
+  const workbook: XLSX.WorkBook = {
+    Sheets: { 'Comisiones': worksheet },
+    SheetNames: ['Comisiones'],
+  };
+
+  const excelBuffer: any = XLSX.write(workbook, {
+    bookType: 'xlsx',
+    type: 'array',
+  });
+
+  const fecha = new Date().toLocaleDateString('es-CO').replace(/\//g, '-');
+  const nombreArchivo = `Reporte-Comisiones-${fecha}.xlsx`;
+
+  const data: Blob = new Blob([excelBuffer], {
+    type:
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+  });
+
+  saveAs(data, nombreArchivo);
+
+  // FileSaver.saveAs(data, nombreArchivo);
+}
+
+
 }
 
 // ─────────────────────────────────────────────

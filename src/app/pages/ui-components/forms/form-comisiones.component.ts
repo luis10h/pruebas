@@ -134,13 +134,14 @@ export class AppFormComisionesComponent implements OnInit {
     const session = localStorage.getItem('session');
     if (session) {
       this.sessionObj = JSON.parse(session);
+    this.formAgregar = this.crearFormularioAgregar();
+
       console.log('Usuario en sesión desde comisiones:', this.sessionObj.user.username);
       console.log('ID de usuario desde comisiones:', this.sessionObj.user.company_code);
     } else {
       console.log('No hay usuario en sesión');
     }
     this.formBuscar = this.crearFormularioConsultar();
-    this.formAgregar = this.crearFormularioAgregar();
     this.route.paramMap.subscribe(params => {
       const cedula = params.get('cedula');
       if (cedula) {
@@ -183,6 +184,7 @@ export class AppFormComisionesComponent implements OnInit {
   guardarComision() {
     if (this.formAgregar.valid) {
       const data = {
+        
         cedula: this.formBuscar.get('cedula')?.value || this.cedula,
         // cedula: this.?cedula
         ...this.formAgregar.value,

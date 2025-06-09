@@ -10,17 +10,18 @@
       <h4 class="bloque-titulo">Estadísticas</h4>
       <div class="d-flex justify-content-between text-center stats">
         <div>
-          <!-- <h4 class="valor">{{ user.stats.usuarios }}</h4> -->
-          <small>Usuarios</small>
-        </div>
-        <div>
-          <!-- <h4 class="valor">{{ user.stats.taxistas }}</h4> -->
+          <h4 class="valor">{{ taxistas }}</h4>
           <small>Taxistas</small>
         </div>
         <div>
-          <!-- <h4 class="valor">{{ user.stats.comisiones }}</h4> -->
+          <h4 class="valor">{{ comisiones}}</h4>
           <small>Comisiones</small>
         </div>
+        <div>
+          <h4 class="valor">$ {{ datos | number:'1.0-0' }}</h4>
+          <small>Total pagado</small>
+        </div>
+
       </div>
     </div>
 

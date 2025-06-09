@@ -15,23 +15,24 @@
                 <mat-menu #menu="matMenu" xPosition="before">
                     <a href="javascript:void(0)"
                         class="d-flex align-items-center text-decoration-none p-y-10 p-x-16 gap-8">
-                        <span>Action</span>
+                        <span>En proceso</span>
+
                     </a>
-                    <a href="javascript:void(0)"
+                    <!-- <a href="javascript:void(0)"
                         class="d-flex align-items-center text-decoration-none p-y-10 p-x-16 gap-8">
                         <span>Another action</span>
-                    </a>
-                    <a href="javascript:void(0)"
+                    </a> -->
+                    <!-- <a href="javascript:void(0)"
                         class="d-flex align-items-center text-decoration-none p-y-10 p-x-16 gap-8">
                         <span>Something else here</span>
-                    </a>
+                    </a> -->
                 </mat-menu>
             </div>
         </div>
         <div class="row align-items-center justify-content-between p-t-24">
             <div class="col-6">
                 <h2 class="f-s-30 lh-lg m-b-12">{{ totalSalidas }}</h2>
-                <span class="f-s-12 f-w-600 p-x-10 p-y-4 rounded-pill border-secondary text-secondary">+18% last month</span>
+                <span class="f-s-12 f-w-600 p-x-10 p-y-4 rounded-pill border-secondary text-secondary">0% este mes</span>
             </div>
             <div class="col-5">
                 <apx-chart [series]="totalincomeChart.series" [chart]="totalincomeChart.chart"

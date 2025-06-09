@@ -12,6 +12,8 @@ import { MatTimepickerModule } from '@angular/material/timepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 
 interface lugares {
@@ -26,6 +28,7 @@ interface lugares {
   selector: 'app-form-add-reserva',
   providers: [provideNativeDateAdapter()],
   imports: [
+    CommonModule,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
@@ -42,6 +45,7 @@ interface lugares {
     RouterModule
 
   ],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './form-add-reserva.component.html',
   styles: ``
@@ -87,7 +91,7 @@ export class FormAddReservaComponent {
     });
   }
   private apiUrlAgregar = 'https://neocompanyapp.com/php/reservas/guardar_reservas.php';
-  // private apiUrlPruebas = 'http://localhost/php/reservas/guardar_reservas.php';  
+  // private apiUrlAgregar = 'http://localhost/php/reservas/guardar_reservas.php';  
   onSubmit() {
     if (this.formAgregar.valid) {
       const formData = this.formAgregar.value;
@@ -95,16 +99,60 @@ export class FormAddReservaComponent {
       this.http.post(this.apiUrlAgregar, formData).subscribe({
         next: (response) => {
           console.log('Reserva guardada:', response);
-          alert('Reserva registrada correctamente');
-          this.formAgregar.reset();
+          // alert('Reserva registrada correctamente');
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast: any) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Reserva registrada.",
+            // text: "Los datos del taxista han sido cargados correctamente.",
+          });
+          this.formAgregar.reset({
+            nombre: '',
+            company_code: this.sessionObj.user.company_code,
+            lugar_reserva: '',
+            cedula: '',
+            telefono: '',
+            fecha_reserva: '',
+            hora_reserva: '',
+            cantidad: '',
+            observaciones: ''
+          });
+          Object.keys(this.formAgregar.controls).forEach(key => {
+            const control = this.formAgregar.get(key);
+            control?.markAsPristine();
+            control?.markAsUntouched();
+          });
+            this.router.navigate(['/dashboard/view/tabla-reservas']);
+
+
         },
         error: (error) => {
           console.error('Error al guardar:', error);
-          alert('Error al registrar la reserva');
+          // alert('Error al registrar la reserva');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al registrar la reserva.',
+          });
         }
       });
     } else {
-      alert('Por favor completa todos los campos requeridos');
+      // alert('Por favor completa todos los campos requeridos');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Por favor completa todos los campos requeridos.',
+      });
     }
   }
 }

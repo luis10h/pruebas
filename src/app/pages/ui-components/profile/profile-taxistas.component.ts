@@ -9,6 +9,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-taxistas',
@@ -29,18 +30,26 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ProfileTaxistasComponent {
   constructor(
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<ProfileTaxistasComponent>
+    private dialogRef: MatDialogRef<ProfileTaxistasComponent>,
+    
   ) {}
 
   editarPerfil() {
     console.log('Editar perfil:', this.data);
     // Aquí va la lógica para editar el perfil (abrir otro modal, navegar, etc.)
   }
+  editarTaxista(taxista: any) {
+    this.dialogRef.close();
 
+    this.router.navigate(['dashboard/view/editar-taxista', taxista.cedula]);
+  }
   abrirConfiguracion() {
     console.log('Abrir configuración para:', this.data);
     // Aquí va la lógica para abrir configuraciones
+    // this.router.navigate(['dashboard']);
+
   }
 
   cerrarPerfil() {

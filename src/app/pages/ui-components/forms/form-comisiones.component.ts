@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 interface pago {
@@ -25,6 +26,7 @@ interface pago {
   selector: 'app-form-comisiones',
   imports: [
     MatFormFieldModule,
+    MatTooltipModule,
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,

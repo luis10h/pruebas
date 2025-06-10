@@ -14,6 +14,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 interface lugares {
@@ -29,6 +30,7 @@ interface lugares {
   providers: [provideNativeDateAdapter()],
   imports: [
     CommonModule,
+    MatTooltipModule,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,

@@ -53,3 +53,26 @@ td, th {
   color: red;
   font-weight: bold;
 }
+
+/* Botones personalizados */
+.btn-verde {
+  background-color: #28a745 !important;
+  color: white;
+}
+
+.btn-verde:hover {
+  background-color: #218838 !important;
+}
+
+.btn-azul {
+  background-color: #007bff !important;
+  color: white;
+}
+
+.btn-azul:hover {
+  background-color: #0056b3 !important;
+}
+
+.caja{
+  margin-top: 1%;
+}

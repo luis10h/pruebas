@@ -19,6 +19,7 @@ import Swal from 'sweetalert2';
 // import { S } from '@angular/cdk/scrolling-module.d-ud2XrbF8';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SessionService } from '../../../services/session.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatNativeDateModule } from '@angular/material/core';
 // import { MAC_ENTER } from '@angular/cdk/keycodes';
 
@@ -33,6 +34,7 @@ interface sexo {
   // providers: [provideNativeDateAdapter()],
   imports: [
     MatFormFieldModule,
+    MatTooltipModule,
     MatSelectModule,
     CommonModule,
     FormsModule,

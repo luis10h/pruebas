@@ -52,6 +52,13 @@ export interface UserData {
   styleUrls: ['./tabla-taxistas.component.scss'],
 })
 export class TablaTaxistasComponent implements AfterViewInit {
+
+
+irAgregarTaxista() {
+  this.router.navigate(['/dashboard/view/form-taxista']);
+}
+
+
   displayedColumns: string[] = [
     'nombre',
     'cedula',

@@ -13,6 +13,7 @@ import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { U } from '@angular/cdk/unique-selection-dispatcher.d-DSFqf1MM';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 export interface UserData {
   nombre: string;
@@ -50,6 +51,11 @@ const LUGARES: string[] = ['Sala', 'Terraza'];
 })
 export class TablaReservasComponent implements AfterViewInit {
 
+
+  irAgregarReserva() {
+  this.router.navigate(['/dashboard/view/form-reserva']);
+}
+
   displayedColumns: string[] = [
     'nombre',
     'cedula',
@@ -65,11 +71,11 @@ export class TablaReservasComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+constructor(private http: HttpClient, private router: Router) {
+  this.dataSource = new MatTableDataSource<UserData>([]);
+  this.cargarReservas();
+}
 
-  constructor(private http: HttpClient) {
-    this.dataSource = new MatTableDataSource<UserData>([]);
-    this.cargarReservas();
-  }
   sessionObj: any;
   companyNameDeseado = '';
 

@@ -51,6 +51,7 @@ export interface Taxistasdata {
   ],
   standalone: true,
   templateUrl: './tables.component.html',
+  styleUrls: ['./tables.component.scss'],
 })
 export class AppTablesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -63,6 +64,10 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
   private apiUrl = 'https://neocompanyapp.com/php/comisiones/tabla_comisiones.php';
 
   // sessionObj: any;
+
+  irAgregarComisiones() {
+  this.router.navigate(['/dashboard/view/form-comisiones']);
+}
 
   constructor(
     private http: HttpClient,

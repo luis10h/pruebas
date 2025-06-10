@@ -33,8 +33,8 @@ export class ProfileTaxistasComponent {
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<ProfileTaxistasComponent>,
-    
-  ) {}
+
+  ) { }
 
   editarPerfil() {
     console.log('Editar perfil:', this.data);
@@ -51,7 +51,11 @@ export class ProfileTaxistasComponent {
     // this.router.navigate(['dashboard']);
 
   }
-
+  abrirFormulario(comision: any) {
+    this.dialogRef.close();
+    console.log('Abrir formulario para comision:', comision);
+    this.router.navigate(['dashboard/view/add-comisiones', comision.cedula]);
+  }
   cerrarPerfil() {
     this.dialogRef.close();
   }

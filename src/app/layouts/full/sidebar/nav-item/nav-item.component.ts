@@ -64,9 +64,11 @@ export class AppNavItemComponent implements OnChanges {
   }
 
   openExternalLink(url: string): void {
-    if (url) {
-      window.open(url, "_self");
-    }
+    // if (url) {
+    //   window.open(url, "_self");
+    // }
+    this.router.navigate([url]);
+
   }
   
 

@@ -12,6 +12,7 @@ interface stats {
     estado: string;
     icon: string;
     pagado: string;
+    company_code: string;
 }
 
 @Component({
@@ -31,18 +32,26 @@ export class AppEarningReportsComponent {
     constructor(private http: HttpClient) {
         this.cargarReportes();
     }
-
+    sessionObj: any;
+    companyNameDeseado: any;
     ngOnInit(): void {
         this.cargarReportes();
+        const session = localStorage.getItem('session');
+        if (session) {
+            this.sessionObj = JSON.parse(session);
+            console.log('Usuario en sesión desde comisiones:', this.sessionObj.user.username);
+            console.log('ID de usuario desde comisiones:', this.sessionObj.user.company_code);
+        } else {
+            console.log('No hay usuario en sesión');
+        }
+        this.companyNameDeseado = this.sessionObj.user.company_code;
     }
 
     cargarReportes() {
         this.http.get<stats[]>(this.apiUrl).subscribe((response) => {
             if (Array.isArray(response)) {
-                this.stats = response.map((item) => ({
-                    ...item,
-                    // icon: this.getIcon(item.icon),
-                }));
+                this.stats = response.filter(item => item.company_code === this.companyNameDeseado);
+                // this.dataSource.data = filtrados;
                 console.log('Datos cargados:', this.stats);
             } else {
                 this.stats = [];

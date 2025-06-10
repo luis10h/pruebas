@@ -29,7 +29,7 @@ export interface Taxistasdata {
   budget: number;
   priority: string;
   sexo: string | 'femenino' | 'masculino';
-  company_name: string;
+  company_code: string;
 }
 
 @Component({
@@ -62,7 +62,7 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
   public formBuscar!: FormGroup;
   private apiUrl = 'https://neocompanyapp.com/php/comisiones/tabla_comisiones.php';
 
-  sessionObj: any;
+  // sessionObj: any;
 
   constructor(
     private http: HttpClient,
@@ -71,6 +71,47 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
     private router: Router
   ) { }
 
+  cargarDatos(): void {
+    this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
+
+      data => {
+        const safeData = Array.isArray(data) ? data : [];
+
+        // Filtrar por company_name
+        const filtrados = safeData.filter(item => item.company_code === this.sessionObj.user.company_code);
+
+        this.dataSource1.data = filtrados
+
+        // Mantener imágenes por sexo
+        for (let card of filtrados) {
+          let numeroAleatorio = 0;
+          if (card.sexo === 'femenino') {
+            const opciones = [2, 4, 10];
+            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+          } else {
+            const opciones = [1, 3, 5, 6, 7, 8, 9];
+            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+          }
+          this.imagenesPorId[card.id] = numeroAleatorio;
+        }
+        console.log('this.sessionObj:', this.sessionObj);
+        if (this.paginator) {
+          this.dataSource1.paginator = this.paginator;
+        }
+      },
+      error => {
+        console.error('Error al obtener los datos:', error);
+        this.dataSource1 = new MatTableDataSource<Taxistasdata>([]);
+      }
+    );
+  }
+
+
+
+
+
+
+  sessionObj: any;
   ngOnInit(): void {
     this.formBuscar = this.crearFormularioConsultar();
     this.cargarDatos();
@@ -104,37 +145,6 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource1.paginator = this.paginator;
-  }
-
-  cargarDatos(): void {
-    this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
-      data => {
-        const safeData = Array.isArray(data) ? data : [];
-        const filtrados = safeData.filter(item => item.company_name === this.sessionObj.user.company_code);
-
-        this.dataSource1.data = filtrados;
-
-        for (let card of filtrados) {
-          let numeroAleatorio = 0;
-          if (card.sexo === 'femenino') {
-            const opciones = [2, 4, 10];
-            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
-          } else {
-            const opciones = [1, 3, 5, 6, 7, 8, 9];
-            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
-          }
-          this.imagenesPorId[card.id] = numeroAleatorio;
-        }
-
-        if (this.paginator) {
-          this.dataSource1.paginator = this.paginator;
-        }
-      },
-      error => {
-        console.error('Error al obtener los datos:', error);
-        this.dataSource1 = new MatTableDataSource<Taxistasdata>([]);
-      }
-    );
   }
 
   getEstado(element: any): string {

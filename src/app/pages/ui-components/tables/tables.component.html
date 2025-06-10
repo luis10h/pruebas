@@ -151,10 +151,13 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center" colspan="7">No hay coincidencias.</td>
+        </tr>
       </table>
-      <div *ngIf="dataSource1.data.length === 0" class="no-resultados text-center">
-        No hay coincidencias para esta empresa.
-      </div>
+      <!-- <div *ngIf="dataSource1.data.length === 0" class="no-resultados text-center">
+        No hay coincidencias.
+      </div> -->
 
 
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

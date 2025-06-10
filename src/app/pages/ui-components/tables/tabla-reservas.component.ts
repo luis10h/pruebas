@@ -12,11 +12,13 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { U } from '@angular/cdk/unique-selection-dispatcher.d-DSFqf1MM';
+import Swal from 'sweetalert2';
 
 export interface UserData {
   nombre: string;
   cedula: number;
   telefono: number;
+  company_code: string;
   cantidadpersonas: number;
   lugar: string;
   fecha: string;
@@ -68,16 +70,36 @@ export class TablaReservasComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource<UserData>([]);
     this.cargarReservas();
   }
+  sessionObj: any;
+  companyNameDeseado = '';
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    const session = localStorage.getItem('session');
+    if (session) {
+      this.sessionObj = JSON.parse(session);
+      console.log('Usuario en sesión desde comisiones:', this.sessionObj.user.username);
+      console.log('ID de usuario desde comisiones:', this.sessionObj.user.company_code);
+    } else {
+      console.log('No hay usuario en sesión');
+    }
+    this.companyNameDeseado = this.sessionObj.user.company_code;
+
+  }
+
+
   cargarReservas() {
     const apiUrl = 'https://neocompanyapp.com/php/reservas/get_reservas.php';
+    // const apiUrl = 'http://localhost/php/reservas/get_reservas.php';
     this.http.get<UserData[]>(apiUrl).subscribe({
       next: (response) => {
         console.log('Datos cargados:', response);
         if (Array.isArray(response)) {
-          this.dataSource.data = response.map((item, index) => ({
-            ...item,
-            // Puedes agregar más campos si es necesario
-          }));
+
+          const filtrados = response.filter(item => item.company_code === this.companyNameDeseado);
+          this.dataSource.data = filtrados;
+
         } else {
           this.dataSource.data = [];
           console.error('Error al cargar los datos:', response);
@@ -129,16 +151,34 @@ export class TablaReservasComponent implements AfterViewInit {
     const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(blob, 'Reservas.xlsx');
   }
+  eliminar() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast: any) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: "info",
+      title: "Funcionalidad en desarrollo",
+      // text: "Los datos del taxista han sido cargados correctamente.",
+    });
+  }
 }
 
-function createNewUser(id: number): UserData {
-  const nombre = NOMBRES[Math.floor(Math.random() * NOMBRES.length)];
-  const cedula = Math.floor(Math.random() * 1_000_000_000);
-  const telefono = 3000000000 + Math.floor(Math.random() * 999999999);
-  const cantidadpersonas = Math.floor(Math.random() * 5) + 1;
-  const lugar = LUGARES[Math.floor(Math.random() * LUGARES.length)];
-  const fecha = `2025-05-${Math.floor(Math.random() * 30 + 1).toString().padStart(2, '0')}`;
-  const hora = `${Math.floor(Math.random() * 24).toString().padStart(2, '0')}:${['00', '30'][Math.floor(Math.random() * 2)]}`;
+// function createNewUser(id: number): UserData {
+//   const nombre = NOMBRES[Math.floor(Math.random() * NOMBRES.length)];
+//   const cedula = Math.floor(Math.random() * 1_000_000_000);
+//   const telefono = 3000000000 + Math.floor(Math.random() * 999999999);
+//   const cantidadpersonas = Math.floor(Math.random() * 5) + 1;
+//   const lugar = LUGARES[Math.floor(Math.random() * LUGARES.length)];
+//   const fecha = `2025-05-${Math.floor(Math.random() * 30 + 1).toString().padStart(2, '0')}`;
+//   const hora = `${Math.floor(Math.random() * 24).toString().padStart(2, '0')}:${['00', '30'][Math.floor(Math.random() * 2)]}`;
 
-  return { nombre, cedula, telefono, cantidadpersonas, lugar, fecha, hora };
-}
+//   return { nombre, cedula, telefono, cantidadpersonas, lugar, fecha, hora };
+// }

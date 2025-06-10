@@ -48,14 +48,13 @@
             </mat-form-field>
 
             <mat-label>Contraseña</mat-label>
-<mat-form-field appearance="outline" class="w-100" color="primary">
-  <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
-  <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
-    [attr.aria-label]="'Toggle password visibility'"
-    [attr.aria-pressed]="!hidePassword">
-    <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-  </button>
-</mat-form-field>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+              <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
 
 
 
@@ -65,7 +64,7 @@
           <span class="d-block f-w-500 text-center m-t-24">No tienes una cuenta? <a
               [routerLink]="['/authentication/register']" class="text-decoration-none text-primary f-w-500 f-s-14">Crear
               una cuenta </a> <br>
-            <a [routerLink]="['/dashboard']" class="text-decoration-none text-primary f-w-500 f-s-14"> Volver</a>
+            <a [routerLink]="['/']" class="text-decoration-none text-primary f-w-500 f-s-14"> Volver</a>
           </span>
         </mat-card-content>
       </mat-card>

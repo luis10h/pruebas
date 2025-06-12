@@ -6,7 +6,7 @@
 
       <!-- Filtro a la izquierda -->
       <div class="caja">
-        <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
+        <mat-form-field appearance="outline" color="primary" style="width: 120px; margin: 0;">
           <mat-label>Filtrar</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Ej: Maia" #input />
         </mat-form-field>
@@ -15,16 +15,18 @@
       <!-- Botones a la derecha -->
       <div class="d-flex align-items-center gap-2 flex-wrap">
         <!-- Botón verde -->
-        <button mat-raised-button class="btn-verde d-flex align-items-center" (click)="exportarExcelTaxistas()">
-          <mat-icon>file_download</mat-icon>
-          <span class="ms-1">Exportar Excel</span>
-        </button>
+        
+<button mat-raised-button matTooltip="Exportar Excel" class="btn-verde d-flex align-items-center" (click)="exportarExcelTaxistas()">
+  <mat-icon>file_download</mat-icon>
+  <span class="btn-text ms-1">Exportar Excel</span>
+</button>
 
-        <!-- Botón azul -->
-        <button mat-raised-button class="btn-azul d-flex align-items-center" (click)="irAgregarTaxista()">
-          <mat-icon>person_add</mat-icon>
-          <span class="ms-1">Agregar Taxista</span>
-        </button>
+<!-- Botón azul -->
+<button mat-raised-button matTooltip="Agregar Taxista" class="btn-azul d-flex align-items-center" (click)="irAgregarTaxista()">
+  <mat-icon>person_add</mat-icon>
+  <span class="btn-text ms-1">Agregar Taxista</span>
+</button>
+
       </div>
 
     </div>

@@ -6,11 +6,11 @@
     <!-- Buscador alineado a la derecha -->
     <form [formGroup]="formBuscar">
 
-      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
+      <div id="pru"  class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
 
       <!-- Filtro a la izquierda -->
       <div class="caja">
-        <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
+        <mat-form-field appearance="outline" color="primary" style="width: 120px; margin: 0;">
           <mat-label>Buscar</mat-label>
           <input formControlName="cedula" matInput #pruebita type="text" placeholder="Buscar..." />
           <mat-error>Este campo es requerido.</mat-error>
@@ -21,7 +21,7 @@
       </div>
 
           <!-- Botones a la derecha -->
-      <div class="d-flex align-items-center gap-2 flex-wrap">
+      <div id="prueba" class="d-flex align-items-center gap-2 flex-wrap">
         <!-- Botón verde -->
         <button mat-raised-button class="btn-verde d-flex align-items-center" (click)="exportarExcel()">
           <mat-icon>file_download</mat-icon>

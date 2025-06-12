@@ -53,12 +53,16 @@ export class HistorialComisionesComponent {
   //   pagado: 0
   // };
   totalComisiones: any;
+  totalAbonado: any;
+  totalPagado: any;
 
   cargarComisiones() {
     this.comisionService.getComisiones(this.cedula, this.estadoFiltro, this.fechaInicio, this.fechaFin)
       .subscribe(data => {
         this.comisiones = data;
         this.totalComisiones = this.comisiones.reduce((sum, item) => sum + Number(item.total_a_pagar), 0);
+        // this.totalAbonado = this.totalComisiones - this.totalPagado || 0;
+        this.totalPagado = this.comisiones.reduce((sum, item) => sum + Number(item.pagado), 0);
       });
   }
 

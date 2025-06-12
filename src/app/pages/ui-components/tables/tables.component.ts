@@ -146,6 +146,17 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
       if (filtro === 'pagado') filtro = 'pagado';
       this.dataSource1.filter = filtro;
     });
+
+   this.iniciarAutoActualizacion();
+
+
+  }
+  intervalId: any;
+  iniciarAutoActualizacion() {
+    this.intervalId = setInterval(() => {
+      this.cargarDatos();
+      console.log('Comisiones actualizadas automáticamente');
+    }, 20000); // cada 20 segundos
   }
 
   ngAfterViewInit() {
@@ -251,7 +262,7 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
   template: `
     <h2 mat-dialog-title>Pago Total</h2>
     <mat-dialog-content>
-      <p>Confirmar pago total para: {{ data.title || data.uname }}</p>
+      <p>Confirmar pago total para: {{ data.title || data.uname || data.nombre || data.element.nombre}}</p>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Cancelar</button>
@@ -266,19 +277,31 @@ export class DialogPagoTotalComponent {
     public dialogRef: MatDialogRef<DialogPagoTotalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log('Datos recibidos en el diálogo:', data.cedula);
+    console.log('Datos recibidos en el diálogo:', data.cedula || data.element?.cedula || data.cedula);
+    console.log('Monto total:', data.total_a_pagar || data.element?.total_a_pagar || data.total || 0);
+
   }
 
   submit() {
-    if (!this.data?.total || this.data.total <= 0) {
+    const monto =
+      this.data?.total ??
+      this.data?.total_a_pagar ??
+      this.data?.element?.total_a_pagar ??
+      0;
+
+    if (monto <= 0) {
       console.error('Monto inválido');
       return;
     }
 
+    const cedula =
+      this.data?.cedula ??
+      this.data?.element?.cedula ??
+      '';
+
     this.http.post('https://neocompanyapp.com/php/comisiones/pago_comisiones.php', {
-      id: this.data.id,
-      monto: this.data.total,
-      cedula: this.data.cedula,
+      monto,
+      cedula
     }).subscribe({
       next: (response) => {
         const Toast = Swal.mixin({
@@ -308,6 +331,7 @@ export class DialogPagoTotalComponent {
       }
     });
   }
+
 }
 
 // ─────────────────────────────────────────────

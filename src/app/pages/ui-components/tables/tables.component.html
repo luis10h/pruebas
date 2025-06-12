@@ -150,11 +150,11 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="pagarCompleto(element)">
+              <button *ngIf="element.pagado < element.total" mat-menu-item (click)="pagarCompleto(element)">
                 <mat-icon>payment</mat-icon>
                 <span>Pago Total</span>
               </button>
-              <button mat-menu-item (click)="abonar(element)">
+              <button *ngIf="element.pagado < element.total" mat-menu-item (click)="abonar(element)">
                 <mat-icon>attach_money</mat-icon>
                 <span>Abonar</span>
               </button>

@@ -40,15 +40,17 @@
         {{ c.estado }}
       </td>
       <td>
-        <button *ngIf="c.estado !== 'pagado'" (click)="cambiarEstado(c.id, 'pagado')">Marcar como pagado</button>
-        <p *ngIf="c.estado === 'pagado'">Pagado</p>
+        <button *ngIf="c.estado !== 'pagado'" (click)="pagarCompleto(c)">Marcar como pagado</button>
+        <h4 *ngIf="c.estado === 'pagado'">Pagado</h4>
       </td>
     </tr>
   </tbody>
 </table>
-
+<div *ngIf="comisiones.length === 0" style="text-align: center; margin-top: 1rem;">
+  <p>No hay comisiones registradas.</p>
+</div>
 <!-- Formulario para agregar -->
-<h3>Registrar Comisión</h3>
+<h3>Agregar Comisión para {{ comisiones[0]?.nombre }}</h3>
 <!-- <div>
   Referidos: <input type="number" [(ngModel)]="nuevo.personas_referidas"><br>
   Observaciones: <input type="text" [(ngModel)]="nuevo.observaciones"><br>
@@ -60,7 +62,8 @@
     <option value="abonado">Abonado</option>
     <option value="pagado">Pagado</option>
   </select><br> -->
-  <button (click)="abrirFormulario(nuevo)">Registrar</button>
-  <h2>Total a pagar</h2>
-<!-- <p>{{ totalAPagar | number:'1.0-0' }}</p> -->
+<button (click)="abrirFormulario(comisiones[0])">Agregar</button>
+<h2>Total a pagar</h2>
+<!-- <p>{{ comisiones[0]?.total_a_pagar | number:'1.0-0' }}</p> -->
+<p>{{ totalComisiones | number:'1.0-0' }}</p>
 <!-- </div> -->

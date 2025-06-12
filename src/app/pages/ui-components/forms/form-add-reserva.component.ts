@@ -10,11 +10,12 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { Observable } from 'rxjs';
 
 
 interface lugares {
@@ -64,9 +65,9 @@ export class FormAddReservaComponent {
     { value: 'Fuera', viewValue: 'Fuera' },
   ];
   public formAgregar!: FormGroup;
+  modoFormulario: 'agregar' | 'editar' = 'agregar';
 
-
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
   sessionObj: any;
   ngOnInit(): void {
     const session = localStorage.getItem('session');
@@ -91,10 +92,68 @@ export class FormAddReservaComponent {
       cantidad: ['', Validators.required],
       observaciones: ['']
     });
+    this.route.paramMap.subscribe(params => {
+      const cedula = params.get('cedula');
+      if (cedula) {
+        this.modoFormulario = 'editar';
+        this.cargarDatosReserva(cedula);
+      }
+    });
+
   }
+
+  obtenerReservaPorCedula(cedula: string): Observable<any> {
+    return this.http.post<any>('https://neocompanyapp.com/php/reservas/buscar_reservas.php', {
+      cedula: cedula
+    });
+  }
+
+  cargarDatosReserva(cedula: string) {
+    this.obtenerReservaPorCedula(cedula).subscribe((data) => {
+      if (data && data.reserva) {
+        this.formAgregar.patchValue(data.reserva);
+        this.formAgregar.get('cedula')?.disable();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'No encontrado',
+          text: 'No se encontraron datos de la reserva.',
+        });
+        this.router.navigate(['/dashboard/view/tabla-reservas']);
+      }
+    });
+  }
+
   private apiUrlAgregar = 'https://neocompanyapp.com/php/reservas/guardar_reservas.php';
-  // private apiUrlAgregar = 'http://localhost/php/reservas/guardar_reservas.php';  
+  private apiUrlActualizar = 'https://neocompanyapp.com/php/reservas/actualizar_reservas.php';
+  // private apiUrlAgregar = 'http://localhost/php/reservas/guardar_reservas.php';
   onSubmit() {
+    if (this.modoFormulario === 'editar') {
+      this.actualizarReserva();
+    } else {
+      this.guardarReserva();
+    }
+  }
+actualizarReserva() {
+  this.formAgregar.get('cedula')?.enable(); // 👈 Importante
+  const formData = this.formAgregar.value;
+
+  this.http.post(this.apiUrlActualizar, formData)
+    .subscribe({
+      next: (respuesta: any) => {
+        Swal.fire('Reserva actualizada', respuesta.mensaje, 'success');
+        this.formAgregar.get('cedula')?.disable(); // 👈 Si quieres volverlo a desactivar
+        this.router.navigate(['/dashboard/view/tabla-reservas']);
+      },
+      error: (error) => {
+        console.error(error);
+        Swal.fire('Error', 'Hubo un problema al actualizar la reserva.', 'error');
+      }
+    });
+}
+
+
+  guardarReserva() {
     if (this.formAgregar.valid) {
       const formData = this.formAgregar.value;
 
@@ -134,7 +193,7 @@ export class FormAddReservaComponent {
             control?.markAsPristine();
             control?.markAsUntouched();
           });
-            this.router.navigate(['/dashboard/view/tabla-reservas']);
+          this.router.navigate(['/dashboard/view/tabla-reservas']);
 
 
         },
@@ -156,5 +215,8 @@ export class FormAddReservaComponent {
         text: 'Por favor completa todos los campos requeridos.',
       });
     }
+  }
+  volver() {
+    this.router.navigate(['/dashboard/view/tabla-reservas']);
   }
 }

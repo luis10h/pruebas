@@ -1,6 +1,6 @@
 <mat-card class="cardWithShadow theme-card">
   <mat-card-header>
-    <mat-card-title class="m-b-0">Formulario Reservas</mat-card-title>
+    <mat-card-title class="m-b-0">{{ modoFormulario === 'agregar' ? 'Agregar Reserva' : 'Editar Reserva' }}</mat-card-title>
   </mat-card-header>
   <mat-card-content class="b-t-1">
     <form [formGroup]="formAgregar" (ngSubmit)="onSubmit()">

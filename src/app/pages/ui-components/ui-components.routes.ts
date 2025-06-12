@@ -20,6 +20,8 @@ import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 import { TablaAdministracionComponent } from './tables/tabla-administracion.component';
 import { MyProfileComponent } from './profile/my-profile.component';
 import { AuthGuard } from '../authentication/auth.guard';
+import { H } from '@angular/cdk/keycodes';
+import { HistorialComisionesComponent } from './tables/historial-comisiones/historial-comisiones.component';
 
 export const landingRoutes: Routes = [
   {
@@ -105,14 +107,29 @@ export const UiComponentsRoutes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'form-comisiones',
-        component: AppFormComisionesComponent,
+        path: 'editar-reserva/:cedula',
+        component: FormAddReservaComponent,
         canActivate: [AuthGuard]
       },
       {
         path: 'add-comisiones/:cedula',
         component: AppFormComisionesComponent,
-        // canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'form-comisiones',
+        component: AppFormComisionesComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'historial-comisiones/:cedula',
+        component: HistorialComisionesComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'editar-comisiones/:cedula',
+        component: AppFormComisionesComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'tables',

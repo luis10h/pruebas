@@ -1,0 +1,66 @@
+<h2>Historial de Comisiones</h2>
+
+<!-- Filtros -->
+<div>
+  Estado:
+  <select [(ngModel)]="estadoFiltro">
+    <option value="">Todos</option>
+    <option value="abonado">Abonado</option>
+    <option value="pagado">Pagado</option>
+    <option value="no-pagado">No pagado</option>
+  </select>
+  Fecha inicio: <input type="date" [(ngModel)]="fechaInicio">
+  Fecha fin: <input type="date" [(ngModel)]="fechaFin">
+  <button (click)="cargarComisiones()">Buscar</button>
+</div>
+
+<!-- Tabla -->
+<table border="1" width="100%" style="margin-top: 1rem;">
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Nombre</th>
+      <th>Placa</th>
+      <th>Referidos</th>
+      <th>Total</th>
+      <th>Pagado</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of comisiones">
+      <td>{{ c.fecha }}</td>
+      <td>{{ c.nombre }}</td>
+      <td>{{ c.numero_placa }}</td>
+      <td>{{ c.personas_referidas }}</td>
+      <td>{{ c.total_a_pagar }}</td>
+      <td>{{ c.pagado }}</td>
+      <td [ngStyle]="{color: c.estado == 'pagado' ? 'green' : c.estado == 'abonado' ? 'orange' : 'red'}">
+        {{ c.estado }}
+      </td>
+      <td>
+        <button *ngIf="c.estado !== 'pagado'" (click)="cambiarEstado(c.id, 'pagado')">Marcar como pagado</button>
+        <p *ngIf="c.estado === 'pagado'">Pagado</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Formulario para agregar -->
+<h3>Registrar Comisión</h3>
+<!-- <div>
+  Referidos: <input type="number" [(ngModel)]="nuevo.personas_referidas"><br>
+  Observaciones: <input type="text" [(ngModel)]="nuevo.observaciones"><br>
+  Total a pagar: <input type="number" [(ngModel)]="nuevo.total_a_pagar"><br>
+  Pagado: <input type="number" [(ngModel)]="nuevo.pagado"><br>
+  Estado: 
+  <select [(ngModel)]="nuevo.estado">
+    <option value="no-pagado">No pagado</option>
+    <option value="abonado">Abonado</option>
+    <option value="pagado">Pagado</option>
+  </select><br> -->
+  <button (click)="abrirFormulario(nuevo)">Registrar</button>
+  <h2>Total a pagar</h2>
+<!-- <p>{{ totalAPagar | number:'1.0-0' }}</p> -->
+<!-- </div> -->

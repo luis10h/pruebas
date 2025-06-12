@@ -1,12 +1,16 @@
 <mat-card class="cardWithShadow">
   <mat-card-content>
-    <mat-card-title>Tabla de comisiones</mat-card-title>
+    <mat-card-title >Tabla de comisiones</mat-card-title>
     <!-- <button mat-raised-button color="primary" (click)="cargarDatos()"> Recargar</button> -->
 
     <!-- Buscador alineado a la derecha -->
     <form [formGroup]="formBuscar">
 
-      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4 centrar-todo">
+        <!-- <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span class="f-s-16 f-w-600">Comisiones</span>
+          <span class="f-s-14 text-muted">({{ dataSource1.data.length }})</span>
+        </div> -->
 
       <!-- Filtro a la izquierda -->
       <div class="caja">
@@ -157,6 +161,10 @@
               <button mat-menu-item (click)="abrirFormulario(element)">
                 <mat-icon>add</mat-icon>
                 <span>Agregar Comisión</span>
+              </button>
+              <button mat-menu-item (click)="verHistorial(element)">
+                <mat-icon>history</mat-icon>
+                <span>Historial</span>
               </button>
               <!-- <button mat-menu-item (click)="eliminar(element)">
                 <mat-icon>delete</mat-icon>

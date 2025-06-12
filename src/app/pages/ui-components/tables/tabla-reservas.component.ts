@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
 export interface UserData {
+  id?: number; // Agregado para manejar la eliminación
   nombre: string;
   cedula: number;
   telefono: number;
@@ -53,8 +54,8 @@ export class TablaReservasComponent implements AfterViewInit {
 
 
   irAgregarReserva() {
-  this.router.navigate(['/dashboard/view/form-reserva']);
-}
+    this.router.navigate(['/dashboard/view/form-reserva']);
+  }
 
   displayedColumns: string[] = [
     'nombre',
@@ -71,10 +72,10 @@ export class TablaReservasComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-constructor(private http: HttpClient, private router: Router) {
-  this.dataSource = new MatTableDataSource<UserData>([]);
-  this.cargarReservas();
-}
+  constructor(private http: HttpClient, private router: Router) {
+    this.dataSource = new MatTableDataSource<UserData>([]);
+    this.cargarReservas();
+  }
 
   sessionObj: any;
   companyNameDeseado = '';
@@ -132,11 +133,12 @@ constructor(private http: HttpClient, private router: Router) {
 
   editarReserva(reserva: UserData) {
     console.log('Editar reserva:', reserva);
+    this.router.navigate(['dashboard/view/editar-reserva', reserva.cedula]);
   }
 
-  eliminarReserva(reserva: UserData) {
-    console.log('Eliminar reserva:', reserva);
-  }
+  // eliminarReserva(reserva: UserData) {
+  //   console.log('Eliminar reserva:', reserva);
+  // }
 
   exportarExcel() {
     const data = this.dataSource.filteredData.map(row => ({
@@ -157,23 +159,53 @@ constructor(private http: HttpClient, private router: Router) {
     const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(blob, 'Reservas.xlsx');
   }
-  eliminar() {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast: any) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
+  confirmarEliminacion(reserva: UserData) {
+    const apiUrl = 'https://neocompanyapp.com/php/reservas/eliminar_reserva.php';
+    this.http.post(apiUrl, { id: reserva.id }).subscribe({
+      next: (response) => {
+        console.log('Reserva eliminada:', response);
+        this.cargarReservas();
+      },
+      error: (error) => {
+        console.error('Error al eliminar la reserva:', error);
       }
     });
-    Toast.fire({
-      icon: "info",
-      title: "Funcionalidad en desarrollo",
-      // text: "Los datos del taxista han sido cargados correctamente.",
+  }
+  eliminarReserva(reserva: UserData) {
+    console.log('Eliminar reserva:', reserva);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: `¿Deseas eliminar la reserva de ${reserva.nombre}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.confirmarEliminacion(reserva);
+      }
     });
+
+
+
+    // const Toast = Swal.mixin({
+    //   toast: true,
+    //   position: "top-end",
+    //   showConfirmButton: false,
+    //   timer: 3000,
+    //   timerProgressBar: true,
+    //   didOpen: (toast: any) => {
+    //     toast.onmouseenter = Swal.stopTimer;
+    //     toast.onmouseleave = Swal.resumeTimer;
+    //   }
+    // });
+    // Toast.fire({
+    //   icon: "info",
+    //   title: "Eliminando reserva...",
+    //   // text: "Los datos del taxista han sido cargados correctamente.",
+    // });
   }
 }
 

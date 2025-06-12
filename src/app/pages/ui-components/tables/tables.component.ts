@@ -66,8 +66,8 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
   // sessionObj: any;
 
   irAgregarComisiones() {
-  this.router.navigate(['/dashboard/view/form-comisiones']);
-}
+    this.router.navigate(['/dashboard/view/form-comisiones']);
+  }
 
   constructor(
     private http: HttpClient,
@@ -183,7 +183,9 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
+  verHistorial(element: any): void {
+    this.router.navigate(['dashboard/view/historial-comisiones', element.cedula]);
+  }
   abonar(element: any): void {
     const dialogRef = this.dialog.open(DialogAbonarComponent, {
       data: element,
@@ -197,45 +199,45 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
     });
   }
 
-exportarExcel(): void {
-  const dataExport = this.dataSource1.data.map((element: any) => ({
-    Nombre: element.title,
-    Cédula: element.cedula || 'No registrada',
-    'Deuda ($)': element.total - element.pagado,
-  }));
+  exportarExcel(): void {
+    const dataExport = this.dataSource1.data.map((element: any) => ({
+      Nombre: element.title,
+      Cédula: element.cedula || 'No registrada',
+      'Deuda ($)': element.total - element.pagado,
+    }));
 
-  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataExport);
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataExport);
 
-  // Estilizar columnas: ajustar ancho
-  const colWidths = [
-    { wch: 30 }, // Nombre
-    { wch: 20 }, // Cédula
-    { wch: 15 }, // Deuda
-  ];
-  worksheet['!cols'] = colWidths;
+    // Estilizar columnas: ajustar ancho
+    const colWidths = [
+      { wch: 30 }, // Nombre
+      { wch: 20 }, // Cédula
+      { wch: 15 }, // Deuda
+    ];
+    worksheet['!cols'] = colWidths;
 
-  const workbook: XLSX.WorkBook = {
-    Sheets: { 'Comisiones': worksheet },
-    SheetNames: ['Comisiones'],
-  };
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'Comisiones': worksheet },
+      SheetNames: ['Comisiones'],
+    };
 
-  const excelBuffer: any = XLSX.write(workbook, {
-    bookType: 'xlsx',
-    type: 'array',
-  });
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
 
-  const fecha = new Date().toLocaleDateString('es-CO').replace(/\//g, '-');
-  const nombreArchivo = `Reporte-Comisiones-${fecha}.xlsx`;
+    const fecha = new Date().toLocaleDateString('es-CO').replace(/\//g, '-');
+    const nombreArchivo = `Reporte-Comisiones-${fecha}.xlsx`;
 
-  const data: Blob = new Blob([excelBuffer], {
-    type:
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
-  });
+    const data: Blob = new Blob([excelBuffer], {
+      type:
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
 
-  saveAs(data, nombreArchivo);
+    saveAs(data, nombreArchivo);
 
-  // FileSaver.saveAs(data, nombreArchivo);
-}
+    // FileSaver.saveAs(data, nombreArchivo);
+  }
 
 
 }

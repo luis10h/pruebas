@@ -12,6 +12,8 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { U } from '@angular/cdk/unique-selection-dispatcher.d-DSFqf1MM';
+import { Router } from '@angular/router';
+
 
 export interface UserData {
   nombre: string;
@@ -64,10 +66,16 @@ export class TablaReservasComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient , private router: Router) {
     this.dataSource = new MatTableDataSource<UserData>([]);
     this.cargarReservas();
   }
+
+
+  agregarReserva() {
+    this.router.navigate(['/view/form-reserva']); // Asegúrate de que esta ruta exista en tu app-routing.module.ts
+  }
+
   cargarReservas() {
     const apiUrl = 'https://neocompanyapp.com/php/reservas/get_reservas.php';
     this.http.get<UserData[]>(apiUrl).subscribe({

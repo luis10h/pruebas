@@ -2,24 +2,34 @@
   <mat-card-content>
     <mat-card-title class="m-b-0">Tabla de Reservas</mat-card-title>
 
-    <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
 
+  <!-- Buscar a la izquierda -->
+  <div>
+    <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
+      <mat-label>Filtrar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ej: Maia">
+    </mat-form-field>
+  </div>
 
+  <!-- Botones a la derecha -->
+  <div class="d-flex gap-2">
 
-      
-      <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
-        <mat-label>Filtrar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ej: Maia">
-      </mat-form-field>
+    <!-- Botón Exportar Excel (verde) -->
+    <button mat-raised-button class="btn-verde" (click)="exportarExcel()">
+      <mat-icon>file_download</mat-icon>
+      Exportar Excel
+    </button>
 
-      <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4" style="width: 200px; margin: 0;">
-        <button mat-raised-button color="accent" (click)="exportarExcel()">
-        <mat-icon>file_download</mat-icon>
-        Exportar Excel
-      </button>
-      </div>
+    <!-- Botón Agregar Reserva (azul) -->
+    <button mat-raised-button class="btn-azul" (click)="agregarReserva()">
+      <mat-icon>add</mat-icon>
+      Agregar Reserva
+    </button>
 
-    </div>
+  </div>
+</div>
+
 
     <div class="table-responsive mt-3">
       <table mat-table [dataSource]="dataSource" matSort class="w-100">

@@ -21,6 +21,7 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { MatButtonModule } from '@angular/material/button';
 import { DateTime } from 'luxon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface UserData {
   nombre: string;
@@ -46,6 +47,7 @@ export interface UserData {
     MatIconModule,
     MatMenuModule,
     MatDialogModule,
+    MatTooltipModule,
     MatButtonModule, // Asegura estilos del botón
   ],
   templateUrl: './tabla-taxistas.component.html',

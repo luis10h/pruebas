@@ -1,0 +1,49 @@
+<h2>📊 Reporte de Pagos</h2>
+
+<!-- FILTROS -->
+<div class="filtros">
+  <input [(ngModel)]="cedulaFiltro" placeholder="Buscar por cédula" />
+  <select [(ngModel)]="estadoFiltro">
+    <option value="">Todos</option>
+    <option value="pagado">Pagado</option>
+    <option value="abonado">Abonado</option>
+    <option value="no-pagado">No pagado</option>
+  </select>
+  <input type="date" [(ngModel)]="fechaInicio" />
+  <input type="date" [(ngModel)]="fechaFin" />
+  <button (click)="cargarReporte()">Buscar</button>
+  <button (click)="exportarExcel()">Exportar Excel</button>
+</div>
+
+<!-- TABLA -->
+<table border="1" width="100%">
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Nombre</th>
+      <th>Cédula</th>
+      <th>Estado</th>
+      <th>Total a pagar</th>
+      <th>Pagado</th>
+      <th>Pendiente</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let r of reporte">
+      <td>{{ r.fecha }}</td>
+      <td>{{ r.nombre }}</td>
+      <td>{{ r.cedula }}</td>
+      <td>{{ r.estado }}</td>
+      <td>{{ r.total_a_pagar | currency:'COP':'symbol' }}</td>
+      <td>{{ r.pagado | currency:'COP':'symbol' }}</td>
+      <td>{{ r.total_a_pagar - r.pagado | currency:'COP':'symbol' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- RESUMEN -->
+<div class="resumen">
+  <p><strong>Total general:</strong> {{ totalGeneral | currency:'COP':'symbol' }}</p>
+  <p><strong>Total pagado:</strong> {{ totalPagado | currency:'COP':'symbol' }}</p>
+  <p><strong>Total pendiente:</strong> {{ totalPendiente | currency:'COP':'symbol' }}</p>
+</div>

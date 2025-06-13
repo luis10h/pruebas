@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { U } from '@angular/cdk/unique-selection-dispatcher.d-DSFqf1MM';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface UserData {
   id?: number; // Agregado para manejar la eliminación
@@ -25,6 +26,7 @@ export interface UserData {
   lugar: string;
   fecha: string;
   hora: string;
+  reservas: any[]; // Agregado para manejar las reservas
 }
 
 const NOMBRES: string[] = [
@@ -45,7 +47,7 @@ const LUGARES: string[] = ['Sala', 'Terraza'];
     MatSortModule,
     MatPaginatorModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './tabla-reservas.component.html',
   styleUrls: ['./tabla-reservas.component.scss']
@@ -97,7 +99,7 @@ export class TablaReservasComponent implements AfterViewInit {
 
 
   cargarReservas() {
-    const apiUrl = 'https://neocompanyapp.com/php/reservas/get_reservas.php';
+    const apiUrl = 'https://neocompanyapp.com/php/reservas/gets_reservas.php';
     // const apiUrl = 'http://localhost/php/reservas/get_reservas.php';
     this.http.get<UserData[]>(apiUrl).subscribe({
       next: (response) => {

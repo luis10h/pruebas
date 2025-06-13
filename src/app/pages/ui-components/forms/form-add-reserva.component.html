@@ -10,7 +10,7 @@
         <div class="col-lg-6">
           <mat-label class="f-w-600 m-b-8 d-block">Nombre</mat-label>
           <mat-form-field appearance="outline" class="w-100" color="primary">
-            <input formControlName="nombre" matInput placeholder="nombre completo " />
+            <input formControlName="nombre" matInput placeholder="Nombre completo " />
             <mat-error *ngIf="formAgregar.get('nombre')?.invalid && formAgregar.get('nombre')?.touched">
               El nombre es obligatorio
             </mat-error>

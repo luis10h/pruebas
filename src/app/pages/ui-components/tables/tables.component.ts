@@ -16,6 +16,7 @@ import { AppFormComisionesComponent } from '../forms/form-comisiones.component';
 import { Router } from '@angular/router';
 import { parse } from 'date-fns';
 import Swal from 'sweetalert2';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 // 📦 EXCEL EXPORT
@@ -47,7 +48,8 @@ export interface Taxistasdata {
     MatPaginatorModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatTooltipModule
   ],
   standalone: true,
   templateUrl: './tables.component.html',

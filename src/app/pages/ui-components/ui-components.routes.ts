@@ -22,6 +22,7 @@ import { MyProfileComponent } from './profile/my-profile.component';
 import { AuthGuard } from '../authentication/auth.guard';
 import { H } from '@angular/cdk/keycodes';
 import { HistorialComisionesComponent } from './tables/historial-comisiones/historial-comisiones.component';
+import { ReportePagosComponent } from './tables/historial-comisiones/reporte-pago/reporte-pago.component';
 
 export const landingRoutes: Routes = [
   {
@@ -148,7 +149,7 @@ export const UiComponentsRoutes: Routes = [
       },
       {
         path: 'reporte-comisiones',
-        component: AppEarningReportsComponent,
+        component: ReportePagosComponent,
         canActivate: [AuthGuard]
       },
     ],

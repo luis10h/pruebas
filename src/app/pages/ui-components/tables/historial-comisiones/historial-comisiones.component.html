@@ -43,6 +43,7 @@
       </td>
       <td>
         <button *ngIf="c.estado !== 'pagado'" (click)="pagarCompleto(c)">Marcar como pagado</button>
+        <button *ngIf="c.estado !== 'pagado'" (click)="abrirDialogAbonar(c)">Marcar como abonado</button>
         <h4 *ngIf="c.estado === 'pagado'">Pagado</h4>
       </td>
     </tr>

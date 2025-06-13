@@ -30,6 +30,7 @@ export interface UserData {
   lugar: string;
   fecha: string;
   hora: string;
+  reservas: any[]; // Agregado para manejar las reservas
 }
 
 const NOMBRES: string[] = [
@@ -50,7 +51,7 @@ const LUGARES: string[] = ['Sala', 'Terraza'];
     MatSortModule,
     MatPaginatorModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './tabla-reservas.component.html',
   styleUrls: ['./tabla-reservas.component.scss']
@@ -115,7 +116,7 @@ export class TablaReservasComponent implements AfterViewInit {
 
 >>>>>>> f3a94b1a71b456e8cca6006b84f509bac3930f49
   cargarReservas() {
-    const apiUrl = 'https://neocompanyapp.com/php/reservas/get_reservas.php';
+    const apiUrl = 'https://neocompanyapp.com/php/reservas/gets_reservas.php';
     // const apiUrl = 'http://localhost/php/reservas/get_reservas.php';
     this.http.get<UserData[]>(apiUrl).subscribe({
       next: (response) => {

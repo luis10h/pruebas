@@ -46,6 +46,7 @@ export class AppTotalFollowersComponent implements OnInit {
     @ViewChild('chart') chart: ChartComponent = Object.create(null);
     public totalfollowersChart!: Partial<totalfollowersChart> | any;
 
+
     constructor(private http: HttpClient) {
         this.totalfollowersChart = {
             series: [
@@ -126,33 +127,48 @@ export class AppTotalFollowersComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadReservasData();
+        this.loadReservasData();       // gráfico por día
+        this.cargarResumenReservas();  // conteo resumen
     }
 
-   loadReservasData() {
-  this.http.get<any>('https://neocompanyapp.com/php/reservas/reservas_por_dia.php')
-    .subscribe(data => {
-      if (Array.isArray(data)) {
-        const seriesData = data.map(item => item.total);
-        this.totalFollowers = seriesData.reduce((a, b) => a + b, 0);
+    loadReservasData() {
+        this.http.get<any>('https://neocompanyapp.com/php/reservas/reservas_por_dia.php')
+            .subscribe(data => {
+                if (Array.isArray(data)) {
+                    const seriesData = data.map(item => item.total);
+                    this.totalFollowers = seriesData.reduce((a, b) => a + b, 0);
 
-        this.totalfollowersChart.series = [
-          { name: 'Reservas', data: seriesData }
-        ];
+                    this.totalfollowersChart.series = [
+                        { name: 'Reservas', data: seriesData }
+                    ];
 
-        this.totalfollowersChart.xaxis = {
-          categories: data.map(item => item.dia),
-          labels: { show: false },
-          axisBorder: { show: false },
-          axisTicks: { show: false },
-        };
-      } else {
-        // Si no es array, poner valores por defecto para que la gráfica no falle
-        this.totalFollowers = 0;
-        this.totalfollowersChart.series = [{ name: 'Reservas', data: [] }];
-        this.totalfollowersChart.xaxis = { categories: [], labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } };
-      }
-    });
-}
+                    this.totalfollowersChart.xaxis = {
+                        categories: data.map(item => item.dia),
+                        labels: { show: false },
+                        axisBorder: { show: false },
+                        axisTicks: { show: false },
+                    };
+                } else {
+                    // Si no es array, poner valores por defecto para que la gráfica no falle
+                    this.totalFollowers = 0;
+                    this.totalfollowersChart.series = [{ name: 'Reservas', data: [] }];
+                    this.totalfollowersChart.xaxis = { categories: [], labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } };
+                }
+            });
+
+
+    }
+    hoyReservas = 0;
+    anterioresReservas = 0;
+    totalReservas = 0;
+
+    cargarResumenReservas() {
+        this.http.get<any>('https://neocompanyapp.com/php/reservas/get_reservas.php')
+            .subscribe(data => {
+                this.hoyReservas = data.hoy;
+                this.anterioresReservas = data.anteriores;
+                this.totalReservas = data.total;
+            });
+    }
 
 }

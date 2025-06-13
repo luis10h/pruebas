@@ -27,15 +27,15 @@
           <!-- Botones a la derecha -->
       <div id="prueba" class="d-flex align-items-center gap-2 flex-wrap">
         <!-- Botón verde -->
-        <button mat-raised-button class="btn-verde d-flex align-items-center" (click)="exportarExcel()">
+        <button mat-raised-button matTooltip="Exportar Excel" class="btn-verde d-flex align-items-center" (click)="exportarExcel()">
           <mat-icon>file_download</mat-icon>
           <span class="ms-1">Exportar Excel</span>
         </button>
 
         <!-- Botón azul -->
-        <button mat-raised-button class="btn-azul d-flex align-items-center" (click)="irAgregarComisiones()">
+        <button mat-raised-button matTooltip="Agregar Comisión" class="btn-azul d-flex align-items-center" (click)="irAgregarComisiones()">
           <mat-icon>add</mat-icon>
-          <span class="ms-1">Agregar Comision</span>
+          <span class="ms-1">Agregar Comisión</span>
         </button>
       </div>
     

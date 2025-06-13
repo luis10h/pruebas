@@ -65,24 +65,46 @@ export class MyProfileComponent {
     console.log('Cerrar sesión');
     // Aquí pones lógica para cerrar sesión
   }
+  sessionObj: any;
+  usuario: any;
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-   const session = this.sessionService.checkSession();
-if (session.loggedIn) {
-  // this.router.navigate(['/dashboard']);
-}
-    else {
-      console.log('No hay sesión activa');
-      // this.router.navigate(['/authentication/side-login']);
+    const session = localStorage.getItem('session');
+    if (session) {
+      this.sessionObj = JSON.parse(session);
+      console.log('Usuario en sesión desde taxista:', this.sessionObj.user.username);
+      console.log('ID de usuario:', this.sessionObj.user.company_name);
+      console.log('Company code:', this.sessionObj.user.company_code);
+      this.usuario = this.sessionObj.user.company_code;
+
+    } else {
+      console.log('No hay usuario en sesión');
     }
-    // this.sessionService.checkSession().subscribe((res: any) => {
-    //   if (res.loggedIn) {
-    //     console.log('Sesión activa:', res.user);
-    //     this.user = res.user;
-    //   } else {
-    //     console.log('No hay sesión activa');
-    //   }
-    // });
+
+    this.obtenerDatosUsuario();
+
   }
+  url = 'https://neocompanyapp.com/php/taxistas/obtener_datos_u.php';
+  datos: any;
+  taxistas: any;
+  comisiones: any;
+  obtenerDatosUsuario() {
+    const companyCode = this.usuario;
+
+    this.http.get<any>(`${this.url}?company_code=${companyCode}`).subscribe({
+      next: (data) => {
+        console.log('Conteo de taxistas:', data.total);
+        this.taxistas = data.total;
+        this.comisiones = data.comisiones;
+        this.datos = data.datos2;
+      },
+      error: (err) => {
+        console.error('Error al obtener datos:', err);
+      }
+    });
+  }
+
+
+
 }

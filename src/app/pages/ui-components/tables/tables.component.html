@@ -1,12 +1,20 @@
 <mat-card class="cardWithShadow">
   <mat-card-content>
-    <mat-card-title>Tabla de comisiones</mat-card-title>
+    <mat-card-title >Tabla de comisiones</mat-card-title>
     <!-- <button mat-raised-button color="primary" (click)="cargarDatos()"> Recargar</button> -->
 
     <!-- Buscador alineado a la derecha -->
     <form [formGroup]="formBuscar">
-      <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4 ">
-        <mat-form-field appearance="outline" color="primary" style="width: 200px; margin: 0;">
+
+      <div id="pru"  class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4 centrar-todo">
+        <!-- <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span class="f-s-16 f-w-600">Comisiones</span>
+          <span class="f-s-14 text-muted">({{ dataSource1.data.length }})</span>
+        </div> -->
+
+      <!-- Filtro a la izquierda -->
+      <div class="caja">
+        <mat-form-field appearance="outline" color="primary" style="width: 120px; margin: 0;">
           <mat-label>Buscar</mat-label>
           <input formControlName="cedula" matInput #pruebita type="text" placeholder="Buscar..." />
           <mat-error>Este campo es requerido.</mat-error>
@@ -14,16 +22,29 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-
-        <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 mt-4" style="width: 200px; margin: 0;">
-        <button mat-raised-button color="accent" (click)="exportarExcel()">
-        <mat-icon>file_download</mat-icon>
-        Exportar Excel
-      </button>
       </div>
 
+          <!-- Botones a la derecha -->
+      <div id="prueba" class="d-flex align-items-center gap-2 flex-wrap">
+        <!-- Botón verde -->
+        <button mat-raised-button class="btn-verde d-flex align-items-center" (click)="exportarExcel()">
+          <mat-icon>file_download</mat-icon>
+          <span class="ms-1">Exportar Excel</span>
+        </button>
 
+        <!-- Botón azul -->
+        <button mat-raised-button class="btn-azul d-flex align-items-center" (click)="irAgregarComisiones()">
+          <mat-icon>add</mat-icon>
+          <span class="ms-1">Agregar Comision</span>
+        </button>
       </div>
+    
+     
+
+    </div>
+
+     
+
     </form>
 
     <div class="table-responsive">
@@ -129,17 +150,21 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="pagarCompleto(element)">
+              <button *ngIf="element.pagado < element.total" mat-menu-item (click)="pagarCompleto(element)">
                 <mat-icon>payment</mat-icon>
                 <span>Pago Total</span>
               </button>
-              <button mat-menu-item (click)="abonar(element)">
+              <button *ngIf="element.pagado < element.total" mat-menu-item (click)="abonar(element)">
                 <mat-icon>attach_money</mat-icon>
                 <span>Abonar</span>
               </button>
               <button mat-menu-item (click)="abrirFormulario(element)">
                 <mat-icon>add</mat-icon>
                 <span>Agregar Comisión</span>
+              </button>
+              <button mat-menu-item (click)="verHistorial(element)">
+                <mat-icon>history</mat-icon>
+                <span>Historial</span>
               </button>
               <!-- <button mat-menu-item (click)="eliminar(element)">
                 <mat-icon>delete</mat-icon>
@@ -151,10 +176,13 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center" colspan="7">No hay coincidencias.</td>
+        </tr>
       </table>
-      <div *ngIf="dataSource1.data.length === 0" class="no-resultados text-center">
-        No hay coincidencias para esta empresa.
-      </div>
+      <!-- <div *ngIf="dataSource1.data.length === 0" class="no-resultados text-center">
+        No hay coincidencias.
+      </div> -->
 
 
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

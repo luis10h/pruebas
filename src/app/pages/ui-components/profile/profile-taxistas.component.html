@@ -6,7 +6,7 @@
 
   <!-- Encabezado -->
   <mat-card-header class="d-flex flex-column align-items-center text-center">
-    <img mat-card-avatar src="https://i.pravatar.cc/150?img=12" alt="Foto taxista" class="avatar">
+    <img mat-card-avatar src="https://avatar.iran.liara.run/public/10" alt="Foto taxista" class="avatar">
     <mat-card-title class="nombre-admin">{{ data.nombre }}</mat-card-title>
     <mat-card-subtitle class="rol-admin">Taxista</mat-card-subtitle>
   </mat-card-header>
@@ -31,7 +31,7 @@
 
   <!-- Acciones -->
   <mat-card-actions class="acciones">
-    <button mat-stroked-button color="primary" (click)="editarPerfil()">Editar perfil</button>
-    <button mat-flat-button color="warn" (click)="abrirConfiguracion()">Configuración</button>
+    <button mat-stroked-button color="primary" (click)="editarTaxista(data)">Editar Taxista</button>
+    <button mat-flat-button color="warn" (click)="abrirFormulario(data)">Agregar Comisión</button>
   </mat-card-actions>
 </mat-card>

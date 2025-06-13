@@ -52,11 +52,25 @@ export interface UserData {
   styleUrls: ['./tabla-taxistas.component.scss'],
 })
 export class TablaTaxistasComponent implements AfterViewInit {
-  displayedColumns: string[] = ['nombre', 'cedula', 'telefono', 'placa', 'sexo', 'nacimiento', 'acciones'];
+
+
+irAgregarTaxista() {
+  this.router.navigate(['/dashboard/view/form-taxista']);
+}
+
+
+  displayedColumns: string[] = [
+    'nombre',
+    'cedula',
+    // 'telefono',
+    'placa',
+    // 'sexo',
+    // 'nacimiento',
+    'acciones'];
   dataSource = new MatTableDataSource<UserData>([]);  // inicializar vacío
 
   private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
-
+// private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -84,7 +98,7 @@ export class TablaTaxistasComponent implements AfterViewInit {
           this.dataSource.data = filtrados;
           console.log(data);
           console.log(this.dataSource);
-        // this.dataSource = new MatTableDataSource<UserData>(filtrados);
+          // this.dataSource = new MatTableDataSource<UserData>(filtrados);
 
         } else {
           this.dataSource.data = [];

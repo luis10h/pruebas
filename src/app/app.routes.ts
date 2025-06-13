@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { PreciosComponent } from './pages/ui-components/servicios/precios/precios.component';
 
 
 
@@ -10,6 +11,10 @@ export const routes: Routes = [
   {
     path: '',
     component: LandingPageComponent,
+  },
+  {
+    path: 'planes',
+    component: PreciosComponent,
   },
 
 

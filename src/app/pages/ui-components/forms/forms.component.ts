@@ -16,9 +16,12 @@ import { TaxistaService } from 'src/app/services/taxista.service';
 import { ActivatedRoute } from '@angular/router';
 // import Swal from 'sweetalert2/dist/sweetalert2.esm.js';
 import Swal from 'sweetalert2';
-import { S } from '@angular/cdk/scrolling-module.d-ud2XrbF8';
+// import { S } from '@angular/cdk/scrolling-module.d-ud2XrbF8';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SessionService } from '../../../services/session.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatNativeDateModule } from '@angular/material/core';
+// import { MAC_ENTER } from '@angular/cdk/keycodes';
 
 
 interface sexo {
@@ -28,9 +31,10 @@ interface sexo {
 
 @Component({
   selector: 'app-forms',
-  providers: [provideNativeDateAdapter()],
+  // providers: [provideNativeDateAdapter()],
   imports: [
     MatFormFieldModule,
+    MatTooltipModule,
     MatSelectModule,
     CommonModule,
     FormsModule,
@@ -43,7 +47,9 @@ interface sexo {
     RouterModule,
     MatTimepickerModule,
     MatDatepickerModule,
+    MatNativeDateModule,
   ],
+  standalone: true,
   templateUrl: './form-add-taxista.component.html',
 })
 export class AppFormsComponent implements OnInit {
@@ -114,7 +120,7 @@ export class AppFormsComponent implements OnInit {
       telefono: ['', [Validators.required]],
       fecha_nacimiento: ['', [Validators.required]],
       sexo: ['', [Validators.required]],
-      company_code: [this.sessionObj.user.company_code, [Validators.required]],
+      company_code: [this.sessionObj?.user?.company_code || '', [Validators.required]],
     });
   }
 
@@ -216,6 +222,9 @@ export class AppFormsComponent implements OnInit {
             });
           } else {
             // Si no existe, procede a guardar
+            console.log(this.formAgregar.value);
+            this.formAgregar.get('cedula')?.enable(); // Asegúrate de que la cédula esté habilitada
+            this.formAgregar.get('company_code')?.setValue(this.sessionObj.user.company_code); // Asegúrate de que el company_code esté configurado
             this.taxistaService.guardarTaxista(this.formAgregar.value).subscribe({
               next: () => {
                 Swal.fire({

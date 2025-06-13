@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { parse } from 'date-fns';
 import Swal from 'sweetalert2';
 
+
 // 📦 EXCEL EXPORT
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -28,7 +29,7 @@ export interface Taxistasdata {
   budget: number;
   priority: string;
   sexo: string | 'femenino' | 'masculino';
-  company_name: string;
+  company_code: string;
 }
 
 @Component({
@@ -50,6 +51,7 @@ export interface Taxistasdata {
   ],
   standalone: true,
   templateUrl: './tables.component.html',
+  styleUrls: ['./tables.component.scss'],
 })
 export class AppTablesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -61,7 +63,11 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
   public formBuscar!: FormGroup;
   private apiUrl = 'https://neocompanyapp.com/php/comisiones/tabla_comisiones.php';
 
-  sessionObj: any;
+  // sessionObj: any;
+
+  irAgregarComisiones() {
+    this.router.navigate(['/dashboard/view/form-comisiones']);
+  }
 
   constructor(
     private http: HttpClient,
@@ -70,6 +76,47 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
     private router: Router
   ) { }
 
+  cargarDatos(): void {
+    this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
+
+      data => {
+        const safeData = Array.isArray(data) ? data : [];
+
+        // Filtrar por company_name
+        const filtrados = safeData.filter(item => item.company_code === this.sessionObj.user.company_code);
+
+        this.dataSource1.data = filtrados
+
+        // Mantener imágenes por sexo
+        for (let card of filtrados) {
+          let numeroAleatorio = 0;
+          if (card.sexo === 'femenino') {
+            const opciones = [2, 4, 10];
+            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+          } else {
+            const opciones = [1, 3, 5, 6, 7, 8, 9];
+            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
+          }
+          this.imagenesPorId[card.id] = numeroAleatorio;
+        }
+        console.log('this.sessionObj:', this.sessionObj);
+        if (this.paginator) {
+          this.dataSource1.paginator = this.paginator;
+        }
+      },
+      error => {
+        console.error('Error al obtener los datos:', error);
+        this.dataSource1 = new MatTableDataSource<Taxistasdata>([]);
+      }
+    );
+  }
+
+
+
+
+
+
+  sessionObj: any;
   ngOnInit(): void {
     this.formBuscar = this.crearFormularioConsultar();
     this.cargarDatos();
@@ -99,41 +146,21 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
       if (filtro === 'pagado') filtro = 'pagado';
       this.dataSource1.filter = filtro;
     });
+
+   this.iniciarAutoActualizacion();
+
+
+  }
+  intervalId: any;
+  iniciarAutoActualizacion() {
+    this.intervalId = setInterval(() => {
+      this.cargarDatos();
+      console.log('Comisiones actualizadas automáticamente');
+    }, 20000); // cada 20 segundos
   }
 
   ngAfterViewInit() {
     this.dataSource1.paginator = this.paginator;
-  }
-
-  cargarDatos(): void {
-    this.http.get<Taxistasdata[]>(this.apiUrl).subscribe(
-      data => {
-        const safeData = Array.isArray(data) ? data : [];
-        const filtrados = safeData.filter(item => item.company_name === this.sessionObj.user.company_code);
-
-        this.dataSource1.data = filtrados;
-
-        for (let card of filtrados) {
-          let numeroAleatorio = 0;
-          if (card.sexo === 'femenino') {
-            const opciones = [2, 4, 10];
-            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
-          } else {
-            const opciones = [1, 3, 5, 6, 7, 8, 9];
-            numeroAleatorio = opciones[Math.floor(Math.random() * opciones.length)];
-          }
-          this.imagenesPorId[card.id] = numeroAleatorio;
-        }
-
-        if (this.paginator) {
-          this.dataSource1.paginator = this.paginator;
-        }
-      },
-      error => {
-        console.error('Error al obtener los datos:', error);
-        this.dataSource1 = new MatTableDataSource<Taxistasdata>([]);
-      }
-    );
   }
 
   getEstado(element: any): string {
@@ -167,7 +194,9 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
+  verHistorial(element: any): void {
+    this.router.navigate(['dashboard/view/historial-comisiones', element.cedula]);
+  }
   abonar(element: any): void {
     const dialogRef = this.dialog.open(DialogAbonarComponent, {
       data: element,
@@ -181,24 +210,47 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // ✅ Método para exportar a Excel
   exportarExcel(): void {
-    const data = this.dataSource1.filteredData.map(row => ({
-      Nombre: row.uname,
-      Empresa: row.company_name,
-      Presupuesto: row.budget,
-      Prioridad: row.priority,
-      Sexo: row.sexo,
+    const dataExport = this.dataSource1.data.map((element: any) => ({
+      Nombre: element.title,
+      Cédula: element.cedula || 'No registrada',
+      'Deuda ($)': element.total - element.pagado,
     }));
 
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Taxistas');
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataExport);
 
-    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(blob, 'Taxistas.xlsx');
+    // Estilizar columnas: ajustar ancho
+    const colWidths = [
+      { wch: 30 }, // Nombre
+      { wch: 20 }, // Cédula
+      { wch: 15 }, // Deuda
+    ];
+    worksheet['!cols'] = colWidths;
+
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'Comisiones': worksheet },
+      SheetNames: ['Comisiones'],
+    };
+
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+
+    const fecha = new Date().toLocaleDateString('es-CO').replace(/\//g, '-');
+    const nombreArchivo = `Reporte-Comisiones-${fecha}.xlsx`;
+
+    const data: Blob = new Blob([excelBuffer], {
+      type:
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
+
+    saveAs(data, nombreArchivo);
+
+    // FileSaver.saveAs(data, nombreArchivo);
   }
+
+
 }
 
 // ─────────────────────────────────────────────
@@ -210,7 +262,7 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
   template: `
     <h2 mat-dialog-title>Pago Total</h2>
     <mat-dialog-content>
-      <p>Confirmar pago total para: {{ data.title || data.uname }}</p>
+      <p>Confirmar pago total para: {{ data.title || data.uname || data.nombre || data.element.nombre}}</p>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Cancelar</button>
@@ -225,19 +277,31 @@ export class DialogPagoTotalComponent {
     public dialogRef: MatDialogRef<DialogPagoTotalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log('Datos recibidos en el diálogo:', data.cedula);
+    console.log('Datos recibidos en el diálogo:', data.cedula || data.element?.cedula || data.cedula);
+    console.log('Monto total:', data.total_a_pagar || data.element?.total_a_pagar || data.total || 0);
+
   }
 
   submit() {
-    if (!this.data?.total || this.data.total <= 0) {
+    const monto =
+      this.data?.total ??
+      this.data?.total_a_pagar ??
+      this.data?.element?.total_a_pagar ??
+      0;
+
+    if (monto <= 0) {
       console.error('Monto inválido');
       return;
     }
 
+    const cedula =
+      this.data?.cedula ??
+      this.data?.element?.cedula ??
+      '';
+
     this.http.post('https://neocompanyapp.com/php/comisiones/pago_comisiones.php', {
-      id: this.data.id,
-      monto: this.data.total,
-      cedula: this.data.cedula,
+      monto,
+      cedula
     }).subscribe({
       next: (response) => {
         const Toast = Swal.mixin({
@@ -267,6 +331,7 @@ export class DialogPagoTotalComponent {
       }
     });
   }
+
 }
 
 // ─────────────────────────────────────────────

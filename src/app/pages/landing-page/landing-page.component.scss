@@ -826,12 +826,32 @@ body {
   box-sizing: border-box;
   margin: 40px;
 }
+// 
+.aboutus_socials {
+  margin-top: 10px;
+}
 
+.aboutus_socials a {
+  margin: 0 5px;
+  color: #333;
+  font-size: 1.2em;
+  transition: color 0.3s;
+}
+
+.aboutus_socials a:hover {
+  color: #0077b5; /* Azul LinkedIn, puedes cambiarlo */
+}
+
+
+
+
+
+// 
 .aboutus_card {
   background: white;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  max-width: 350px;
+  max-width: 300px;
   flex: 1 1 350px;
   padding: 30px 25px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;

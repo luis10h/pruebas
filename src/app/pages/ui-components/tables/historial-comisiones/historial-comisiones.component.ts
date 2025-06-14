@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { ComisionService } from 'src/app/services/comision-service.service';
@@ -87,7 +87,7 @@ export class HistorialComisionesComponent {
         totalComisiones: this.totalComisiones
       },
       // disableClose: true,
-      width: '300px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -207,11 +207,16 @@ export class DialogAbonarHistorialComponent {
 @Component({
   selector: 'dialog-pago-total',
   standalone: true,
-  imports: [MatButtonModule, MatDialogModule],
+  imports: [MatButtonModule, MatDialogModule, CurrencyPipe],
   template: `
     <h2 mat-dialog-title>Pago Total</h2>
     <mat-dialog-content>
-      <p>Confirmar pago total para: {{ data.title || data.uname || data.nombre || data.element.nombre}}</p>
+      <p class="">Confirmar pago para:
+        <b>{{ data.title || data.uname || data.nombre || data.element.nombre}}</b>
+       </p>
+      <p>Monto total a pagar:
+        <b>{{ data.total_a_pagar || data.element?.total_a_pagar || data.total || 0 | currency }}</b>
+      </p>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Cancelar</button>
@@ -247,10 +252,10 @@ export class DialogPagoTotalHistorialComponent {
       this.data?.cedula ??
       this.data?.element?.cedula ??
       '';
-      const id =
+    const id =
       this.data?.id ??
       this.data?.element?.id ??
-      ''  ;
+      '';
 
     this.http.post('https://neocompanyapp.com/php/comisiones/abono_comisiones.php', {
       monto,

@@ -48,15 +48,23 @@ export class HeaderComponent {
     // });
   }
 
-  logout() {
-    this.sessionService.logout();
-    console.log('Sesión cerrada');
-    
-    this.router.navigate(['/authentication/side-login']).then(() => {
-      console.log('Redirigido a la página de login');
-    }, (error) => {
-      console.error('Error al redirigir a la página de login:', error);
+logout() {
+  const accesoId = localStorage.getItem('acceso_id');
+
+  if (accesoId) {
+    this.sessionService.registrarSalida(Number(accesoId)).subscribe({
+      next: () => console.log('Hora de salida registrada'),
+      error: (err) => console.error('Error al registrar salida:', err)
     });
   }
+
+  this.sessionService.logout();
+  console.log('Sesión cerrada');
+
+  this.router.navigate(['/authentication/side-login']).then(() => {
+    console.log('Redirigido a la página de login');
+  });
+}
+
 
 }

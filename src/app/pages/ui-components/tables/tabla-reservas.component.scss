@@ -22,13 +22,6 @@ table {
   height: auto;
 }
 
-<<<<<<< HEAD
-=======
-// Hover y focus opcionales si los necesitas
-// ::ng-deep .icon-clean-button:hover { ... }
-// ::ng-deep .icon-clean-button:focus { ... }
-
->>>>>>> f3a94b1a71b456e8cca6006b84f509bac3930f49
 .editar:hover {
   color: rgb(228, 188, 13);
 }
@@ -47,18 +40,10 @@ table {
   font-weight: bold;
 }
 
-<<<<<<< HEAD
 /* ==== NUEVOS ESTILOS AGREGADOS ==== */
 .btn-verde {
   background-color: #28a745 !important;
   color: white;
-=======
-/* Botones personalizados */
-.btn-verde {
-  background-color: #28a745 !important;
-  color: white;
-  margin-right: 0.5rem;
->>>>>>> f3a94b1a71b456e8cca6006b84f509bac3930f49
 }
 
 .btn-verde:hover {
@@ -73,73 +58,3 @@ table {
 .btn-azul:hover {
   background-color: #0056b3 !important;
 }
-<<<<<<< HEAD
-=======
-
-.caja {
-  margin-top: 1%;
-}
-
-/* Texto dentro de los botones */
-.btn-text {
-  display: inline;
-}
-
-/* Texto visible solo en escritorio */
-.btn-text {
-  display: inline;
-  margin-left: 4px;
-}
-
-//* Estilos responsivos para móviles */
-@media (max-width: 768px) {
-  /* Alineación horizontal del buscador y los botones */
-  .d-flex.justify-content-between.align-items-center.flex-wrap.gap-2.mt-4 {
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .caja {
-    flex: 1;
-    margin-top: 5%;
-  }
-
-  #prueba {
-    flex-shrink: 0;
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .btn-verde,
-  .btn-azul {
-    width: 40px;
-    height: 40px;
-    border-radius: 50% !important;
-    padding: 0 !important;
-    font-size: 0;
-    margin-left: 0;
-    margin-top: -10%;
-    min-width: 0 !important;
-  }
-
-  .btn-text {
-    display: none;
-  }
-
-  .btn-verde mat-icon,
-  .btn-azul mat-icon {
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
-    margin: 0 !important;
-  }
-
-  #pru{
-    display: flex;
-    flex-direction: row;
-   
-  }
-
-}
->>>>>>> f3a94b1a71b456e8cca6006b84f509bac3930f49

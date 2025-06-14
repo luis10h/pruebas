@@ -64,6 +64,7 @@ export class AppSideLoginComponent implements OnDestroy {
               loggedIn: true,
               user: response.user
             }));
+            localStorage.setItem('acceso_id', response.user.acceso_id);
 
             const Toast = Swal.mixin({
               toast: true,
@@ -84,7 +85,7 @@ export class AppSideLoginComponent implements OnDestroy {
           } else {
             Swal.fire({
               icon: 'error',
-              title: 'Credenciales incorrectas',
+              title: response.message ? 'Error' : 'Error de autenticación',
               text: response.message,
             });
           }

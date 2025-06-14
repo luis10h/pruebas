@@ -59,7 +59,7 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'administracion',
         component: TablaAdministracionComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'chips',

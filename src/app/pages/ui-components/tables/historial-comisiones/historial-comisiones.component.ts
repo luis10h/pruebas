@@ -1,7 +1,5 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, Inject, OnInit} from '@angular/core';
-
-
+import { Component, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { ComisionService } from 'src/app/services/comision-service.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,12 +12,12 @@ import Swal from 'sweetalert2';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -52,7 +50,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   templateUrl: './historial-comisiones.component.html',
   styleUrls: ['./historial-comisiones.component.scss']
 })
-export class HistorialComisionesComponent implements OnInit {
+export class HistorialComisionesComponent implements OnInit, AfterViewInit {
   constructor(
     private comisionService: ComisionService,
     private router: Router,
@@ -68,6 +66,10 @@ export class HistorialComisionesComponent implements OnInit {
   totalComisiones: any;
   totalAbonado: any;
   totalPagado: any;
+  displayedColumns: string[] = ['fecha', 'nombre', 'placa', 'referidos', 'total', 'pagado', 'estado', 'acciones'];
+  dataSource = new MatTableDataSource<any>([]);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -79,10 +81,15 @@ export class HistorialComisionesComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
   cargarComisiones() {
     this.comisionService.getComisiones(this.cedula, this.estadoFiltro, this.fechaInicio, this.fechaFin)
       .subscribe(data => {
         this.comisiones = data;
+        this.dataSource.data = this.comisiones;
         this.totalComisiones = this.comisiones.reduce((sum, item) => sum + Number(item.total_a_pagar), 0);
         this.totalPagado = this.comisiones.reduce((sum, item) => sum + Number(item.pagado), 0);
       });
@@ -102,7 +109,6 @@ export class HistorialComisionesComponent implements OnInit {
         element,
         totalComisiones: this.totalComisiones
       },
-      // disableClose: true,
       width: '400px',
     });
 

@@ -6,14 +6,14 @@
     <div class="container-fluid">
       <div class="row g-3">
 
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Cédula</mat-label>
             <input matInput [(ngModel)]="cedulaFiltro" />
           </mat-form-field>
         </div>
 
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Estado</mat-label>
             <mat-select [(ngModel)]="estadoFiltro">
@@ -25,7 +25,7 @@
           </mat-form-field>
         </div>
 
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Fecha inicio</mat-label>
             <input matInput [matDatepicker]="pickerInicio" [(ngModel)]="fechaInicio" />
@@ -34,7 +34,7 @@
           </mat-form-field>
         </div>
 
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-2 col-sm-3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Fecha fin</mat-label>
             <input matInput [matDatepicker]="pickerFin" [(ngModel)]="fechaFin" />
@@ -44,7 +44,7 @@
         </div>
 
         <!-- BOTONES -->
-        <div class="col-12 d-flex justify-content-start flex-wrap gap-2 mt-2">
+        <div class="col-md-2 col-sm-3" style="display: flex; margin-top: -2%; align-items: center; gap: 5px;">
           <button mat-raised-button class="btn-azul-personalizado" (click)="cargarReporte()">
             <mat-icon>search</mat-icon><span class="btn-text ms-1">Buscar</span>
           </button>
@@ -62,10 +62,10 @@
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 w-100">
 
         <!-- Columnas -->
-        <ng-container matColumnDef="fecha">
+        <!-- <ng-container matColumnDef="fecha">
           <th mat-header-cell *matHeaderCellDef>Fecha</th>
           <td mat-cell *matCellDef="let r">{{ r.fecha }}</td>
-        </ng-container>
+        </ng-container> -->
 
         <ng-container matColumnDef="nombre">
           <th mat-header-cell *matHeaderCellDef>Nombre</th>

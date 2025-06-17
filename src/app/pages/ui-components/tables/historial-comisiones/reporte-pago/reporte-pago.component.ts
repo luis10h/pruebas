@@ -53,7 +53,8 @@ export class ReportePagosComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -93,4 +94,37 @@ export class ReportePagosComponent implements AfterViewInit {
     const blob = new Blob([buffer], { type: 'application/octet-stream' });
     saveAs(blob, `Reporte_Pagos_${new Date().toISOString().split('T')[0]}.xlsx`);
   }
+  sessionObj: any = {};
+  ngOnInit() {
+    // this.cargarReporte();
+    console.log('Componente ReportePagosComponent inicializado');
+
+    const session = localStorage.getItem('session');
+    if (session) {
+      this.sessionObj = JSON.parse(session);
+      console.log('Usuario en sesión desde comisiones:', this.sessionObj.user.username);
+      console.log('ID de usuario desde comisiones:', this.sessionObj.user.company_code);
+    } else {
+      console.log('No hay usuario en sesión');
+    }
+    const companyNameDeseado = this.sessionObj.user.company_code;
+    this.http.get<any[]>('https://neocompanyapp.com/php/comisiones/reportes_pagos.php').subscribe({
+      next: (data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const filtrados = data.filter(item => item.company_code === companyNameDeseado);
+          this.reporte = filtrados;
+          console.log(data);
+          console.log(this.reporte);
+        } else {
+          this.reporte = [];
+          console.warn('No se encontraron registros o respuesta inválida');
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener datos:', err);
+        this.reporte = [];
+      }
+    });
+  }
 }
+

@@ -1,49 +1,117 @@
-<h2>📊 Reporte de Pagos</h2>
+<mat-card class="card-reporte">
+  <mat-card-title>📊 Reporte de Pagos</mat-card-title>
+  <mat-card-content>
 
-<!-- FILTROS -->
-<div class="filtros">
-  <input [(ngModel)]="cedulaFiltro" placeholder="Buscar por cédula" />
-  <select [(ngModel)]="estadoFiltro">
-    <option value="">Todos</option>
-    <option value="pagado">Pagado</option>
-    <option value="abonado">Abonado</option>
-    <option value="no-pagado">No pagado</option>
-  </select>
-  <input type="date" [(ngModel)]="fechaInicio" />
-  <input type="date" [(ngModel)]="fechaFin" />
-  <button (click)="cargarReporte()">Buscar</button>
-  <button (click)="exportarExcel()">Exportar Excel</button>
-</div>
+    <!-- FILTROS -->
+    <div class="container-fluid">
+      <div class="row g-3">
 
-<!-- TABLA -->
-<table border="1" width="100%">
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Nombre</th>
-      <th>Cédula</th>
-      <th>Estado</th>
-      <th>Total a pagar</th>
-      <th>Pagado</th>
-      <th>Pendiente</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let r of reporte">
-      <td>{{ r.fecha }}</td>
-      <td>{{ r.nombre }}</td>
-      <td>{{ r.cedula }}</td>
-      <td>{{ r.estado }}</td>
-      <td>{{ r.total_a_pagar | currency:'COP':'symbol' }}</td>
-      <td>{{ r.pagado | currency:'COP':'symbol' }}</td>
-      <td>{{ r.total_a_pagar - r.pagado | currency:'COP':'symbol' }}</td>
-    </tr>
-  </tbody>
-</table>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cédula</mat-label>
+            <input matInput [(ngModel)]="cedulaFiltro" />
+          </mat-form-field>
+        </div>
 
-<!-- RESUMEN -->
-<div class="resumen">
-  <p><strong>Total general:</strong> {{ totalGeneral | currency:'COP':'symbol' }}</p>
-  <p><strong>Total pagado:</strong> {{ totalPagado | currency:'COP':'symbol' }}</p>
-  <p><strong>Total pendiente:</strong> {{ totalPendiente | currency:'COP':'symbol' }}</p>
-</div>
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="estadoFiltro">
+              <mat-option value="">Todos</mat-option>
+              <mat-option value="pagado">Pagado</mat-option>
+              <mat-option value="abonado">Abonado</mat-option>
+              <mat-option value="no-pagado">No pagado</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Fecha inicio</mat-label>
+            <input matInput [matDatepicker]="pickerInicio" [(ngModel)]="fechaInicio" />
+            <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+            <mat-datepicker #pickerInicio></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Fecha fin</mat-label>
+            <input matInput [matDatepicker]="pickerFin" [(ngModel)]="fechaFin" />
+            <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFin></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="col-12 d-flex justify-content-start flex-wrap gap-2 mt-2">
+          <button mat-raised-button class="btn-azul-personalizado" (click)="cargarReporte()">
+            <mat-icon>search</mat-icon><span class="btn-text ms-1">Buscar</span>
+          </button>
+
+          <button mat-raised-button class="btn-verde" (click)="exportarExcel()">
+            <mat-icon>download</mat-icon><span class="btn-text ms-1">Exportar</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-responsive mt-4">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 w-100">
+
+        <!-- Columnas -->
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef>Fecha</th>
+          <td mat-cell *matCellDef="let r">{{ r.fecha }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef>Nombre</th>
+          <td mat-cell *matCellDef="let r">{{ r.nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cedula">
+          <th mat-header-cell *matHeaderCellDef>Cédula</th>
+          <td mat-cell *matCellDef="let r">{{ r.cedula }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let r">{{ r.estado }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="total_a_pagar">
+          <th mat-header-cell *matHeaderCellDef>Total a pagar</th>
+          <td mat-cell *matCellDef="let r">{{ r.total_a_pagar | currency:'COP':'symbol' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="pagado">
+          <th mat-header-cell *matHeaderCellDef>Pagado</th>
+          <td mat-cell *matCellDef="let r">{{ r.pagado | currency:'COP':'symbol' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="pendiente">
+          <th mat-header-cell *matHeaderCellDef>Pendiente</th>
+          <td mat-cell *matCellDef="let r">{{ r.total_a_pagar - r.pagado | currency:'COP':'symbol' }}</td>
+        </ng-container>
+
+        <!-- Filas -->
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+      </table>
+
+      <!-- Paginador -->
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+
+    <!-- RESUMEN -->
+    <div class="mt-4">
+      <p><strong>Total general:</strong> {{ totalGeneral | currency:'COP':'symbol' }}</p>
+      <p><strong>Total pagado:</strong> {{ totalPagado | currency:'COP':'symbol' }}</p>
+      <p><strong>Total pendiente:</strong> {{ totalPendiente | currency:'COP':'symbol' }}</p>
+    </div>
+
+  </mat-card-content>
+</mat-card>

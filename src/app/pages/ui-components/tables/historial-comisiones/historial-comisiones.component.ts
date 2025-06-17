@@ -1,72 +1,96 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { ComisionService } from 'src/app/services/comision-service.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { DialogPagoTotalComponent } from '../tables.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 @Component({
   selector: 'app-historial-comisiones',
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    MatTableModule,
+    MatMenuModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule
   ],
   templateUrl: './historial-comisiones.component.html',
   styleUrls: ['./historial-comisiones.component.scss']
 })
-export class HistorialComisionesComponent {
-  constructor(private comisionService: ComisionService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {
-    // this.cargarComisiones();
-  }
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.route.paramMap.subscribe(params => {
-      const cedula = params.get('cedula');
-      if (cedula) {
-        // this.modoFormulario = 'editar';
-        // this.cargarDatosTaxista(cedula);
-        this.cedula = cedula;
-        this.cargarComisiones();
-      }
-    });
-  }
+export class HistorialComisionesComponent implements OnInit, AfterViewInit {
+  constructor(
+    private comisionService: ComisionService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private dialog: MatDialog
+  ) {}
+
   comisiones: any[] = [];
   cedula = '';
   estadoFiltro = '';
   fechaInicio = '';
   fechaFin = '';
-
-  // nuevo = {
-  //   cedula: this.comisiones[0]?.cedula,
-  //   company_code: this.comisiones[0]?.company_code,
-  //   nombre: this.comisiones[0]?.nombre,
-  //   numero_placa: this.comisiones[0]?.numero_placa,
-  //   personas_referidas: 0,
-  //   estado: 'no-pagado',
-  //   observaciones: '',
-  //   total_a_pagar: 0,
-  //   pagado: 0
-  // };
   totalComisiones: any;
   totalAbonado: any;
   totalPagado: any;
+  displayedColumns: string[] = ['fecha', 'nombre', 'placa', 'referidos', 'total', 'pagado', 'estado', 'acciones'];
+  dataSource = new MatTableDataSource<any>([]);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const cedula = params.get('cedula');
+      if (cedula) {
+        this.cedula = cedula;
+        this.cargarComisiones();
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
 
   cargarComisiones() {
     this.comisionService.getComisiones(this.cedula, this.estadoFiltro, this.fechaInicio, this.fechaFin)
       .subscribe(data => {
         this.comisiones = data;
+        this.dataSource.data = this.comisiones;
         this.totalComisiones = this.comisiones.reduce((sum, item) => sum + Number(item.total_a_pagar), 0);
-        // this.totalAbonado = this.totalComisiones - this.totalPagado || 0;
         this.totalPagado = this.comisiones.reduce((sum, item) => sum + Number(item.pagado), 0);
       });
   }
@@ -80,13 +104,11 @@ export class HistorialComisionesComponent {
   }
 
   pagarCompleto(element: any): void {
-    console.log('Pagar completo', element);
     const dialogRef = this.dialog.open(DialogPagoTotalHistorialComponent, {
       data: {
         element,
         totalComisiones: this.totalComisiones
       },
-      // disableClose: true,
       width: '400px',
     });
 
@@ -96,6 +118,7 @@ export class HistorialComisionesComponent {
       }
     });
   }
+
   abrirDialogAbonar(comision: any): void {
     const dialogRef = this.dialog.open(DialogAbonarHistorialComponent, {
       data: comision,
@@ -110,10 +133,6 @@ export class HistorialComisionesComponent {
   }
 }
 
-
-
-
-
 @Component({
   selector: 'dialog-abonar',
   standalone: true,
@@ -123,26 +142,25 @@ export class HistorialComisionesComponent {
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatPaginatorModule,
     CommonModule,
-    // ReactiveFormsModule,
     MatIconModule
   ],
   template: `
-  <!-- cerrar -->
-  <button mat-button (click)="closeDialog()"><mat-icon>close</mat-icon> Cerrar</button>
-  <h2 mat-dialog-title style="text-align: center;">Abonar Pago</h2>
-  <mat-dialog-content style="text-align: center;">
-    <p>Ingrese monto a abonar para: {{ data.title || data.uname || data.nombre }}</p>
-    <mat-form-field appearance="outline" class="w-100" color="primary" style="width: 100%;">
-      <mat-label>Monto</mat-label>
-      <input matInput #monto placeholder="0" type="number"/>
-    </mat-form-field>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-raised-button color="primary" (click)="confirmarAbono(monto.value)">Confirmar</button>
-  </mat-dialog-actions>
-`,
+    <button mat-button (click)="closeDialog()"><mat-icon>close</mat-icon> Cerrar</button>
+    <h2 mat-dialog-title style="text-align: center;">Abonar Pago</h2>
+    <mat-dialog-content style="text-align: center;">
+      <p>Ingrese monto a abonar para: {{ data.title || data.uname || data.nombre }}</p>
+      <mat-form-field appearance="outline" class="w-100" color="primary" style="width: 100%;">
+        <mat-label>Monto</mat-label>
+        <input matInput #monto placeholder="0" type="number"/>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancelar</button>
+      <button mat-raised-button color="primary" (click)="confirmarAbono(monto.value)">Confirmar</button>
+    </mat-dialog-actions>
+  `,
 })
 export class DialogAbonarHistorialComponent {
   constructor(
@@ -154,7 +172,6 @@ export class DialogAbonarHistorialComponent {
 
   confirmarAbono(montoV: string) {
     const monto = parseFloat(montoV);
-
     if (isNaN(monto) || monto <= 0) {
       Swal.fire({
         icon: 'error',
@@ -169,26 +186,18 @@ export class DialogAbonarHistorialComponent {
       monto: monto,
       cedula: this.data.cedula,
     }).subscribe({
-      next: (response) => {
-        const Toast = Swal.mixin({
+      next: () => {
+        Swal.fire({
           toast: true,
-          position: "top-end",
+          position: 'top-end',
+          icon: 'success',
+          title: 'Abono registrado exitosamente',
           showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast: any) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          }
-        });
-        Toast.fire({
-          icon: "success",
-          title: "Abono registrado exitosamente",
+          timer: 3000
         });
         this.dialogRef.close(true);
       },
-      error: (error) => {
-        console.error('Error al registrar abono:', error);
+      error: () => {
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -197,12 +206,11 @@ export class DialogAbonarHistorialComponent {
       }
     });
   }
+
   closeDialog(): void {
     this.dialogRef.close();
   }
 }
-
-
 
 @Component({
   selector: 'dialog-pago-total',
@@ -233,16 +241,10 @@ export class DialogPagoTotalHistorialComponent {
   ) {
     console.log('Datos recibidos en el diálogo:', data.cedula || data.element?.cedula || data.cedula);
     console.log('Monto total:', data.total_a_pagar || data.element?.total_a_pagar || data.total || 0);
-
   }
 
   submit() {
-    const monto =
-      this.data?.total ??
-      this.data?.total_a_pagar ??
-      this.data?.element?.total_a_pagar ??
-      0;
-
+    const monto = this.data?.total ?? this.data?.total_a_pagar ?? this.data?.element?.total_a_pagar ?? 0;
     if (monto <= 0) {
       console.error('Monto inválido');
       return;
@@ -262,21 +264,14 @@ export class DialogPagoTotalHistorialComponent {
       cedula,
       id
     }).subscribe({
-      next: (response) => {
-        const Toast = Swal.mixin({
+      next: () => {
+        Swal.fire({
           toast: true,
-          position: "top-end",
+          position: 'top-end',
+          icon: 'success',
+          title: 'Pago exitoso',
           showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast: any) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          }
-        });
-        Toast.fire({
-          icon: "success",
-          title: "Pago exitoso",
+          timer: 3000
         });
         this.dialogRef.close(true);
       },
@@ -290,5 +285,4 @@ export class DialogPagoTotalHistorialComponent {
       }
     });
   }
-
 }

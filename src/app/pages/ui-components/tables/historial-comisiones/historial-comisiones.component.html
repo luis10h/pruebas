@@ -54,7 +54,7 @@
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
           <ng-container matColumnDef="nombre">
             <th mat-header-cell *matHeaderCellDef>Nombre</th>
-            <td mat-cell *matCellDef="let c">{{ c.nombre }}</td>
+            <td mat-cell *matCellDef="let c" (click)="abrirDetalle(c)" style="cursor: pointer;">{{ c.nombre }}</td>
           </ng-container>
 
           <ng-container matColumnDef="placa">
@@ -142,12 +142,6 @@
                 <td>Total pagado</td>
                 <td>{{ totalPagado | number:'1.0-0' }}</td>
               </tr>
-              <!--
-              <tr>
-                <td>Total abonado</td>
-                <td>{{ totalAbonado | number:'1.0-0' }}</td>
-              </tr>
-              -->
             </tbody>
           </table>
         </div>
@@ -155,3 +149,21 @@
     </mat-card>
   </mat-card-content>
 </mat-card>
+
+<!-- DIALOG DETALLE -->
+<ng-template #dialogDetalle let-data>
+  <mat-dialog-content class="dialog-content">
+    <h3 class="mb-3 text-center">🧾 Detalle Comisión</h3>
+    <div class="totales">
+      <p><strong>Nombre:</strong> {{ data.nombre }}</p>
+      <p><strong>Placa:</strong> {{ data.numero_placa }}</p>
+      <p><strong>Referidos:</strong> {{ data.personas_referidas }}</p>
+      <p><strong>Total a pagar:</strong> {{ data.total_a_pagar | currency:'COP':'symbol' }}</p>
+      <p><strong>Pagado:</strong> {{ data.pagado | currency:'COP':'symbol' }}</p>
+      <p><strong>Estado:</strong> {{ data.estado }}</p>
+    </div>
+    <div class="text-center mt-3">
+      <button mat-raised-button color="primary" mat-dialog-close>Cerrar</button>
+    </div>
+  </mat-dialog-content>
+</ng-template>

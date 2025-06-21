@@ -66,7 +66,7 @@ export class HistorialComisionesComponent implements OnInit, AfterViewInit {
   totalComisiones: any;
   totalAbonado: any;
   totalPagado: any;
-  displayedColumns: string[] = ['fecha', 'nombre', 'placa', 'referidos', 'total', 'pagado', 'estado', 'acciones'];
+  displayedColumns: string[] = [ 'nombre', 'placa', 'referidos', 'total', 'pagado', 'estado', 'acciones'];
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -48,12 +48,17 @@ export class ReportePagosComponent implements AfterViewInit {
   totalPagado = 0;
   totalPendiente = 0;
 
-  columnas: string[] = ['fecha', 'nombre', 'cedula', 'estado', 'total_a_pagar', 'pagado', 'pendiente'];
+  columnas: string[] = [ 'nombre', 'cedula', 'estado', 'total_a_pagar', 'pagado', 'pendiente'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private http: HttpClient) { }
+
+  // ✅ Propiedad que faltaba declarar
+  reporte: any[] = [];
+
+  sessionObj: any = {};
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -82,7 +87,7 @@ export class ReportePagosComponent implements AfterViewInit {
 
   exportarExcel(): void {
     const dataExport = this.dataSource.data.map(r => ({
-      Fecha: r.fecha,
+    
       Nombre: r.nombre,
       Cédula: r.cedula,
       Estado: r.estado,
@@ -98,7 +103,7 @@ export class ReportePagosComponent implements AfterViewInit {
     const blob = new Blob([buffer], { type: 'application/octet-stream' });
     saveAs(blob, `Reporte_Pagos_${new Date().toISOString().split('T')[0]}.xlsx`);
   }
-  sessionObj: any = {};
+
   ngOnInit() {
     this.cargarReporte();
     console.log('Componente ReportePagosComponent inicializado');
@@ -111,7 +116,9 @@ export class ReportePagosComponent implements AfterViewInit {
     } else {
       console.log('No hay usuario en sesión');
     }
+
     const companyNameDeseado = this.sessionObj.user.company_code;
+
     this.http.get<any[]>('https://neocompanyapp.com/php/comisiones/reportes_pagos.php').subscribe({
       next: (data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -131,4 +138,3 @@ export class ReportePagosComponent implements AfterViewInit {
     });
   }
 }
-

@@ -1,5 +1,5 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { ComisionService } from 'src/app/services/comision-service.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -45,7 +45,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule,
     MatButtonModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule
   ],
   templateUrl: './historial-comisiones.component.html',
   styleUrls: ['./historial-comisiones.component.scss']
@@ -70,6 +71,7 @@ export class HistorialComisionesComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('dialogDetalle') dialogDetalle!: TemplateRef<any>;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -130,6 +132,16 @@ export class HistorialComisionesComponent implements OnInit, AfterViewInit {
         this.cargarComisiones();
       }
     });
+  }
+
+  abrirDetalle(data: any): void {
+    if (window.innerWidth <= 768) {
+      this.dialog.open(this.dialogDetalle, {
+        data: data,
+        width: '90vw',
+        maxWidth: '400px'
+      });
+    }
   }
 }
 

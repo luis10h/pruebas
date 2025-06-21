@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -14,6 +14,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   standalone: true,
@@ -32,7 +33,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
     MatIconModule,
     MatNativeDateModule,
     MatOption,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDialogModule
   ],
   selector: 'app-reporte-pagos',
   templateUrl: './reporte-pago.component.html',
@@ -48,21 +50,29 @@ export class ReportePagosComponent implements AfterViewInit {
   totalPagado = 0;
   totalPendiente = 0;
 
-  columnas: string[] = [ 'nombre', 'cedula', 'estado', 'total_a_pagar', 'pagado', 'pendiente'];
+  columnas: string[] = ['nombre', 'fecha', 'cedula', 'estado', 'total_a_pagar', 'pagado', 'pendiente'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('dialogDetalle') dialogDetalle!: TemplateRef<any>;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private dialog: MatDialog) { }
 
-  // ✅ Propiedad que faltaba declarar
   reporte: any[] = [];
-
   sessionObj: any = {};
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+
+ abrirDetalle(data: any): void {
+  this.dialog.open(this.dialogDetalle, {
+    data: data,
+    width: window.innerWidth <= 768 ? '90vw' : '600px',
+    maxWidth: '95vw'
+  });
+}
+
 
   cargarReporte() {
     const params = {
@@ -87,8 +97,8 @@ export class ReportePagosComponent implements AfterViewInit {
 
   exportarExcel(): void {
     const dataExport = this.dataSource.data.map(r => ({
-    
       Nombre: r.nombre,
+      Fecha: r.fecha,
       Cédula: r.cedula,
       Estado: r.estado,
       'Total ($)': r.total_a_pagar,
@@ -117,7 +127,7 @@ export class ReportePagosComponent implements AfterViewInit {
       console.log('No hay usuario en sesión');
     }
 
-    const companyNameDeseado = this.sessionObj.user.company_code;
+    const companyNameDeseado = this.sessionObj.user?.company_code;
 
     this.http.get<any[]>('https://neocompanyapp.com/php/comisiones/reportes_pagos.php').subscribe({
       next: (data) => {

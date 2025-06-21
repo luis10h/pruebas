@@ -1,9 +1,9 @@
 .card-reporte {
   margin-top: 2rem;
-  padding: 1rem;
-  border-radius: 12px;
-  background-color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Filtros */
@@ -11,8 +11,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  align-items: flex-end; /* Alinea verticalmente con los botones */
-  margin-bottom: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
 }
 
 .filtros-container mat-form-field {
@@ -20,6 +20,7 @@
   min-width: 180px;
 }
 
+/* Botones filtros */
 .botones-container {
   display: flex;
   gap: 0.75rem;
@@ -27,57 +28,75 @@
   flex-wrap: wrap;
 }
 
-.card-botones {
-  /* Ya no necesitas esto si usas botones dentro de .filtros-container */
-  display: none;
+/* Tabla */
+.table-container {
+  margin-top: 1rem;
+  overflow-x: auto;
 }
 
-/* Tabla */
-.table-container table {
+.table-container table,
+.mat-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
-}
-
-.table-container th,
-.table-container td {
-  text-align: center;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
+  table-layout: fixed;
+  font-size: 13px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .table-container thead {
-  background-color: #f4f4f4;
+  background-color: #e9ecef;
   font-weight: bold;
 }
 
+.table-container th,
+.table-container td,
+.mat-header-cell,
+.mat-cell {
+  padding: 6px 8px !important;
+  text-align: center;
+  border-bottom: 1px solid #dee2e6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80px !important;
+  min-width: 80px !important;
+  max-width: 80px !important;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.mat-row,
+.mat-header-row {
+  height: 36px;
+}
+
 .table-container tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f8f9fa;
 }
 
 .table-container tr:hover {
-  background-color: #eaf4ff;
+  background-color: #e2f0ff;
+  transition: background-color 0.3s ease;
 }
 
-/* Resumen */
-.resumen {
-  margin-top: 2rem;
-  font-size: 16px;
-  background: #f6f6f6;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-/* Botones */
-.btn-verde {
-  background-color: #28a745 !important;
+/* Botones generales */
+.btn-verde,
+.btn-azul-personalizado,
+.btn-ver-tabla {
   color: white;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
   transition: background-color 0.3s ease;
+}
+
+.btn-verde {
+  background-color: #28a745 !important;
 }
 .btn-verde:hover {
   background-color: #218838 !important;
@@ -85,20 +104,48 @@
 
 .btn-azul-personalizado {
   background-color: #007bff !important;
-  color: white;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 12px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
 }
 .btn-azul-personalizado:hover {
   background-color: #0056b3 !important;
 }
 
+.btn-ver-tabla {
+  background-color: #17a2b8 !important;
+}
+.btn-ver-tabla:hover {
+  background-color: #138496 !important;
+}
+
 .btn-text {
-  margin-left: 5px;
+  margin-left: 6px;
+}
+
+/* Resumen total */
+.resumen {
+  margin-top: 2rem;
+  font-size: 15px;
+  background: #f6f6f6;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #333;
+}
+
+/* Modal */
+.dialog-content {
+  padding: 20px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.chart-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.totales p {
+  margin: 8px 0;
+  font-size: 15px;
 }
 
 /* Responsive */
@@ -114,11 +161,12 @@
   }
 
   .table-container table {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .btn-verde,
-  .btn-azul-personalizado {
+  .btn-azul-personalizado,
+  .btn-ver-tabla {
     width: 40px;
     height: 40px;
     padding: 0 !important;
@@ -128,12 +176,18 @@
   }
 
   .btn-verde mat-icon,
-  .btn-azul-personalizado mat-icon {
+  .btn-azul-personalizado mat-icon,
+  .btn-ver-tabla mat-icon {
     font-size: 20px;
-    margin-left: 10%;
+    margin-left: 0;
   }
 
   .btn-text {
     display: none;
+  }
+
+  .dialog-content {
+    flex-direction: column;
+    text-align: center;
   }
 }

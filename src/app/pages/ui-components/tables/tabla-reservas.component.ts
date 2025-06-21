@@ -54,7 +54,26 @@ const LUGARES: string[] = ['Sala', 'Terraza'];
 })
 export class TablaReservasComponent implements AfterViewInit {
 
-  companyNameDeseado = 'neocompanyapp'; // Cambia esto al nombre de la empresa que deseas filtrar
+  constructor(private http: HttpClient , private router: Router) {
+    this.dataSource = new MatTableDataSource<UserData>([]);
+    // this.cargarReservas();
+  }
+  companyNameDeseado: any; // Cambia esto al nombre de la empresa que deseas filtrar
+  sessionObj: any; // Para almacenar el objeto de sesión del usuario
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    const session = localStorage.getItem('session');
+    if (session) {
+      this.sessionObj = JSON.parse(session);
+      console.log('Usuario en sesión desde comisiones:', this.sessionObj.user.username);
+      console.log('ID de usuario desde comisiones:', this.sessionObj.user.company_code);
+    } else {
+      console.log('No hay usuario en sesión');
+    }
+    this.companyNameDeseado = this.sessionObj.user.company_code;
+    this.cargarReservas();
+  }
 
   irAgregarReserva() {
     this.router.navigate(['/dashboard/view/form-reserva']);
@@ -76,10 +95,7 @@ export class TablaReservasComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private http: HttpClient , private router: Router) {
-    this.dataSource = new MatTableDataSource<UserData>([]);
-    this.cargarReservas();
-  }
+  
 
 
   agregarReserva() {

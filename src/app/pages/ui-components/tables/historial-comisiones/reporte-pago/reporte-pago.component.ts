@@ -1,10 +1,20 @@
-import { Component, ViewChild, AfterViewInit, TemplateRef, LOCALE_ID, Inject } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  AfterViewInit,
+  TemplateRef,
+  LOCALE_ID,
+  Inject
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { CommonModule, CurrencyPipe, DatePipe, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -18,6 +28,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartOptions } from 'chart.js';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 registerLocaleData(localeEs);
 
@@ -41,7 +52,8 @@ registerLocaleData(localeEs);
     MatOption,
     MatPaginatorModule,
     MatDialogModule,
-    DatePipe
+    DatePipe,
+    MatExpansionModule
   ],
   selector: 'app-reporte-pagos',
   templateUrl: './reporte-pago.component.html',
@@ -62,29 +74,30 @@ export class ReportePagosComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild('dialogDetalle') dialogDetalle!: TemplateRef<any>;
+  @ViewChild('detalleUsuarioDialog') detalleUsuarioDialog!: TemplateRef<any>;
+
+  usuarioSeleccionado: any = null;
 
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
     private datePipe: DatePipe,
     @Inject(LOCALE_ID) private locale: string
-  ) { }
+  ) {}
 
   reporte: any[] = [];
   sessionObj: any = {};
 
-  // 🔵 Datos para la gráfica
   graficaData: any;
   graficaOptions: ChartOptions<'doughnut'> = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'top'
       },
       title: {
         display: true,
-        text: 'Distribución del Pago',
+        text: 'Distribución del Pago'
       }
     }
   };
@@ -93,20 +106,21 @@ export class ReportePagosComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  abrirDetalle(data: any): void {
-    const pendiente = data.total_a_pagar - data.pagado;
+  abrirDetalleUsuario(row: any): void {
+    this.usuarioSeleccionado = row;
+
+    const pendiente = row.total_a_pagar - row.pagado;
 
     this.graficaData = {
       labels: ['Pagado', 'Pendiente'],
       datasets: [{
-        data: [data.pagado, pendiente],
+        data: [row.pagado, pendiente],
         backgroundColor: ['#28a745', '#ffc107'],
         hoverOffset: 6
       }]
     };
 
-    this.dialog.open(this.dialogDetalle, {
-      data: data,
+    this.dialog.open(this.detalleUsuarioDialog, {
       width: window.innerWidth <= 768 ? '90vw' : '600px',
       maxWidth: '95vw'
     });
@@ -131,7 +145,6 @@ export class ReportePagosComponent implements AfterViewInit {
       this.totalPagado = data.reduce((s, i) => s + Number(i.pagado), 0);
       this.totalPendiente = this.totalGeneral - this.totalPagado;
 
-      // ✅ Generar gráfica de resumen
       this.graficaData = {
         labels: ['Pagado', 'Pendiente'],
         datasets: [{

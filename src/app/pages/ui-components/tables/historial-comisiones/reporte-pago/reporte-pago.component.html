@@ -180,6 +180,7 @@
   <mat-dialog-content>
 <p><strong>Nombre:</strong> {{ usuarioSeleccionado?.nombre }}</p>
 <p><strong>Cédula:</strong> {{ usuarioSeleccionado?.cedula }}</p>
+<p><strong>Fecha:</strong> {{ usuarioSeleccionado?.fecha | date:'d MMMM' }}</p>
 <p><strong>Estado:</strong> {{ usuarioSeleccionado?.estado }}</p>
 <p><strong>Total a pagar:</strong> {{ usuarioSeleccionado?.total_a_pagar | currency:'COP':'symbol':'1.0-0' }}</p>
 

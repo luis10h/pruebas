@@ -72,7 +72,7 @@
         <ng-container matColumnDef="fecha">
           <th mat-header-cell *matHeaderCellDef>Fecha</th>
           <td mat-cell *matCellDef="let row" (click)="abrirDetalle(row)" style="cursor: pointer;">
-            {{ row.fecha | date:'d\/MMMM\/y' }}
+            {{ row.fecha | date:'d\ MMMM' }}
           </td>
         </ng-container>
 
@@ -119,32 +119,25 @@
       <!-- Paginador -->
       <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
-
-    <!-- RESUMEN -->
-    <div class="resumen">
-      <p><strong>Total general:</strong> {{ totalGeneral | currency:'COP':'symbol':'1.0-0' }}</p>
-      <p><strong>Total pagado:</strong> {{ totalPagado | currency:'COP':'symbol':'1.0-0' }}</p>
-      <p><strong>Total pendiente:</strong> {{ totalPendiente | currency:'COP':'symbol':'1.0-0' }}</p>
+    
+    <mat-card class="card-grafica">
+      <div class="chart-container" *ngIf="graficaData">
+      <canvas baseChart
+        [data]="graficaData"
+        [type]="'doughnut'"
+        [options]="graficaOptions">
+      </canvas>
     </div>
-
+    
+    </mat-card>
   </mat-card-content>
 </mat-card>
 
-<!-- DIALOG DETALLE -->
-<ng-template #dialogDetalle let-data>
-  <mat-dialog-content class="dialog-content">
-    <h3 class="mb-3 text-center">🧾 Detalle del Pago</h3>
-    <div class="totales">
-      <p><strong>Nombre:</strong> {{ data.nombre }}</p>
-      <p><strong>Cédula:</strong> {{ data.cedula }}</p>
-      <p><strong>Fecha:</strong> {{ data.fecha }}</p>
-      <p><strong>Estado:</strong> {{ data.estado }}</p>
-      <p><strong>Total a pagar:</strong> {{ data.total_a_pagar | currency:'COP':'symbol':'1.0-0' }}</p>
-      <p><strong>Pagado:</strong> {{ data.pagado | currency:'COP':'symbol':'1.0-0' }}</p>
-      <p><strong>Pendiente:</strong> {{ data.total_a_pagar - data.pagado | currency:'COP':'symbol':'1.0-0' }}</p>
-    </div>
-    <div class="text-center mt-3">
-      <button mat-raised-button color="primary" mat-dialog-close>Cerrar</button>
-    </div>
-  </mat-dialog-content>
-</ng-template>
+
+    <!-- RESUMEN -->
+    <!-- <div class="resumen">
+      <p><strong>Total general:</strong> {{ totalGeneral | currency:'COP':'symbol':'1.0-0' }}</p>
+      <p><strong>Total pagado:</strong> {{ totalPagado | currency:'COP':'symbol':'1.0-0' }}</p>
+      <p><strong>Total pendiente:</strong> {{ totalPendiente | currency:'COP':'symbol':'1.0-0' }}</p>
+    </div> -->
+<!-- 🟢 Gráfica Resumen General -->

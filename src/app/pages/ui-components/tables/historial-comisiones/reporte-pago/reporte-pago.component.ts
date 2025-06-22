@@ -16,10 +16,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { NgChartsModule } from 'ng2-charts';
+import { ChartOptions } from 'chart.js';
 
-// Registrar el locale español
 registerLocaleData(localeEs);
-
 
 @Component({
   standalone: true,
@@ -33,6 +33,7 @@ registerLocaleData(localeEs);
     MatCardModule,
     MatInputModule,
     MatDatepickerModule,
+    NgChartsModule,
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
@@ -73,18 +74,43 @@ export class ReportePagosComponent implements AfterViewInit {
   reporte: any[] = [];
   sessionObj: any = {};
 
+  // 🔵 Datos para la gráfica
+  graficaData: any;
+  graficaOptions: ChartOptions<'doughnut'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Distribución del Pago',
+      }
+    }
+  };
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
- abrirDetalle(data: any): void {
-  this.dialog.open(this.dialogDetalle, {
-    data: data,
-    width: window.innerWidth <= 768 ? '90vw' : '600px',
-    maxWidth: '95vw'
-  });
-}
+  abrirDetalle(data: any): void {
+    const pendiente = data.total_a_pagar - data.pagado;
 
+    this.graficaData = {
+      labels: ['Pagado', 'Pendiente'],
+      datasets: [{
+        data: [data.pagado, pendiente],
+        backgroundColor: ['#28a745', '#ffc107'],
+        hoverOffset: 6
+      }]
+    };
+
+    this.dialog.open(this.dialogDetalle, {
+      data: data,
+      width: window.innerWidth <= 768 ? '90vw' : '600px',
+      maxWidth: '95vw'
+    });
+  }
 
   cargarReporte() {
     const params = {
@@ -92,8 +118,8 @@ export class ReportePagosComponent implements AfterViewInit {
       estado: this.estadoFiltro,
       fecha_inicio: this.fechaInicio ? new Date(this.fechaInicio).toISOString().split('T')[0] : '',
       fecha_fin: this.fechaFin ? new Date(this.fechaFin).toISOString().split('T')[0] : '',
-
     };
+
     if (this.fechaInicio && this.fechaFin && this.fechaInicio > this.fechaFin) {
       alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
       return;
@@ -104,6 +130,16 @@ export class ReportePagosComponent implements AfterViewInit {
       this.totalGeneral = data.reduce((s, i) => s + Number(i.total_a_pagar), 0);
       this.totalPagado = data.reduce((s, i) => s + Number(i.pagado), 0);
       this.totalPendiente = this.totalGeneral - this.totalPagado;
+
+      // ✅ Generar gráfica de resumen
+      this.graficaData = {
+        labels: ['Pagado', 'Pendiente'],
+        datasets: [{
+          data: [this.totalPagado, this.totalPendiente],
+          backgroundColor: ['#28a745', '#dc3545'],
+          hoverOffset: 6
+        }]
+      };
     });
   }
 

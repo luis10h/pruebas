@@ -39,7 +39,7 @@
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: 13px;
+  font-size: 15px;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -62,7 +62,7 @@
   width: 80px !important;
   min-width: 80px !important;
   max-width: 80px !important;
-  font-size: 12px;
+  font-size: 14px;
   vertical-align: middle;
 }
 
@@ -187,6 +187,7 @@
     padding: 0 !important;
     border-radius: 50% !important;
     font-size: 0;
+    margin-left: 10%;
     min-width: 0 !important;
   }
 
@@ -194,7 +195,7 @@
   .btn-azul-personalizado mat-icon,
   .btn-ver-tabla mat-icon {
     font-size: 20px;
-    margin-left: 0;
+    margin-left: 10%;
   }
 
   .btn-text {
@@ -204,5 +205,47 @@
   .dialog-content {
     flex-direction: column;
     text-align: center;
+  }
+}
+
+
+/*Estilos para graficos*/
+
+.card-grafica {
+  max-width: 100%;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.chart-container {
+  width: 260px;
+  height: 260px;
+  margin: 0 auto;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-container canvas {
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .card-grafica {
+    max-width: 100%;
+   
+  }
+
+  .chart-container {
+    width: 200px;
+    height: 200px;
+    margin-left: -10% ;
   }
 }

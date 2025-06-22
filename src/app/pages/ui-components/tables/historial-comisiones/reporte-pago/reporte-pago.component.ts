@@ -90,9 +90,14 @@ export class ReportePagosComponent implements AfterViewInit {
     const params = {
       cedula: this.cedulaFiltro,
       estado: this.estadoFiltro,
-      fecha_inicio: this.fechaInicio,
-      fecha_fin: this.fechaFin,
+      fecha_inicio: this.fechaInicio ? new Date(this.fechaInicio).toISOString().split('T')[0] : '',
+      fecha_fin: this.fechaFin ? new Date(this.fechaFin).toISOString().split('T')[0] : '',
+
     };
+    if (this.fechaInicio && this.fechaFin && this.fechaInicio > this.fechaFin) {
+      alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
+      return;
+    }
 
     this.http.get<any[]>('https://neocompanyapp.com/php/comisiones/reportes_pagos.php', { params }).subscribe(data => {
       this.dataSource.data = data;
@@ -122,6 +127,7 @@ export class ReportePagosComponent implements AfterViewInit {
   }
 
   ngOnInit() {
+    this.cargarReporte();
     console.log('Componente ReportePagosComponent inicializado');
 
     const session = localStorage.getItem('session');
@@ -139,17 +145,17 @@ export class ReportePagosComponent implements AfterViewInit {
       next: (data) => {
         if (Array.isArray(data) && data.length > 0) {
           const filtrados = data.filter(item => item.company_code === companyNameDeseado);
-          this.reporte = filtrados;
+          this.dataSource.data = filtrados;
           console.log(data);
-          console.log(this.reporte);
+          console.log(this.dataSource.data);
         } else {
-          this.reporte = [];
+          this.dataSource.data = [];
           console.warn('No se encontraron registros o respuesta inválida');
         }
       },
       error: (err) => {
         console.error('Error al obtener datos:', err);
-        this.reporte = [];
+        this.dataSource.data = [];
       }
     });
   }

@@ -1,6 +1,6 @@
 <mat-card class="cardWithShadow">
     <mat-card-content>
-        <div class="hstack align-items-center flex-column flex-lg-row m-b-20">
+        <!-- <div class="hstack align-items-center flex-column flex-lg-row m-b-20">
             <mat-card-title>Cantidad de visitantes</mat-card-title>
             <div class="m-l-auto">
                 <mat-form-field class="theme-select" appearance="outline">
@@ -20,7 +20,23 @@
             [grid]="salesprofitChart.grid" [fill]="salesprofitChart.fill" [stroke]="salesprofitChart.stroke"
             [tooltip]="salesprofitChart.tooltip" [markers]="salesprofitChart.markers" [xaxis]="salesprofitChart.xaxis"
             [responsive]="salesprofitChart.responsive" [yaxis]="salesprofitChart.yaxis">
-        </apx-chart>
+        </apx-chart> -->
+
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/tiledwebmap.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+<style>
+    #container {
+    height: 500px;
+    min-width: 310px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+</style>
+<div id="container"></div>
+
 
     </mat-card-content>
 </mat-card>

@@ -1,8 +1,9 @@
-import { Component, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, TemplateRef, LOCALE_ID, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
@@ -15,6 +16,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+
+// Registrar el locale español
+registerLocaleData(localeEs);
+
 
 @Component({
   standalone: true,
@@ -34,11 +39,13 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     MatNativeDateModule,
     MatOption,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    DatePipe
   ],
   selector: 'app-reporte-pagos',
   templateUrl: './reporte-pago.component.html',
-  styleUrls: ['./reporte-pago.component.scss']
+  styleUrls: ['./reporte-pago.component.scss'],
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }, DatePipe]
 })
 export class ReportePagosComponent implements AfterViewInit {
   cedulaFiltro = '';
@@ -56,7 +63,12 @@ export class ReportePagosComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('dialogDetalle') dialogDetalle!: TemplateRef<any>;
 
-  constructor(private http: HttpClient, private dialog: MatDialog) { }
+  constructor(
+    private http: HttpClient,
+    private dialog: MatDialog,
+    private datePipe: DatePipe,
+    @Inject(LOCALE_ID) private locale: string
+  ) { }
 
   reporte: any[] = [];
   sessionObj: any = {};

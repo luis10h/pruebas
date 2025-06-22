@@ -92,7 +92,29 @@
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+/* ✅ Botón Buscar con degradado negro */
+.btn-azul-personalizado {
+  background: linear-gradient(135deg, #000000, #434343) !important;
+  color: white !important;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-azul-personalizado:hover {
+  background: linear-gradient(135deg, #1a1a1a, #5a5a5a) !important;
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .btn-verde {
@@ -100,13 +122,6 @@
 }
 .btn-verde:hover {
   background-color: #218838 !important;
-}
-
-.btn-azul-personalizado {
-  background-color: #007bff !important;
-}
-.btn-azul-personalizado:hover {
-  background-color: #0056b3 !important;
 }
 
 .btn-ver-tabla {

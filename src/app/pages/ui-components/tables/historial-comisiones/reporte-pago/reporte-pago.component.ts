@@ -28,7 +28,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartOptions } from 'chart.js';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
+import Swal from 'sweetalert2';
 
 registerLocaleData(localeEs);
 
@@ -75,6 +76,7 @@ export class ReportePagosComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('detalleUsuarioDialog') detalleUsuarioDialog!: TemplateRef<any>;
+  @ViewChild('panelFiltros') panelFiltros!: MatExpansionPanel;
 
   usuarioSeleccionado: any = null;
 
@@ -83,7 +85,7 @@ export class ReportePagosComponent implements AfterViewInit {
     private dialog: MatDialog,
     private datePipe: DatePipe,
     @Inject(LOCALE_ID) private locale: string
-  ) {}
+  ) { }
 
   reporte: any[] = [];
   sessionObj: any = {};
@@ -153,6 +155,30 @@ export class ReportePagosComponent implements AfterViewInit {
           hoverOffset: 6
         }]
       };
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast: any) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: 'success',
+        title: 'Reporte cargado'
+      });
+      this.panelFiltros.close();
+
+    }, error => {
+      console.error('Error al cargar el reporte:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al cargar el reporte',
+        text: 'Por favor, inténtalo de nuevo más tarde.'
+      });
     });
   }
 

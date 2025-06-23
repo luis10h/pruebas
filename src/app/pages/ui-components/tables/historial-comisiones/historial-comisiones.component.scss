@@ -1,9 +1,61 @@
 /* ===== Estilos base ===== */
 
-table {
+/* ================= TABLA ================= */
+.table-container {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+.card-grafica {
+  max-width: 100%;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.table-container table,
+.mat-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
+  table-layout: fixed;
+  font-size: 15px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table-container thead {
+  background-color: #e9ecef;
+  font-weight: bold;
+}
+
+.table-container th,
+.table-container td,
+.mat-header-cell,
+.mat-cell {
+  padding: 6px 8px !important;
+  text-align: center;
+  border-bottom: 1px solid #dee2e6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80px !important;
+  min-width: 80px !important;
+  max-width: 80px !important;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.table-container tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.table-container tr:hover {
+  background-color: #e2f0ff;
+  transition: background-color 0.3s ease;
 }
 
 th, td {
@@ -90,19 +142,17 @@ tr:hover {
 
 /* Botón azul bacano */
 .btn-azul-personalizado {
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 15px;
-  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-  transition: background 0.3s ease, transform 0.2s ease;
+background: linear-gradient(135deg, #000000, #434343) !important;
+  color: white !important;
+  padding: 8px 16px;
+  font-weight: 600;
+  border: none;
 }
 
 .btn-azul-personalizado:hover {
-  background: linear-gradient(135deg, #0056b3, #004094);
+  background: linear-gradient(135deg, #1a1a1a, #5a5a5a) !important;
   transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .eliminar:hover {
@@ -150,31 +200,87 @@ input[type="date"], select {
   border: 1px solid #ccc;
 }
 
-/* ===== Filtros Material ===== */
+/* ===== Filtros Escritorio ===== */
 
-.filtros-container {
+
+
+.filtros-escritorio {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: -1%;
-  align-items: center;
-  
-  margin-bottom: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+    
 }
 
-.filtros-container mat-form-field {
-  min-width: 200px;
-  margin-top: -2%;
-  flex: 1;
+.filtros-escritorio mat-form-field {
+  min-width: 1 1 200px;
+  min-width: 180px;
 }
 
-.filtros-container button {
+.filtros-escritorio button {
   margin-top: -4%;
 }
 
-/* ===== Responsivo ===== */
+
+
+
+
+
+
+
+
+
+#botones {
+  background: linear-gradient(135deg, #28a745, #218838);
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#botones:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34);
+  transform: scale(1.05);
+}
+
+#botones1 {
+  background: linear-gradient(135deg, #ffc107, #ff9800);
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#botones1:hover {
+  background: linear-gradient(135deg, #ff9800, #e67e00);
+  transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ================= RESPONSIVE ================= */
+
+/* ✅ Mobile: mostrar filtros responsive, ocultar escritorio */
 @media (max-width: 768px) {
-  table {
+
+
+  .filtros-pc{
+    display: none !important;
+  }
+
+  .filtros-mobile{
+    display: block !important;
+    margin-bottom: 10%;
+  }
+
+  .table-container table {
     font-size: 12px;
   }
 
@@ -214,4 +320,14 @@ input[type="date"], select {
   .filtros-container button {
     width: 100%;
   }
+  
+  
 }
+
+
+  /* ✅ Escritorio: ocultar filtros responsive */
+@media (min-width: 769px) {
+  .filtros-mobile {
+    display: none !important;
+    
+  } }

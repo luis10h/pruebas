@@ -1,9 +1,20 @@
-import { Component, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  AfterViewInit,
+  TemplateRef,
+  LOCALE_ID,
+  Inject
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule, CurrencyPipe, DatePipe, registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+import {
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +26,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { NgChartsModule } from 'ng2-charts';
+import { ChartOptions } from 'chart.js';
+import { MatExpansionModule } from '@angular/material/expansion';
+
+registerLocaleData(localeEs);
 
 @Component({
   standalone: true,
@@ -28,17 +44,21 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     MatCardModule,
     MatInputModule,
     MatDatepickerModule,
+    NgChartsModule,
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
     MatNativeDateModule,
     MatOption,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    DatePipe,
+    MatExpansionModule
   ],
   selector: 'app-reporte-pagos',
   templateUrl: './reporte-pago.component.html',
-  styleUrls: ['./reporte-pago.component.scss']
+  styleUrls: ['./reporte-pago.component.scss'],
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }, DatePipe]
 })
 export class ReportePagosComponent implements AfterViewInit {
   cedulaFiltro = '';
@@ -54,25 +74,57 @@ export class ReportePagosComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild('dialogDetalle') dialogDetalle!: TemplateRef<any>;
+  @ViewChild('detalleUsuarioDialog') detalleUsuarioDialog!: TemplateRef<any>;
 
-  constructor(private http: HttpClient, private dialog: MatDialog) { }
+  usuarioSeleccionado: any = null;
+
+  constructor(
+    private http: HttpClient,
+    private dialog: MatDialog,
+    private datePipe: DatePipe,
+    @Inject(LOCALE_ID) private locale: string
+  ) {}
 
   reporte: any[] = [];
   sessionObj: any = {};
+
+  graficaData: any;
+  graficaOptions: ChartOptions<'doughnut'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top'
+      },
+      title: {
+        display: true,
+        text: 'Distribución del Pago'
+      }
+    }
+  };
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
- abrirDetalle(data: any): void {
-  this.dialog.open(this.dialogDetalle, {
-    data: data,
-    width: window.innerWidth <= 768 ? '90vw' : '600px',
-    maxWidth: '95vw'
-  });
-}
+  abrirDetalleUsuario(row: any): void {
+    this.usuarioSeleccionado = row;
 
+    const pendiente = row.total_a_pagar - row.pagado;
+
+    this.graficaData = {
+      labels: ['Pagado', 'Pendiente'],
+      datasets: [{
+        data: [row.pagado, pendiente],
+        backgroundColor: ['#28a745', '#ffc107'],
+        hoverOffset: 6
+      }]
+    };
+
+    this.dialog.open(this.detalleUsuarioDialog, {
+      width: window.innerWidth <= 768 ? '90vw' : '600px',
+      maxWidth: '95vw'
+    });
+  }
 
   cargarReporte() {
     const params = {
@@ -80,8 +132,8 @@ export class ReportePagosComponent implements AfterViewInit {
       estado: this.estadoFiltro,
       fecha_inicio: this.fechaInicio ? new Date(this.fechaInicio).toISOString().split('T')[0] : '',
       fecha_fin: this.fechaFin ? new Date(this.fechaFin).toISOString().split('T')[0] : '',
-
     };
+
     if (this.fechaInicio && this.fechaFin && this.fechaInicio > this.fechaFin) {
       alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
       return;
@@ -92,6 +144,15 @@ export class ReportePagosComponent implements AfterViewInit {
       this.totalGeneral = data.reduce((s, i) => s + Number(i.total_a_pagar), 0);
       this.totalPagado = data.reduce((s, i) => s + Number(i.pagado), 0);
       this.totalPendiente = this.totalGeneral - this.totalPagado;
+
+      this.graficaData = {
+        labels: ['Pagado', 'Pendiente'],
+        datasets: [{
+          data: [this.totalPagado, this.totalPendiente],
+          backgroundColor: ['#28a745', '#dc3545'],
+          hoverOffset: 6
+        }]
+      };
     });
   }
 

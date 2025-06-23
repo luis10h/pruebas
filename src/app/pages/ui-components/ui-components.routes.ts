@@ -67,7 +67,7 @@ export const UiComponentsRoutes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'tabla-taxistas',
+        path: 'tabla-usuarios',
         component: TablaTaxistasComponent,
         canActivate: [AuthGuard]
       },
@@ -92,12 +92,12 @@ export const UiComponentsRoutes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'form-taxista',
+        path: 'form-usuario',
         component: AppFormsComponent,
         canActivate: [AuthGuard]
       },
       {
-        path: 'editar-taxista/:cedula',
+        path: 'editar-usuario/:cedula',
         component: AppFormsComponent,
         canActivate: [AuthGuard]
       },
@@ -138,7 +138,7 @@ export const UiComponentsRoutes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'listado-taxistas',
+        path: 'listado-usuarios',
         component: AppBlogCardsComponent,
         canActivate: [AuthGuard]
       },

@@ -57,7 +57,7 @@ export class TablaTaxistasComponent implements AfterViewInit {
 
 
 irAgregarTaxista() {
-  this.router.navigate(['/dashboard/view/form-taxista']);
+  this.router.navigate(['/dashboard/view/form-usuario']);
 }
 
 
@@ -141,7 +141,7 @@ irAgregarTaxista() {
     });
   }
   editarTaxista(taxista: any) {
-    this.router.navigate(['dashboard/view/editar-taxista', taxista.cedula]);
+    this.router.navigate(['dashboard/view/editar-usuario', taxista.cedula]);
   }
 
   eliminarTaxista(taxista: any) {

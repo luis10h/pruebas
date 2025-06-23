@@ -89,7 +89,7 @@ export class AppFormsComponent implements OnInit {
     const session = localStorage.getItem('session');
     if (session) {
       this.sessionObj = JSON.parse(session);
-      console.log('Usuario en sesión desde taxista:', this.sessionObj.user.username);
+      console.log('Usuario en sesión desde usuario:', this.sessionObj.user.username);
       console.log('ID de usuario:', this.sessionObj.user.company_name);
       console.log('Company code:', this.sessionObj.user.company_code);
     } else {
@@ -102,9 +102,12 @@ export class AppFormsComponent implements OnInit {
     });
 
     // ✅ Escucha cambios de categoría y modifica dinámicamente el formulario
-    this.formAgregar.get('categoria')?.valueChanges.subscribe((categoria) => {
-      this.agregarControlesSegunCategoria(categoria);
-    });
+    if (this.modoFormulario === 'agregar') {
+      this.formAgregar.get('categoria')?.valueChanges.subscribe((categoria) => {
+        this.agregarControlesSegunCategoria(categoria);
+      });
+    }
+
 
     // Si ya hay cédula, estamos en modo edición
     this.route.paramMap.subscribe(params => {
@@ -122,7 +125,7 @@ export class AppFormsComponent implements OnInit {
         .pipe(debounceTime(1500), distinctUntilChanged())
         .subscribe(() => this.verificarCedula());
     }
-    
+
   }
 
   private agregarControlesSegunCategoria(categoria: string) {
@@ -163,7 +166,7 @@ export class AppFormsComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Cédula duplicada',
-          text: 'Ya existe un taxista registrado con esa cédula.',
+          text: 'Ya existe un usuario registrado con esa cédula.',
         });
       } else {
         // Borra errores si está bien
@@ -180,15 +183,24 @@ export class AppFormsComponent implements OnInit {
       if (data && data.taxista) {
         this.formAgregar.patchValue(data.taxista);
         this.formAgregar.get('cedula')?.disable();
+        this.modoFormulario = 'editar'; // Cambia a modo edición
+
+        // this.formAgregar.get('categoria')?.setValue(data.taxista.categoria || 'conductor'); // Asigna la categoría
       } else {
         Swal.fire({
           icon: 'error',
           title: 'No encontrado',
-          text: 'No se encontraron datos del taxista.',
+          text: 'No se encontraron datos del usuario.',
         });
       }
     });
   }
+  mostrarAlertaModoEdicion() {
+    if (this.modoFormulario === 'editar') {
+      Swal.fire('Edición restringida', 'No puedes cambiar la categoría en modo edición.', 'info');
+    }
+  }
+
 
   volverAtras() {
     window.history.back();
@@ -213,9 +225,9 @@ export class AppFormsComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Actualizado',
-            text: 'Taxista actualizado correctamente.',
+            text: 'Usuario actualizado correctamente.',
           }).then(() => {
-            this.router.navigate(['/dashboard/view/tabla-taxistas']);
+            this.router.navigate(['/dashboard/view/tabla-usuarios']);
           });
         },
         error: (err) => {
@@ -223,7 +235,7 @@ export class AppFormsComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Ocurrió un error al actualizar el taxista.',
+            text: 'Ocurrió un error al actualizar el usuario.',
           });
         }
       });
@@ -236,9 +248,9 @@ export class AppFormsComponent implements OnInit {
             Swal.fire({
               icon: 'error',
               title: 'Cédula duplicada',
-              text: 'Ya existe un taxista registrado con esa cédula.',
+              text: 'Ya existe un usuario registrado con esa cédula.',
               html: `
-    Ya existe un taxista registrado con esa cédula. <br>
+    Ya existe un usuario registrado con esa cédula. <br>
     aquí están los datos:<br>
     <strong>Nombre:</strong> ${res.taxista.nombre}<br>
     <strong>Cédula:</strong> ${res.taxista.cedula}<br>
@@ -259,17 +271,17 @@ export class AppFormsComponent implements OnInit {
                 Swal.fire({
                   icon: 'success',
                   title: '¡Guardado!',
-                  text: 'El taxista fue registrado correctamente.',
+                  text: 'El usuario fue registrado correctamente.',
                 });
                 this.formAgregar.reset();
-                this.router.navigate(['/dashboard/view/tabla-taxistas']);
+                this.router.navigate(['/dashboard/view/tabla-usuarios']);
               },
               error: (err) => {
                 console.error('Error al guardar:', err);
                 Swal.fire({
                   icon: 'error',
                   title: 'Error al guardar',
-                  text: 'Hubo un problema al intentar registrar el taxista.',
+                  text: 'Hubo un problema al intentar registrar el usuario.',
                 });
               }
             });

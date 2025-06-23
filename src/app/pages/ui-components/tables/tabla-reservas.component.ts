@@ -99,7 +99,7 @@ export class TablaReservasComponent implements AfterViewInit {
 
 
   agregarReserva() {
-    this.router.navigate(['/view/form-reserva']); // Asegúrate de que esta ruta exista en tu app-routing.module.ts
+    this.router.navigate(['dashboard/view/form-reserva']); 
   }
 
   cargarReservas() {

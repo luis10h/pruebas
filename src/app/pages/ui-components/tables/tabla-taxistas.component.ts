@@ -63,16 +63,18 @@ irAgregarTaxista() {
 
   displayedColumns: string[] = [
     'nombre',
+    'categoria',
+    // 'nombre_hoa',
     'cedula',
     // 'telefono',
-    'placa',
+    // 'placa',
     // 'sexo',
     // 'nacimiento',
     'acciones'];
   dataSource = new MatTableDataSource<UserData>([]);  // inicializar vacío
 
-  private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
-// private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
+  // private apiUrlBuscar = 'https://neocompanyapp.com/php/taxistas/get_taxistas.php';
+private apiUrlBuscar = 'http://localhost/php/taxistas/get_taxistas.php';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 

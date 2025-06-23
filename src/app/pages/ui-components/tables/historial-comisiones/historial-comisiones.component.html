@@ -79,7 +79,8 @@
 
           <ng-container matColumnDef="estado">
             <th mat-header-cell *matHeaderCellDef>Estado</th>
-            <td mat-cell *matCellDef="let c" [ngStyle]="{color: c.estado == 'pagado' ? 'green' : c.estado == 'abonado' ? 'orange' : 'red'}">
+            <td mat-cell *matCellDef="let c"
+              [ngStyle]="{color: c.estado == 'pagado' ? 'green' : c.estado == 'abonado' ? 'orange' : 'red'}">
               {{ c.estado }}
             </td>
           </ng-container>
@@ -88,8 +89,10 @@
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let c">
               <div class="d-flex gap-2 flex-wrap align-items-center">
-                <button *ngIf="c.estado !== 'pagado'" mat-button color="accent" (click)="pagarCompleto(c)">Pagado</button>
-                <button *ngIf="c.estado !== 'pagado'" mat-button color="warn" (click)="abrirDialogAbonar(c)">Abonar</button>
+                <button *ngIf="c.estado !== 'pagado'" mat-button color="accent" (click)="pagarCompleto(c)">Pago
+                  Total</button>
+                <button *ngIf="c.estado !== 'pagado'" mat-button color="warn"
+                  (click)="abrirDialogAbonar(c)">Abonar</button>
                 <h4 *ngIf="c.estado === 'pagado'" class="m-0">Pagado</h4>
               </div>
             </td>
@@ -101,11 +104,8 @@
       </div>
 
       <!-- PAGINADOR -->
-      <mat-paginator #paginator
-                     [length]="dataSource.data.length"
-                     [pageSize]="5"
-                     [pageSizeOptions]="[5, 10, 20]"
-                     aria-label="Paginador de comisiones">
+      <mat-paginator #paginator [length]="dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"
+        aria-label="Paginador de comisiones">
       </mat-paginator>
 
       <div *ngIf="dataSource.data.length === 0" class="text-center mt-3">
@@ -114,7 +114,8 @@
 
       <!-- Botón agregar comisión -->
       <div class="mt-4">
-        <button mat-raised-button class="btn-azul-personalizado w-100 w-md-auto" id="btobuscar" (click)="abrirFormulario(dataSource.data[0])">
+        <button mat-raised-button class="btn-azul-personalizado w-100 w-md-auto" id="btobuscar"
+          (click)="abrirFormulario(dataSource.data[0])">
           <mat-icon>add</mat-icon>
           <span class="btn-text ms-1">Agregar Comisión para {{ dataSource.data[0]?.nombre }}</span>
         </button>

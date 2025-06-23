@@ -64,6 +64,7 @@ export class AppTablesComponent implements OnInit, AfterViewInit {
 
   public formBuscar!: FormGroup;
   private apiUrl = 'https://neocompanyapp.com/php/comisiones/tabla_comisiones.php';
+  // private apiUrl = 'http://localhost/php/comisiones/tabla_comisiones.php';
 
   // sessionObj: any;
 

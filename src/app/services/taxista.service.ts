@@ -28,6 +28,7 @@ export class TaxistaService {
 
  obtenerTaxistaPorCedula(cedula: string): Observable<any> {
   return this.http.post<any>('https://neocompanyapp.com/php/comisiones/buscar_taxistas.php', {
+  // return this.http.post<any>('http://localhost/php/comisiones/buscar_taxistas.php', {
     cedula: cedula
   });
 }
@@ -35,6 +36,7 @@ export class TaxistaService {
 
 actualizarTaxista(data: Taxista): Observable<any> {
   return this.http.put(`https://neocompanyapp.com/php/taxistas/actualizar_taxistas.php`, data);
+  // return this.http.put(`http://localhost/php/taxistas/actualizar_taxistas.php`, data);
 }
 
 eliminarTaxista(cedula: string): Observable<any> {

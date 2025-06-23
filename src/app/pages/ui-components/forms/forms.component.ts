@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 // import { S } from '@angular/cdk/scrolling-module.d-ud2XrbF8';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SessionService } from '../../../services/session.service';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatNativeDateModule } from '@angular/material/core';
 // import { MAC_ENTER } from '@angular/cdk/keycodes';
 
@@ -28,6 +28,11 @@ interface sexo {
   value: string;
   viewValue: string;
 }
+interface categoria {
+  value: string;
+  viewValue: string;
+}
+
 
 @Component({
   selector: 'app-forms',
@@ -63,6 +68,13 @@ export class AppFormsComponent implements OnInit {
     { value: 'Masculino', viewValue: 'Masculino' },
     { value: 'Femenino', viewValue: 'Femenino' },
   ];
+  categorias: categoria[] = [
+    { value: 'conductor', viewValue: 'Conductor' },
+    { value: 'hotel', viewValue: 'Hotel' },
+    { value: 'agencia', viewValue: 'Agencias' },
+    // { value: 'restaurantes', viewValue: 'Restaurantes' },
+    { value: 'otros', viewValue: 'Otros' },
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -83,46 +95,63 @@ export class AppFormsComponent implements OnInit {
     } else {
       console.log('No hay usuario en sesión');
     }
-    // Verifica si hay una sesión activa
 
-    this.formAgregar = this.crearFormularioAgregar();
+    // ✅ Inicializa con solo la categoría
+    this.formAgregar = this.fb.group({
+      categoria: ['', Validators.required]
+    });
+
+    // ✅ Escucha cambios de categoría y modifica dinámicamente el formulario
+    this.formAgregar.get('categoria')?.valueChanges.subscribe((categoria) => {
+      this.agregarControlesSegunCategoria(categoria);
+    });
+
+    // Si ya hay cédula, estamos en modo edición
     this.route.paramMap.subscribe(params => {
       const cedula = params.get('cedula');
       if (cedula) {
         this.modoFormulario = 'editar';
+        this.agregarControlesSegunCategoria('conductor'); // asumes conductor en edición
         this.cargarDatosTaxista(cedula);
       }
     });
 
     if (this.modoFormulario === 'agregar') {
+      this.formAgregar.addControl('cedula', this.fb.control('', Validators.required)); // para el listener
       this.formAgregar.get('cedula')?.valueChanges
-        .pipe(
-          debounceTime(1500), // espera 500ms sin escribir
-          distinctUntilChanged()
-        )
-        .subscribe(value => {
-          this.verificarCedula();
-        });
+        .pipe(debounceTime(1500), distinctUntilChanged())
+        .subscribe(() => this.verificarCedula());
+    }
+    
+  }
+
+  private agregarControlesSegunCategoria(categoria: string) {
+    // Limpia controles existentes menos "categoria"
+    Object.keys(this.formAgregar.controls).forEach(key => {
+      if (key !== 'categoria') {
+        this.formAgregar.removeControl(key);
+      }
+    });
+
+    // Comunes para todos
+    this.formAgregar.addControl('cedula', this.fb.control('', Validators.required));
+    this.formAgregar.addControl('telefono', this.fb.control('', Validators.required));
+    this.formAgregar.addControl('fecha_nacimiento', this.fb.control('', Validators.required));
+    this.formAgregar.addControl('sexo', this.fb.control('', Validators.required));
+    this.formAgregar.addControl('company_code', this.fb.control(this.sessionObj?.user?.company_code || '', Validators.required));
+
+    if (categoria === 'conductor') {
+      this.formAgregar.addControl('nombre', this.fb.control('', Validators.required));
+      this.formAgregar.addControl('numero_placa', this.fb.control('', [
+        Validators.required,
+        Validators.pattern(/^[A-Z]{3}[0-9]{3}$/i)
+      ]));
+    } else {
+      this.formAgregar.addControl('nombre_representante', this.fb.control('', Validators.required));
+      this.formAgregar.addControl('nombre_hoa', this.fb.control('', Validators.required));
     }
   }
 
-  private crearFormularioAgregar(): FormGroup {
-    return this.fb.group({
-      nombre: ['', [Validators.required]],
-      numero_placa: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[A-Z]{3}[0-9]{3}$/i), // 3 letras seguidas de 3 números
-        ],
-      ],
-      cedula: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
-      fecha_nacimiento: ['', [Validators.required]],
-      sexo: ['', [Validators.required]],
-      company_code: [this.sessionObj?.user?.company_code || '', [Validators.required]],
-    });
-  }
 
   verificarCedula() {
     const control = this.formAgregar.get('cedula');
@@ -209,15 +238,15 @@ export class AppFormsComponent implements OnInit {
               title: 'Cédula duplicada',
               text: 'Ya existe un taxista registrado con esa cédula.',
               html: `
-  Ya existe un taxista registrado con esa cédula. <br>
-  aquí están los datos:<br>
-  <strong>Nombre:</strong> ${res.taxista.nombre}<br>
-  <strong>Cédula:</strong> ${res.taxista.cedula}<br>
-  <strong>Teléfono:</strong> ${res.taxista.telefono}<br>
-  <strong>Placa:</strong> ${res.taxista.numero_placa}<br>
-  <strong>Sexo:</strong> ${res.taxista.sexo}<br>
-  <strong>Fecha de Nacimiento:</strong> ${res.taxista.fecha_nacimiento}<br>
-  `,
+    Ya existe un taxista registrado con esa cédula. <br>
+    aquí están los datos:<br>
+    <strong>Nombre:</strong> ${res.taxista.nombre}<br>
+    <strong>Cédula:</strong> ${res.taxista.cedula}<br>
+    <strong>Teléfono:</strong> ${res.taxista.telefono}<br>
+    <strong>Placa:</strong> ${res.taxista.numero_placa}<br>
+    <strong>Sexo:</strong> ${res.taxista.sexo}<br>
+    <strong>Fecha de Nacimiento:</strong> ${res.taxista.fecha_nacimiento}<br>
+    `,
 
             });
           } else {

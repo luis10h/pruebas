@@ -88,7 +88,8 @@ export class AppFormComisionesComponent implements OnInit {
           if (data && data.success) {
             this.formAgregar.patchValue({
               nombre: data.taxista.nombre,
-              numero_placa: data.taxista.numero_placa,
+              // numero_placa: data.taxista.numero_placa,
+              categoria: data.taxista.categoria,
               personas_referidas: data.taxista.personas_referidas,
               estado: data.taxista.estado,
               observaciones: data.taxista.observaciones
@@ -172,7 +173,7 @@ export class AppFormComisionesComponent implements OnInit {
   private crearFormularioAgregar(): FormGroup {
     return this.fb.group({
       nombre: ['', [Validators.required]],
-      numero_placa: ['', [Validators.required]],
+      categoria: ['', [Validators.required]],
       personas_referidas: ['', [Validators.required]],
       estado: ['', [Validators.required]],
       observaciones: [''],

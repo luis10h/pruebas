@@ -43,7 +43,7 @@
         </div>
         <div class="col-12 col-sm-6 col-md-3 col-lg-2 d-flex w-auto gap-20  uno mover-derecha">
           <!-- <div class="col-12 col-sm-6 col-md-3 col-lg-2 d-flex w-auto gap-24 uno "> -->
-          
+
           <button mat-raised-button class=" " (click)="cargarComisiones()">
             <mat-icon>search</mat-icon>
             <span class="ms-1">Buscar</span>
@@ -59,7 +59,8 @@
 
     <!-- FILTROS MOBILE -->
     <div class="filtros-mobile">
-      <mat-expansion-panel>
+      <mat-expansion-panel #panelFiltros class="filtros-panel" [expanded]="false">
+
         <mat-expansion-panel-header>
           <mat-panel-title>Filtros</mat-panel-title>
         </mat-expansion-panel-header>

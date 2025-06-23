@@ -7,7 +7,8 @@
   <!-- Encabezado -->
   <mat-card-header class="d-flex flex-column align-items-center text-center">
     <!-- <img mat-card-avatar src="https://avatar.iran.liara.run/public/10" alt="Foto taxista" class="avatar"> -->
-    <img mat-card-avatar src="assets" alt="Foto taxista" class="avatar">
+    <img mat-card-avatar *ngIf="data.sexo === 'masculino'" src="https://neocompanyapp.com/assets/images/profile/user-3.jpg" alt="Foto taxista" class="avatar">
+    <img mat-card-avatar *ngIf="data.sexo === 'femenino'" src="https://neocompanyapp.com/assets/images/profile/user-4.jpg" alt="Foto taxista" class="avatar">
     <mat-card-title class="nombre-admin">{{ data.nombre || data.nombre_representante }}</mat-card-title>
     <mat-card-subtitle class="rol-admin">{{ data.categoria}}</mat-card-subtitle>
   </mat-card-header>

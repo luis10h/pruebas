@@ -23,7 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-historial-comisiones',
@@ -59,7 +59,7 @@ export class HistorialComisionesComponent implements OnInit, AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   comisiones: any[] = [];
   cedula = '';
@@ -69,11 +69,18 @@ export class HistorialComisionesComponent implements OnInit, AfterViewInit {
   totalComisiones: any;
   totalAbonado: any;
   totalPagado: any;
-  displayedColumns: string[] = [ 'nombre', 'placa', 'referidos', 'total', 'pagado', 'estado', 'acciones'];
+  displayedColumns: string[] = ['nombre',
+    // 'placa',
+    'referidos',
+    'total',
+    'pagado',
+    'estado',
+    'acciones'];
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('dialogDetalle') dialogDetalle!: TemplateRef<any>;
+  @ViewChild('panelFiltros') panelFiltros!: MatExpansionPanel;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -97,6 +104,8 @@ export class HistorialComisionesComponent implements OnInit, AfterViewInit {
         this.totalComisiones = this.comisiones.reduce((sum, item) => sum + Number(item.total_a_pagar), 0);
         this.totalPagado = this.comisiones.reduce((sum, item) => sum + Number(item.pagado), 0);
       });
+    this.panelFiltros.close();
+
   }
 
   cambiarEstado(id: number, estado: string) {
